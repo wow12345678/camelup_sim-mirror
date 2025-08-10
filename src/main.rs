@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::f64;
 use std::fs::OpenOptions;
 use std::hash::Hash;
 use std::io::Write;
@@ -14,11 +15,11 @@ enum Color {
 impl Color {
     fn map_to_u32(&self) -> u32 {
         match self {
-            Color::Blue => 1,
-            Color::Green => 2,
-            Color::Orange => 3,
-            Color::White => 4,
-            Color::Yellow => 5,
+            Color::Blue => 0,
+            Color::Green => 1,
+            Color::Orange => 2,
+            Color::White => 3,
+            Color::Yellow => 4,
         }
     }
 }
@@ -83,13 +84,33 @@ fn main() {
         let _ = writeln!(file, "Config {i}:\n{conf:?}");
     }
 
-    // [Color] -> [Placements]
-    let placements: [[u32; 5]; 5] = [[0; 5]; 5];
+    let placements = aggragate_placements(configs);
 
-    println!("{:?}", configs[0].leaderboard());
+    println!("{:?}", placements);
+    let prob_blue = placements[0][0] as f64 / COUNT_ALL as f64;
+    let prob_green = placements[1][0] as f64 / COUNT_ALL as f64;
+    let prob_orange = placements[2][0] as f64 / COUNT_ALL as f64;
+    let prob_white = placements[3][0] as f64 / COUNT_ALL as f64;
+    let prob_yellow = placements[4][0] as f64 / COUNT_ALL as f64;
 
-    //TODO:calc camel leaderboard position
-    //TODO:calc probabilities
+    println!("Blue: {prob_blue}");
+    println!("Green: {prob_green}");
+    println!("Orange: {prob_orange}");
+    println!("White: {prob_white}");
+    println!("Yellow: {prob_yellow}");
+}
+
+// [Color] -> [Placements]
+fn aggragate_placements(configs: Vec<Configuration>) -> [[u32; 5]; 5] {
+    let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
+
+    for conf in configs {
+        for (i, col) in conf.leaderboard().iter().enumerate() {
+            placements[col.map_to_u32() as usize][i] += 1;
+        }
+    }
+
+    placements
 }
 
 //simulate round (remaining dice throws)
