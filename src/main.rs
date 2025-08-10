@@ -79,10 +79,10 @@ fn main() {
 
     let configs = simulate_round(init_conf);
 
-    for (i, conf) in configs.iter().enumerate() {
-        let mut file = OpenOptions::new().append(true).open("test.txt").unwrap();
-        let _ = writeln!(file, "Config {i}:\n{conf:?}");
-    }
+    // let mut file = OpenOptions::new().append(true).open("test.txt").unwrap();
+    // for (i, conf) in configs.iter().enumerate() {
+    //     let _ = writeln!(file, "Config {i}:\n{conf:?}");
+    // }
 
     let placements = aggragate_placements(configs);
 
