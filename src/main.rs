@@ -1,12 +1,7 @@
 use std::collections::HashMap;
-use std::fs::{self, OpenOptions, write};
+use std::fs::OpenOptions;
 use std::hash::Hash;
 use std::io::Write;
-
-#[derive(Debug, Clone)]
-struct Camel {
-    color: Color,
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Color {
@@ -15,6 +10,17 @@ enum Color {
     Orange,
     White,
     Yellow,
+}
+impl Color {
+    fn map_to_u32(&self) -> u32 {
+        match self {
+            Color::Blue => 1,
+            Color::Green => 2,
+            Color::Orange => 3,
+            Color::White => 4,
+            Color::Yellow => 5,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -28,6 +34,26 @@ struct Configuration {
     pos_color_map: HashMap<u32, Vec<Color>>,
     dice_queue: Vec<Dice>,
     available_colours: Vec<Color>,
+}
+
+impl Configuration {
+    fn leaderboard(&self) -> [Color; 5] {
+        let mut poses: Vec<(u32, &Vec<Color>)> =
+            self.pos_color_map.iter().map(|(k, v)| (*k, v)).collect();
+        poses.sort_by(|a, b| a.0.cmp(&b.0));
+        poses.reverse();
+        //TODO: maybe better solution for default
+        let mut leaderboard: [Color; 5] = [Color::Green; 5];
+        //Safety: i is always <= 5
+        let mut i = 0;
+        for pos in poses {
+            for col in pos.1.iter().rev() {
+                leaderboard[i] = *col;
+                i += 1;
+            }
+        }
+        leaderboard
+    }
 }
 
 fn main() {
@@ -56,6 +82,11 @@ fn main() {
         let mut file = OpenOptions::new().append(true).open("test.txt").unwrap();
         let _ = writeln!(file, "Config {i}:\n{conf:?}");
     }
+
+    // [Color] -> [Placements]
+    let placements: [[u32; 5]; 5] = [[0; 5]; 5];
+
+    println!("{:?}", configs[0].leaderboard());
 
     //TODO:calc camel leaderboard position
     //TODO:calc probabilities
@@ -115,6 +146,9 @@ fn simulate_dice_throw(conf: &Configuration, dice_color: &Color) -> Vec<Configur
                 moving_camels.push(last);
                 break;
             }
+        }
+        if old_pos_camels.is_empty() {
+            new_conf.pos_color_map.remove(&old_pos);
         }
 
         moving_camels.reverse();
