@@ -13,7 +13,7 @@ enum Color {
     Yellow,
 }
 impl Color {
-    fn map_to_u32(&self) -> u32 {
+    fn map_to_u8(&self) -> u8 {
         match self {
             Color::Blue => 0,
             Color::Green => 1,
@@ -27,19 +27,19 @@ impl Color {
 #[derive(Debug, Clone, Copy)]
 struct Dice {
     color: Color,
-    value: u32,
+    value: u8,
 }
 
 #[derive(Debug, Clone)]
 struct Configuration {
-    pos_color_map: HashMap<u32, Vec<Color>>,
+    pos_color_map: HashMap<u8, Vec<Color>>,
     dice_queue: Vec<Dice>,
     available_colours: Vec<Color>,
 }
 
 impl Configuration {
     fn leaderboard(&self) -> [Color; 5] {
-        let mut poses: Vec<(u32, &Vec<Color>)> =
+        let mut poses: Vec<(u8, &Vec<Color>)> =
             self.pos_color_map.iter().map(|(k, v)| (*k, v)).collect();
         poses.sort_by(|a, b| a.0.cmp(&b.0));
         poses.reverse();
@@ -59,10 +59,10 @@ impl Configuration {
 
 fn main() {
     const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
-    let init_pos_color_map: HashMap<u32, Vec<Color>> = HashMap::from([
-        (1, vec![Color::Blue, Color::Green]),
-        (2, vec![Color::Yellow, Color::White]),
-        (3, vec![Color::Orange]),
+    let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
+        (0, vec![Color::Blue, Color::Green]),
+        (1, vec![Color::Yellow, Color::White]),
+        (2, vec![Color::Orange]),
     ]);
 
     let init_conf = Configuration {
@@ -84,7 +84,7 @@ fn main() {
     //     let _ = writeln!(file, "Config {i}:\n{conf:?}");
     // }
 
-    let placements = aggragate_placements(configs);
+    let placements = aggragate_placements(&configs);
 
     println!("{:?}", placements);
     let prob_blue = placements[0][0] as f64 / COUNT_ALL as f64;
@@ -98,15 +98,44 @@ fn main() {
     println!("Orange: {prob_orange}");
     println!("White: {prob_white}");
     println!("Yellow: {prob_yellow}");
+
+    // TODO: this crashes my pc :(
+    // let mut new_configs: Vec<Configuration> = Vec::new();
+    //
+    // for mut conf in configs {
+    //     conf.available_colours = vec![
+    //         Color::Blue,
+    //         Color::Green,
+    //         Color::Orange,
+    //         Color::White,
+    //         Color::Yellow,
+    //     ];
+    //     new_configs.append(&mut simulate_round(conf));
+    // }
+    //
+    // let new_placements = aggragate_placements(&new_configs);
+    //
+    // println!("{:?}", new_placements);
+    // let new_prob_blue = new_placements[0][0] as f64 / COUNT_ALL as f64;
+    // let new_prob_green = new_placements[1][0] as f64 / COUNT_ALL as f64;
+    // let new_prob_orange = new_placements[2][0] as f64 / COUNT_ALL as f64;
+    // let new_prob_white = new_placements[3][0] as f64 / COUNT_ALL as f64;
+    // let new_prob_yellow = new_placements[4][0] as f64 / COUNT_ALL as f64;
+    //
+    // println!("Blue: {new_prob_blue}");
+    // println!("Green: {new_prob_green}");
+    // println!("Orange: {new_prob_orange}");
+    // println!("White: {new_prob_white}");
+    // println!("Yellow: {new_prob_yellow}");
 }
 
 // [Color] -> [Placements]
-fn aggragate_placements(configs: Vec<Configuration>) -> [[u32; 5]; 5] {
+fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {
     let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
 
     for conf in configs {
         for (i, col) in conf.leaderboard().iter().enumerate() {
-            placements[col.map_to_u32() as usize][i] += 1;
+            placements[col.map_to_u8() as usize][i] += 1;
         }
     }
 
