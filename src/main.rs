@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 use std::f64;
-use std::fs::OpenOptions;
+use std::fmt::Debug;
 use std::hash::Hash;
-use std::io::Write;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Color {
@@ -11,15 +10,39 @@ enum Color {
     Orange,
     White,
     Yellow,
+    None,
 }
+
 impl Color {
-    fn map_to_u8(&self) -> u8 {
-        match self {
+    fn as_byte(&self) -> u8 {
+        let mask = 0b0000_0001;
+        let index: u8 = (*self).into();
+        mask << (7 - index)
+    }
+}
+
+impl From<Color> for u8 {
+    fn from(value: Color) -> Self {
+        match value {
             Color::Blue => 0,
             Color::Green => 1,
             Color::Orange => 2,
             Color::White => 3,
             Color::Yellow => 4,
+            Color::None => 5,
+        }
+    }
+}
+
+impl From<u8> for Color {
+    fn from(value: u8) -> Self {
+        match value {
+            0 => Color::Blue,
+            1 => Color::Green,
+            2 => Color::Orange,
+            3 => Color::White,
+            4 => Color::Yellow,
+            _ => Color::None,
         }
     }
 }
@@ -30,11 +53,117 @@ struct Dice {
     value: u8,
 }
 
+/// for saving memory
+/// Bit 0-4:
+/// 0: Blue
+/// 1: Green
+/// 2: Orange
+/// 3: White
+/// 4: Yellow
+/// 5-7: current color index (for iterator)
+#[derive(Clone, PartialEq, Eq)]
+struct ColorState {
+    state: u8,
+}
+
+impl ColorState {
+    fn len(&self) -> u8 {
+        let colors = self.state & 0b1111_1000;
+        // has to be in 0..6
+        colors.count_ones() as u8
+    }
+
+    #[inline]
+    fn assign_to_index(&mut self, index: u8, value: bool) {
+        if index == 0 {
+            if value {
+                self.state |= 0b1000_0000;
+            } else {
+                self.state &= 0b0111_1111;
+            }
+        }
+        if value {
+            self.state |= 0b1000_0000 >> index;
+        } else {
+            self.state &= !(0b1000_0000 >> index);
+        }
+    }
+
+    //all colors, no current index
+    fn default() -> Self {
+        Self { state: 0b1111_1000 }
+    }
+
+    fn new<T: Into<Color>>(conf: Vec<T>) -> Self {
+        let mut state = 0b0000_0000;
+        for col in conf {
+            state |= col.into().as_byte();
+        }
+        Self { state }
+    }
+
+    fn retain(&mut self, predicate: impl Fn(u8) -> bool) {
+        for i in 0..6 {
+            let elem = 0b1000_0000 >> i;
+            if predicate(elem) {
+                self.assign_to_index(i, true);
+            } else {
+                self.assign_to_index(i, false);
+            }
+        }
+    }
+}
+
+impl Debug for ColorState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ColorState")
+            .field("state", &self.state)
+            .field("state binary", &format!("{:b}", self.state))
+            .finish()
+    }
+}
+
+impl IntoIterator for &ColorState {
+    type Item = u8;
+    type IntoIter = ColorState;
+
+    fn into_iter(self) -> Self::IntoIter {
+        ColorState { state: self.state }
+    }
+}
+
+impl Iterator for ColorState {
+    type Item = u8;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut current_index: u8 = self.state & 0b0000_0111;
+
+        while current_index <= 5 {
+            // Check if bit at current_index is set
+            if (self.state & (0b1000_0000 >> current_index)) != 0 {
+
+                // remove color from available ones (consume iterator value)
+                self.state &= !(0b1000_0000 >> current_index);
+
+                // update index (erase last 3 bits, change to current index)
+                self.state &= 0b1111_1000;
+                self.state |= current_index + 1;
+
+                // Return the bit value
+                let return_val = 0b0000_0001 << (7 - current_index);
+                return Some(return_val);
+            }
+            current_index += 1;
+        }
+        None
+    }
+}
+
 #[derive(Debug, Clone)]
 struct Configuration {
     pos_color_map: HashMap<u8, Vec<Color>>,
     dice_queue: Vec<Dice>,
-    available_colours: Vec<Color>,
+    available_colours: ColorState,
 }
 
 impl Configuration {
@@ -65,17 +194,17 @@ fn main() {
         (2, vec![Color::Orange]),
     ]);
 
-    let init_conf = Configuration {
+    let mut init_conf = Configuration {
         pos_color_map: init_pos_color_map,
         dice_queue: Vec::new(),
-        available_colours: vec![
-            Color::Blue,
-            Color::Green,
-            Color::Orange,
-            Color::White,
-            Color::Yellow,
-        ],
+        available_colours: ColorState::default(),
     };
+
+    for _ in 0..6 {
+        println!("{:b}", init_conf.available_colours.next().unwrap());
+    }
+
+    return;
 
     let configs = simulate_round(init_conf);
 
@@ -135,7 +264,7 @@ fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {
 
     for conf in configs {
         for (i, col) in conf.leaderboard().iter().enumerate() {
-            placements[col.map_to_u8() as usize][i] += 1;
+            placements[Into::<u8>::into(*col) as usize][i] += 1;
         }
     }
 
@@ -150,8 +279,8 @@ fn simulate_round(init_config: Configuration) -> Vec<Configuration> {
     for _ in 0..amount_throws {
         let mut new_confs: Vec<Configuration> = Vec::new();
         for conf in &configs {
-            for color in &conf.available_colours {
-                new_confs.append(&mut simulate_dice_throw(conf, color));
+            for color_code in &conf.available_colours {
+                new_confs.append(&mut simulate_dice_throw(conf, color_code));
             }
         }
 
@@ -162,22 +291,25 @@ fn simulate_round(init_config: Configuration) -> Vec<Configuration> {
 }
 
 ///returns all possible 3 dice values as new Configurations
-fn simulate_dice_throw(conf: &Configuration, dice_color: &Color) -> Vec<Configuration> {
+fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuration> {
     let mut confs: Vec<Configuration> = Vec::new();
+    let dice_color: Color = color_code.into();
 
     for n in 1..=3 {
         let mut new_conf = conf.clone();
         new_conf.dice_queue.push(Dice {
-            color: *dice_color,
+            color: dice_color,
             value: n,
         });
 
-        new_conf.available_colours.retain(|c| *c != *dice_color);
+        new_conf
+            .available_colours
+            .retain(|b| b != dice_color.as_byte());
         let old_pos = *new_conf
             .pos_color_map
             .iter()
             .filter_map(|(pos, colors)| {
-                if colors.contains(dice_color) {
+                if colors.contains(&dice_color) {
                     Some(pos)
                 } else {
                     None
@@ -190,7 +322,7 @@ fn simulate_dice_throw(conf: &Configuration, dice_color: &Color) -> Vec<Configur
 
         let mut moving_camels: Vec<Color> = Vec::new();
         while let Some(last) = old_pos_camels.pop() {
-            if last != *dice_color {
+            if last != dice_color {
                 moving_camels.push(last);
             } else {
                 moving_camels.push(last);
@@ -213,4 +345,70 @@ fn simulate_dice_throw(conf: &Configuration, dice_color: &Color) -> Vec<Configur
         confs.push(new_conf);
     }
     confs
+}
+
+#[cfg(test)]
+mod test {
+    use std::collections::HashMap;
+
+    use crate::{Color, ColorState, Configuration};
+
+    fn simple_config() -> Configuration {
+        let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
+            (0, vec![Color::Blue, Color::Green]),
+            (1, vec![Color::Yellow, Color::White]),
+            (2, vec![Color::Orange]),
+        ]);
+
+        Configuration {
+            pos_color_map: init_pos_color_map,
+            dice_queue: Vec::new(),
+            available_colours: ColorState::new(vec![
+                Color::Blue,
+                Color::Green,
+                Color::Orange,
+                Color::White,
+                Color::Yellow,
+            ]),
+        }
+    }
+
+    #[test]
+    fn color_state_retain() {
+        let mut test_state = simple_config();
+        test_state.available_colours.retain(|c| {
+            let val = c == Color::Blue.as_byte();
+            println!("{c}, {}, {val}", Color::Blue.as_byte());
+            val
+        });
+        let first_val = test_state.available_colours.next();
+        assert!(first_val.is_some());
+        assert_eq!(test_state.available_colours.next(), None);
+    }
+
+    #[test]
+    fn color_state_assign() {
+        let mut test_state = ColorState::default();
+        test_state.assign_to_index(0, false);
+        test_state.assign_to_index(2, false);
+        test_state.assign_to_index(3, false);
+        test_state.assign_to_index(4, false);
+        assert_eq!(test_state.len(), 1);
+        assert_eq!(test_state.state, 0b0100_0000);
+        test_state.assign_to_index(3, true);
+        test_state.assign_to_index(4, true);
+        assert_eq!(test_state.len(), 3);
+        assert_eq!(test_state.state, 0b0101_1000);
+    }
+
+    #[test]
+    fn color_state_iter() {
+        let mut test_state = ColorState::default();
+        assert_eq!(test_state.next(), Some(Color::Blue.as_byte()));
+        assert_eq!(test_state.next(), Some(Color::Green.as_byte()));
+        assert_eq!(test_state.next(), Some(Color::Orange.as_byte()));
+        assert_eq!(test_state.next(), Some(Color::White.as_byte()));
+        assert_eq!(test_state.next(), Some(Color::Yellow.as_byte()));
+        assert_eq!(test_state.next(), None);
+    }
 }
