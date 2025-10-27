@@ -19,6 +19,17 @@ impl Color {
         let index: u8 = (*self).into();
         mask << (7 - index)
     }
+
+    fn from_byte(color_code: u8) -> Self {
+        match color_code {
+            0b1000_0000 => Color::Blue,
+            0b0100_0000 => Color::Green,
+            0b0010_0000 => Color::Orange,
+            0b0001_0000 => Color::White,
+            0b0000_1000 => Color::Yellow,
+            _ => Color::None,
+        }
+    }
 }
 
 impl From<Color> for u8 {
@@ -138,10 +149,9 @@ impl Iterator for ColorState {
     fn next(&mut self) -> Option<Self::Item> {
         let mut current_index: u8 = self.state & 0b0000_0111;
 
-        while current_index <= 5 {
+        while current_index < 5 {
             // Check if bit at current_index is set
             if (self.state & (0b1000_0000 >> current_index)) != 0 {
-
                 // remove color from available ones (consume iterator value)
                 self.state &= !(0b1000_0000 >> current_index);
 
@@ -150,7 +160,7 @@ impl Iterator for ColorState {
                 self.state |= current_index + 1;
 
                 // Return the bit value
-                let return_val = 0b0000_0001 << (7 - current_index);
+                let return_val = 0b1000_0000 >> current_index;
                 return Some(return_val);
             }
             current_index += 1;
@@ -194,17 +204,11 @@ fn main() {
         (2, vec![Color::Orange]),
     ]);
 
-    let mut init_conf = Configuration {
+    let init_conf = Configuration {
         pos_color_map: init_pos_color_map,
         dice_queue: Vec::new(),
         available_colours: ColorState::default(),
     };
-
-    for _ in 0..6 {
-        println!("{:b}", init_conf.available_colours.next().unwrap());
-    }
-
-    return;
 
     let configs = simulate_round(init_conf);
 
@@ -293,7 +297,8 @@ fn simulate_round(init_config: Configuration) -> Vec<Configuration> {
 ///returns all possible 3 dice values as new Configurations
 fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuration> {
     let mut confs: Vec<Configuration> = Vec::new();
-    let dice_color: Color = color_code.into();
+    let dice_color: Color = Color::from_byte(color_code);
+    assert_ne!(dice_color, Color::None);
 
     for n in 1..=3 {
         let mut new_conf = conf.clone();
@@ -305,6 +310,7 @@ fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuratio
         new_conf
             .available_colours
             .retain(|b| b != dice_color.as_byte());
+
         let old_pos = *new_conf
             .pos_color_map
             .iter()
