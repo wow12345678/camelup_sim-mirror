@@ -191,7 +191,7 @@ fn main() {
     const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
     let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
         (0, vec![Color::Blue, Color::Green]),
-        (1, vec![Color::Yellow, Color::White]),
+        (1, vec![Color::White,Color::Yellow]),
         (2, vec![Color::Orange]),
     ]);
 
