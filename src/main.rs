@@ -86,13 +86,6 @@ impl ColorState {
 
     #[inline]
     fn assign_to_index(&mut self, index: u8, value: bool) {
-        if index == 0 {
-            if value {
-                self.state |= 0b1000_0000;
-            } else {
-                self.state &= 0b0111_1111;
-            }
-        }
         if value {
             self.state |= 0b1000_0000 >> index;
         } else {
@@ -116,9 +109,9 @@ impl ColorState {
     fn retain(&mut self, predicate: impl Fn(u8) -> bool) {
         for i in 0..6 {
             let elem = 0b1000_0000 >> i;
-            if predicate(elem) {
-                self.assign_to_index(i, true);
-            } else {
+            // Only keep the bit if it's currently set AND the predicate returns true
+            let is_currently_set = (self.state & elem) != 0;
+            if is_currently_set && !predicate(elem) {
                 self.assign_to_index(i, false);
             }
         }
@@ -129,7 +122,7 @@ impl Debug for ColorState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ColorState")
             .field("state", &self.state)
-            .field("state binary", &format!("{:b}", self.state))
+            .field("state binary", &format!("{:08b}", self.state))
             .finish()
     }
 }
@@ -178,17 +171,15 @@ struct Configuration {
 
 impl Configuration {
     fn leaderboard(&self) -> [Color; 5] {
-        let mut poses: Vec<(u8, &Vec<Color>)> =
+        let mut positions: Vec<(u8, &Vec<Color>)> =
             self.pos_color_map.iter().map(|(k, v)| (*k, v)).collect();
-        poses.sort_by(|a, b| a.0.cmp(&b.0));
-        poses.reverse();
-        //TODO: maybe better solution for default
-        let mut leaderboard: [Color; 5] = [Color::Green; 5];
+        positions.sort_by(|a, b| b.0.cmp(&a.0));
+        let mut leaderboard: [Color; 5] = [Color::None; 5];
         //Safety: i is always <= 5
         let mut i = 0;
-        for pos in poses {
-            for col in pos.1.iter().rev() {
-                leaderboard[i] = *col;
+        for pos in positions {
+            for color in pos.1.iter().rev() {
+                leaderboard[i] = *color;
                 i += 1;
             }
         }
@@ -268,7 +259,8 @@ fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {
 
     for conf in configs {
         for (i, col) in conf.leaderboard().iter().enumerate() {
-            placements[Into::<u8>::into(*col) as usize][i] += 1;
+            let index: u8 = (*col).into();
+            placements[index as usize][i] += 1;
         }
     }
 
