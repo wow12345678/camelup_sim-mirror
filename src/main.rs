@@ -162,9 +162,16 @@ impl Iterator for ColorState {
     }
 }
 
+#[derive(Debug)]
+struct PositionState {
+    map: [[Color; 5]; 16],
+}
+
+// only use dice_queue in debug mode because not needed but nice for debugging
 #[derive(Debug, Clone)]
 struct Configuration {
     pos_color_map: HashMap<u8, Vec<Color>>,
+    #[cfg(debug_assertions)]
     dice_queue: Vec<Dice>,
     available_colours: ColorState,
 }
@@ -191,12 +198,13 @@ fn main() {
     const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
     let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
         (0, vec![Color::Blue, Color::Green]),
-        (1, vec![Color::White,Color::Yellow]),
+        (1, vec![Color::White, Color::Yellow]),
         (2, vec![Color::Orange]),
     ]);
 
     let init_conf = Configuration {
         pos_color_map: init_pos_color_map,
+        #[cfg(debug_assertions)]
         dice_queue: Vec::new(),
         available_colours: ColorState::default(),
     };
@@ -294,10 +302,14 @@ fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuratio
 
     for n in 1..=3 {
         let mut new_conf = conf.clone();
-        new_conf.dice_queue.push(Dice {
-            color: dice_color,
-            value: n,
-        });
+
+        #[cfg(debug_assertions)]
+        {
+            new_conf.dice_queue.push(Dice {
+                color: dice_color,
+                value: n,
+            });
+        }
 
         new_conf
             .available_colours
@@ -327,6 +339,7 @@ fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuratio
                 break;
             }
         }
+
         if old_pos_camels.is_empty() {
             new_conf.pos_color_map.remove(&old_pos);
         }
