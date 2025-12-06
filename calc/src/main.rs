@@ -58,7 +58,7 @@ impl From<u8> for Color {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 struct Dice {
     color: Color,
     value: u8,
@@ -72,7 +72,7 @@ struct Dice {
 /// 3: White
 /// 4: Yellow
 /// 5-7: current color index (for iterator)
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 struct ColorState {
     state: u8,
 }
@@ -96,6 +96,14 @@ impl ColorState {
     //all colors, no current index
     fn default() -> Self {
         Self { state: 0b1111_1000 }
+    }
+
+    fn remove_color(&mut self,col:Color) {
+        self.assign_to_index(col.into(), false);
+    }
+
+    fn add_color(&mut self,col:Color) {
+        self.assign_to_index(col.into(), true);
     }
 
     fn new<T: Into<Color>>(conf: Vec<T>) -> Self {
@@ -162,15 +170,51 @@ impl Iterator for ColorState {
     }
 }
 
-#[derive(Debug)]
-struct PositionState {
-    map: [[Color; 5]; 16],
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+struct CamelMap {
+    pos_color_map: [Option<Vec<Color>>; 16],
+    // colors are encoded by index like the enum
+    color_pos_map: [u8; 5],
+}
+
+impl CamelMap {
+    fn new(init_positions: Vec<(u8, Color)>) -> Self {
+        let mut res = Self {
+            pos_color_map: [const { None }; 16],
+            color_pos_map: [0; 5],
+        };
+
+        for pos in init_positions {
+            res.insert_camel(pos);
+        }
+        res
+    }
+
+    //inserts camel at postion
+    fn insert_camel(&mut self, (pos, color): (u8,Color)) {
+        if let Some(vec) = &mut self.pos_color_map[pos as usize] {
+            vec.push(color);
+        } else {
+            self.pos_color_map[pos as usize] = Some(vec![color]);
+        }
+        self.color_pos_map[color as usize] = pos;
+    }
+
+    //moves camel to position
+    fn move_camel(&mut self, camel: Color, pos: u8) {
+        let old_camel_pos = self.find_camel(camel);
+        let test = self.pos_color_map[old_camel_pos as usize].as_mut().unwrap();
+    }
+
+    fn find_camel(&self, color: Color) -> u8 {
+        return self.color_pos_map[std::convert::Into::<u8>::into(color) as usize];
+    }
 }
 
 // only use dice_queue in debug mode because not needed but nice for debugging
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, Hash, PartialEq)]
 struct Configuration {
-    pos_color_map: HashMap<u8, Vec<Color>>,
+    map: CamelMap,
     #[cfg(debug_assertions)]
     dice_queue: Vec<Dice>,
     available_colours: ColorState,
@@ -178,11 +222,15 @@ struct Configuration {
 
 impl Configuration {
     fn leaderboard(&self) -> [Color; 5] {
-        let mut positions: Vec<(u8, &Vec<Color>)> =
-            self.pos_color_map.iter().map(|(k, v)| (*k, v)).collect();
+        let mut positions:Vec<(usize,&Vec<Color>)> = Vec::new();
+        for (i,pos) in self.map.pos_color_map.iter().enumerate() {
+            if let Some(val) = pos {
+                positions.push((i,val));
+            }
+        }
         positions.sort_by(|a, b| b.0.cmp(&a.0));
         let mut leaderboard: [Color; 5] = [Color::None; 5];
-        //Safety: i is always <= 5
+
         let mut i = 0;
         for pos in positions {
             for color in pos.1.iter().rev() {
@@ -196,14 +244,9 @@ impl Configuration {
 
 fn main() {
     const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
-    let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
-        (0, vec![Color::Blue, Color::Green]),
-        (1, vec![Color::White, Color::Yellow]),
-        (2, vec![Color::Orange]),
-    ]);
 
     let init_conf = Configuration {
-        pos_color_map: init_pos_color_map,
+        map: CamelMap::new(vec![(0,Color::Blue),(0,Color::Green),(1,Color::White),(1,Color::Yellow),(2,Color::Orange)]),
         #[cfg(debug_assertions)]
         dice_queue: Vec::new(),
         available_colours: ColorState::default(),
@@ -275,6 +318,34 @@ fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {
     placements
 }
 
+#[derive(Hash)]
+struct Placements {
+    numbers: [u8; 5],
+}
+
+impl Placements {}
+
+fn simulate_rounds(init_config: Configuration) {
+    let cache: HashMap<Configuration, Placements> = HashMap::new();
+    let res = simulate_round_new(init_config, cache);
+}
+
+fn simulate_round_new(
+    conf: Configuration,
+    cache: HashMap<Configuration, Placements>,
+) -> Placements {
+    if conf.available_colours.len() == 0 {
+        return Placements {
+            numbers: conf.leaderboard().map(|color| color.into()),
+        };
+    }
+    if cache.contains_key(&conf) {
+        return cache.get(conf);
+    }
+
+    todo!()
+}
+
 //simulate round (remaining dice throws)
 fn simulate_round(init_config: Configuration) -> Vec<Configuration> {
     let amount_throws = init_config.available_colours.len();
@@ -313,22 +384,10 @@ fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuratio
 
         new_conf
             .available_colours
-            .retain(|b| b != dice_color.as_byte());
 
-        let old_pos = *new_conf
-            .pos_color_map
-            .iter()
-            .filter_map(|(pos, colors)| {
-                if colors.contains(&dice_color) {
-                    Some(pos)
-                } else {
-                    None
-                }
-            })
-            .next()
-            .unwrap();
+        let old_pos = new_conf.map.find_camel(dice_color);
 
-        let old_pos_camels = new_conf.pos_color_map.get_mut(&old_pos).unwrap();
+        let old_pos_camels = new_conf.map.pos_color_map[old_pos as usize].unwrap();
 
         let mut moving_camels: Vec<Color> = Vec::new();
         while let Some(last) = old_pos_camels.pop() {
@@ -340,17 +399,14 @@ fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuratio
             }
         }
 
-        if old_pos_camels.is_empty() {
-            new_conf.pos_color_map.remove(&old_pos);
-        }
 
         moving_camels.reverse();
         let new_pos = old_pos + n;
 
-        if let Some(camels_new_pos) = new_conf.pos_color_map.get_mut(&new_pos) {
+        if let Some(camels_new_pos) = new_conf.map.get_mut(&new_pos) {
             camels_new_pos.append(&mut moving_camels);
         } else {
-            new_conf.pos_color_map.insert(new_pos, moving_camels);
+            new_conf.map.insert(new_pos, moving_camels);
         }
 
         confs.push(new_conf);
@@ -372,7 +428,7 @@ mod test {
         ]);
 
         Configuration {
-            pos_color_map: init_pos_color_map,
+            map: init_pos_color_map,
             dice_queue: Vec::new(),
             available_colours: ColorState::new(vec![
                 Color::Blue,

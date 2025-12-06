@@ -1,0 +1,1 @@
+- Memoization?: HashMap<Configuration, Leaderboard>

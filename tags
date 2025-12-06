@@ -57,120 +57,929 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.2.0	/v6.2.0/
+0	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
 0	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
 0	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
 0	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
-0	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
 0	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	array:local
+0	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	array:local
+0	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+0	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+0	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+0	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	array:local
+0	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+0	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+0	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+0	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	array:local
+0	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a	array:deps
+0	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+0	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	array:local
+0	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	array:local
+0	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a	array:deps
+0	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+0	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	array:local
+0	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	array:deps
+0	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+0	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+0	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+0	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a	array:deps
+0	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+0	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	array:local
+0	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a	array:deps
+0	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+0	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	array:local
+0	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+0	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+0	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+0	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	array:local
+0	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+0	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+0	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+0	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	array:local
+0	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+0	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+0	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	array:local
+0	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+0	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+0	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	array:local
+0	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a	array:deps
+0	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	array:local
+0	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a	array:deps
+0	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+0	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	array:local
+0	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a	array:deps
+0	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+0	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	array:local
+0	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	array:deps
+0	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+0	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+0	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+0	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a	array:deps
+0	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+0	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	array:local
+0	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	array:local
+0	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a	array:deps
+0	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+0	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
 0	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	array:local
+0	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	array:local
+0	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+0	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+0	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+0	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	array:local
+0	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a	array:deps
+0	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+0	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	array:local
+0	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	array:deps
+0	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+0	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+0	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+0	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	array:local
+0	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a	array:deps
+0	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+0	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	array:local
+0	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+0	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+0	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+0	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+0	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	array:local
+0	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+0	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+0	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+0	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	array:local
+0	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a	array:deps
+0	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+0	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	array:local
+0	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	array:deps
+0	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+0	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+0	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+0	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a	array:deps
+0	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+0	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	array:local
+0	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	array:local
+1	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+1	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.0
+1	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.1
+1	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+1	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.0
+1	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.1
+1	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	array:deps.0
+1	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	array:deps.0
+1	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+1	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:deps.0
+1	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	array:deps.0
+1	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+1	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.1
+1	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.2
+1	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+1	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.1
+1	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.2
+1	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+1	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.1
+1	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+1	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.1
+1	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	array:deps.0
+1	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	array:deps.0
+1	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	array:deps.0
+1	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:deps.0
+1	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+1	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	array:deps.0
+1	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	array:deps.0
+1	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a	array:deps
+1	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.0
+1	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	array:deps.1
+1	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	array:deps.0
+1	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+1	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:deps.0
+1	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	array:deps.0
+1	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+1	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.0
+1	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.1
+1	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	array:deps.2
+1	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a	array:deps
+1	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.0
+1	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	array:deps.1
+1	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	array:deps.0
+1	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:deps.0
+1	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	array:local.0.RerunIfChanged.paths
+1	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	array:deps.0
 1417081980105117634	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	o	object:outputs
+2	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.0
+2	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.1
+2	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.0
+2	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.1
+2	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	array:deps.0
+2	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	array:deps.0
+2	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	b	array:deps.0
+2	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+2	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	array:deps.0
+2	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+2	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.1
+2	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.2
+2	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+2	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.1
+2	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.2
+2	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.1
+2	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.1
+2	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	array:deps.0
+2	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	array:deps.0
+2	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	array:deps.0
+2	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	b	array:deps.0
+2	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	array:deps.0
+2	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	array:deps.0
+2	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.0
+2	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	array:deps.1
+2	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	array:deps.0
+2	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	b	array:deps.0
+2	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+2	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	array:deps.0
+2	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a	array:deps
+2	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.0
+2	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.1
+2	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	array:deps.2
+2	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.0
+2	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	array:deps.1
+2	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	array:deps.0
+2	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	b	array:deps.0
+2	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	array:deps.0
+3	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+3	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+3	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+3	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+3	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+3	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+3	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+3	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+3	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+3	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+3	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+3	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+3	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+3	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+3	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+3	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+3	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+3	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+3	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+3	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+3	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n	array:deps.0
+3	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.0
+3	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n	array:deps.1
+3	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n	array:deps.0
+3	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+3	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+3	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n	array:deps.0
+3	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.0
+3	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.1
+3	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n	array:deps.2
+3	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.0
+3	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n	array:deps.1
+3	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n	array:deps.0
+3	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n	array:deps.0
+3	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n	array:deps.0
+4	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+4	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+5	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
+5	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	array:local
 5497399830345337414	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	o	object:outputs
 Blue	src/main.rs	/^    Blue,$/;"	e	enum:Color
 COUNT_ALL	src/main.rs	/^    const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);$/;"	C	function:main
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
 CheckDepInfo	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
 CheckDepInfo	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
 CheckDepInfo	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
-CheckDepInfo	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
 CheckDepInfo	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	object:local.0
+CheckDepInfo	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
 CheckDepInfo	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	object:local.0
+CheckDepInfo	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	o	object:local.0
 Color	src/main.rs	/^enum Color {$/;"	g
 Color	src/main.rs	/^impl Color {$/;"	c
+Color	src/main.rs	/^impl From<u8> for Color {$/;"	c
 ColorState	src/main.rs	/^impl ColorState {$/;"	c
+ColorState	src/main.rs	/^impl Debug for ColorState {$/;"	c
+ColorState	src/main.rs	/^impl IntoIterator for &ColorState {$/;"	c
+ColorState	src/main.rs	/^impl Iterator for ColorState {$/;"	c
 ColorState	src/main.rs	/^struct ColorState {$/;"	s
 Configuration	src/main.rs	/^impl Configuration {$/;"	c
 Configuration	src/main.rs	/^struct Configuration {$/;"	s
 Dice	src/main.rs	/^struct Dice {$/;"	s
 Green	src/main.rs	/^    Green,$/;"	e	enum:Color
+IntoIter	src/main.rs	/^    type IntoIter = ColorState;$/;"	t	implementation:ColorState
+Item	src/main.rs	/^    type Item = u8;$/;"	t	implementation:ColorState
+None	src/main.rs	/^    None,$/;"	e	enum:Color
 Orange	src/main.rs	/^    Orange,$/;"	e	enum:Color
+RerunIfChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.0
+RerunIfChanged	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.0
+RerunIfChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.0
+RerunIfChanged	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.0
+RerunIfEnvChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.1
+RerunIfEnvChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.2
+RerunIfEnvChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.3
+RerunIfEnvChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.4
+RerunIfEnvChanged	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.5
+RerunIfEnvChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.1
+RerunIfEnvChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.2
+RerunIfEnvChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.3
+RerunIfEnvChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.4
+RerunIfEnvChanged	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	o	object:local.5
 White	src/main.rs	/^    White,$/;"	e	enum:Color
 Yellow	src/main.rs	/^    Yellow,$/;"	e	enum:Color
 aggragate_placements	src/main.rs	/^fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {$/;"	f
-available_colours	src/main.rs	/^    available_colours: Vec<Color>,$/;"	m	struct:Configuration
+as_byte	src/main.rs	/^    fn as_byte(&self) -> u8 {$/;"	P	implementation:Color
+assign_to_index	src/main.rs	/^    fn assign_to_index(&mut self, index: u8, value: bool) {$/;"	P	implementation:ColorState
+available_colours	src/main.rs	/^    available_colours: ColorState,$/;"	m	struct:Configuration
+checksum	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
 checksum	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
 checksum	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
 checksum	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
-checksum	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
 checksum	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	object:local.0.CheckDepInfo
+checksum	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
 checksum	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	object:local.0.CheckDepInfo
+checksum	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	b	object:local.0.CheckDepInfo
 code	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	n	object:outputs.1417081980105117634
 code	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	n	object:outputs.5497399830345337414
 color	src/main.rs	/^    color: Color,$/;"	m	struct:Dice
+color_state_assign	src/main.rs	/^    fn color_state_assign() {$/;"	f	module:test
+color_state_iter	src/main.rs	/^    fn color_state_iter() {$/;"	f	module:test
+color_state_retain	src/main.rs	/^    fn color_state_retain() {$/;"	f	module:test
+compile_kind	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 compile_kind	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 compile_kind	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 compile_kind	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-compile_kind	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 compile_kind	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+compile_kind	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+compile_kind	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+compile_kind	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+compile_kind	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+compile_kind	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+compile_kind	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+compile_kind	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+compile_kind	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+compile_kind	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+compile_kind	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+compile_kind	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+compile_kind	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+compile_kind	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+compile_kind	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+compile_kind	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+compile_kind	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+compile_kind	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+compile_kind	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+compile_kind	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+compile_kind	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 compile_kind	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+compile_kind	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+compile_kind	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+compile_kind	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+compile_kind	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+compile_kind	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+compile_kind	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+compile_kind	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+compile_kind	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+compile_kind	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+compile_kind	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+compile_kind	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+compile_kind	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+config	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 config	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 config	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 config	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-config	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 config	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+config	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+config	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+config	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+config	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+config	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+config	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+config	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+config	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+config	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+config	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+config	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+config	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+config	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+config	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+config	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+config	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+config	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+config	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+config	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+config	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 config	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+config	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+config	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+config	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+config	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+config	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+config	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+config	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+config	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+config	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+config	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+config	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+config	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+declared_features	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 declared_features	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 declared_features	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 declared_features	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
-declared_features	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 declared_features	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+declared_features	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+declared_features	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+declared_features	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+declared_features	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+declared_features	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+declared_features	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+declared_features	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+declared_features	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+declared_features	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+declared_features	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+declared_features	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+declared_features	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+declared_features	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+declared_features	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+declared_features	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+declared_features	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+declared_features	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+declared_features	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+declared_features	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+declared_features	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 declared_features	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+declared_features	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+declared_features	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+declared_features	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+declared_features	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+declared_features	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+declared_features	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+declared_features	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+declared_features	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+declared_features	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+declared_features	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+declared_features	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+declared_features	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+default	src/main.rs	/^    fn default() -> Self {$/;"	P	implementation:ColorState
+dep_info	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
 dep_info	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
 dep_info	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
 dep_info	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
-dep_info	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
 dep_info	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	object:local.0.CheckDepInfo
+dep_info	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
 dep_info	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	object:local.0.CheckDepInfo
+dep_info	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s	object:local.0.CheckDepInfo
+deps	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 deps	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 deps	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 deps	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
-deps	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 deps	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+deps	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+deps	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+deps	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+deps	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+deps	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+deps	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+deps	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+deps	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+deps	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+deps	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+deps	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+deps	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+deps	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+deps	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+deps	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+deps	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+deps	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+deps	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+deps	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+deps	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 deps	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+deps	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+deps	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+deps	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+deps	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+deps	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+deps	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+deps	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+deps	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+deps	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+deps	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+deps	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+deps	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
 dice_queue	src/main.rs	/^    dice_queue: Vec<Dice>,$/;"	m	struct:Configuration
+features	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 features	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 features	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 features	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
-features	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 features	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+features	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+features	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+features	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+features	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+features	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+features	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+features	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+features	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+features	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+features	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+features	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+features	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+features	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+features	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+features	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+features	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+features	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+features	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+features	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+features	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
 features	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	s
+features	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	s
+features	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	s
+features	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+features	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+features	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	s
+features	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	s
+features	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	s
+features	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	s
+features	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	s
+features	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s
+features	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+features	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	s
+fmt	src/main.rs	/^    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {$/;"	P	implementation:ColorState
+from	src/main.rs	/^    fn from(value: Color) -> Self {$/;"	P	implementation:u8
+from	src/main.rs	/^    fn from(value: u8) -> Self {$/;"	P	implementation:Color
+from_byte	src/main.rs	/^    fn from_byte(color_code: u8) -> Self {$/;"	P	implementation:Color
+into_iter	src/main.rs	/^    fn into_iter(self) -> Self::IntoIter {$/;"	P	implementation:ColorState
 leaderboard	src/main.rs	/^    fn leaderboard(&self) -> [Color; 5] {$/;"	P	implementation:Configuration
+len	src/main.rs	/^    fn len(&self) -> u8 {$/;"	P	implementation:ColorState
+local	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 local	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 local	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 local	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
-local	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 local	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+local	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+local	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+local	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+local	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+local	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+local	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+local	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+local	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+local	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+local	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+local	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+local	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+local	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+local	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+local	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+local	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+local	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+local	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+local	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+local	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 local	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+local	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+local	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+local	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+local	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+local	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+local	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+local	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+local	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+local	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+local	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+local	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+local	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
 main	src/main.rs	/^fn main() {$/;"	f
-map_to_u8	src/main.rs	/^    fn map_to_u8(&self) -> u8 {$/;"	P	implementation:Color
+new	src/main.rs	/^    fn new<T: Into<Color>>(conf: Vec<T>) -> Self {$/;"	P	implementation:ColorState
+next	src/main.rs	/^    fn next(&mut self) -> Option<Self::Item> {$/;"	P	implementation:ColorState
+output	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.0.RerunIfChanged
+output	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.0.RerunIfChanged
+output	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.0.RerunIfChanged
+output	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.0.RerunIfChanged
 outputs	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	o
+path	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 path	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 path	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 path	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-path	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 path	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+path	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+path	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+path	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+path	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+path	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+path	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+path	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+path	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+path	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+path	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+path	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+path	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+path	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+path	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+path	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+path	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+path	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+path	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+path	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+path	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 path	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+path	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+path	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+path	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+path	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+path	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+path	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+path	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+path	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+path	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+path	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+path	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+path	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+paths	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	object:local.0.RerunIfChanged
+paths	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	object:local.0.RerunIfChanged
+paths	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	object:local.0.RerunIfChanged
+paths	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a	object:local.0.RerunIfChanged
 pos_color_map	src/main.rs	/^    pos_color_map: HashMap<u8, Vec<Color>>,$/;"	m	struct:Configuration
+profile	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 profile	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 profile	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 profile	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-profile	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 profile	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+profile	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+profile	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+profile	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+profile	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+profile	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+profile	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+profile	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+profile	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+profile	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+profile	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+profile	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+profile	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+profile	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+profile	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+profile	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+profile	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+profile	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+profile	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+profile	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+profile	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 profile	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+profile	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+profile	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+profile	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+profile	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+profile	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+profile	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+profile	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+profile	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+profile	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+profile	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+profile	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+profile	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+retain	src/main.rs	/^    fn retain(&mut self, predicate: impl Fn(u8) -> bool) {$/;"	P	implementation:ColorState
+rustc	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 rustc	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 rustc	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 rustc	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-rustc	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 rustc	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+rustc	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+rustc	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+rustc	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+rustc	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+rustc	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+rustc	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+rustc	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+rustc	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+rustc	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+rustc	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+rustc	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+rustc	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+rustc	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+rustc	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+rustc	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+rustc	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+rustc	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+rustc	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+rustc	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+rustc	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 rustc	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+rustc	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+rustc	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+rustc	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+rustc	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+rustc	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+rustc	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+rustc	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+rustc	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+rustc	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+rustc	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+rustc	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+rustc	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
 rustc_fingerprint	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	n
+rustflags	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 rustflags	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 rustflags	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 rustflags	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
-rustflags	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 rustflags	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
+rustflags	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+rustflags	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+rustflags	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+rustflags	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+rustflags	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+rustflags	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+rustflags	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+rustflags	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+rustflags	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+rustflags	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+rustflags	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+rustflags	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+rustflags	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+rustflags	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+rustflags	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+rustflags	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+rustflags	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+rustflags	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+rustflags	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+rustflags	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+rustflags	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
 rustflags	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	a
-save	src/main.rs	/^    save: u8$/;"	m	struct:ColorState
-simulate_dice_throw	src/main.rs	/^fn simulate_dice_throw(conf: &Configuration, dice_color: &Color) -> Vec<Configuration> {$/;"	f
+rustflags	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	a
+rustflags	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	a
+rustflags	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+rustflags	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+rustflags	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	a
+rustflags	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	a
+rustflags	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	a
+rustflags	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	a
+rustflags	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	a
+rustflags	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	a
+rustflags	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+rustflags	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	a
+simple_config	src/main.rs	/^    fn simple_config() -> Configuration {$/;"	f	module:test
+simulate_dice_throw	src/main.rs	/^fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuration> {$/;"	f
 simulate_round	src/main.rs	/^fn simulate_round(init_config: Configuration) -> Vec<Configuration> {$/;"	f
+state	src/main.rs	/^    state: u8,$/;"	m	struct:ColorState
 status	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	s	object:outputs.1417081980105117634
 status	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	s	object:outputs.5497399830345337414
 stderr	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	s	object:outputs.1417081980105117634
@@ -180,10 +989,71 @@ stdout	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"output
 success	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	b	object:outputs.1417081980105117634
 success	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	b	object:outputs.5497399830345337414
 successes	target/.rustc_info.json	/^{"rustc_fingerprint":306359033395659130,"outputs":{"5497399830345337414":{"success":true,"status/;"	o
+target	target/debug/.fingerprint/camelup_sim-0cb813ab01b4debc/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 target	target/debug/.fingerprint/camelup_sim-23b2aafd60dc1ec2/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 target	target/debug/.fingerprint/camelup_sim-2d43b5d6572c49b2/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-3a7d996a20482715/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-6db8306aac7620f8/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-77f51f5622aa5952/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-7d7b238d405aee15/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 target	target/debug/.fingerprint/camelup_sim-7f079381e2baab8b/test-bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
-target	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":13941883843485610340,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-862d8a7be1ae4230/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 target	target/debug/.fingerprint/camelup_sim-9cfd535471d81325/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/camelup_sim-d78baf0610aa34d5/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/debug/.fingerprint/cfg-if-2262c59ed30cbfdf/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+target	target/debug/.fingerprint/cfg-if-4a7d0854554f50b2/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+target	target/debug/.fingerprint/getrandom-1d2995b5821e53cd/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+target	target/debug/.fingerprint/getrandom-626d39336a01bc1e/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+target	target/debug/.fingerprint/libc-32e08bdd4dee44f8/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+target	target/debug/.fingerprint/libc-3e50b6d9dd52ddeb/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+target	target/debug/.fingerprint/libc-87cdebf926b49b6c/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+target	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+target	target/debug/.fingerprint/ppv-lite86-5d970e0f7d56bebc/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+target	target/debug/.fingerprint/ppv-lite86-7153bb465ee2296a/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+target	target/debug/.fingerprint/rand-377618f2489aff28/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+target	target/debug/.fingerprint/rand-d583ccd08dbc4b8c/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+target	target/debug/.fingerprint/rand_chacha-0f8ef14ca6c9cbf0/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+target	target/debug/.fingerprint/rand_chacha-f52acd4b44d2d499/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+target	target/debug/.fingerprint/rand_core-42cead982c30958b/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+target	target/debug/.fingerprint/rand_core-b8afe2f6f9e00961/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+target	target/debug/.fingerprint/zerocopy-98b1749a4c587da9/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+target	target/debug/.fingerprint/zerocopy-cbee6613caf667d2/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+target	target/debug/.fingerprint/zerocopy-cc9380f79f1e17ea/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+target	target/debug/.fingerprint/zerocopy-d0009e2093b4a46d/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+target	target/release/.fingerprint/camelup_sim-629a85936b543a2a/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
 target	target/release/.fingerprint/camelup_sim-a69e4be7c5ddf6da/bin-camelup_sim.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[]","target":1829490303483816/;"	n
+target	target/release/.fingerprint/cfg-if-d2e636d86701c50e/lib-cfg_if.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"core\\", \\"rustc-dep-of-/;"	n
+target	target/release/.fingerprint/getrandom-2452a4a48524fd8b/lib-getrandom.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"compiler_builtin/;"	n
+target	target/release/.fingerprint/libc-19f5c5853c64115e/lib-libc.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+target	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+target	target/release/.fingerprint/libc-a9086812288b10f4/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[]","declared_features":"[\\"align\\", \\"const-extern/;"	n
+target	target/release/.fingerprint/ppv-lite86-9b83cbb6df8044a8/lib-ppv_lite86.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\", \\"std\\"]","declared_features":"[\\"defa/;"	n
+target	target/release/.fingerprint/rand-47af0f460580a68f/lib-rand.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"default\\", \\"getrandom\\", \\"libc\\/;"	n
+target	target/release/.fingerprint/rand_chacha-9e8b8ec44f2d0502/lib-rand_chacha.json	/^{"rustc":12951614488951162178,"features":"[\\"std\\"]","declared_features":"[\\"default\\", \\"s/;"	n
+target	target/release/.fingerprint/rand_core-f6f1950863230c85/lib-rand_core.json	/^{"rustc":12951614488951162178,"features":"[\\"alloc\\", \\"getrandom\\", \\"std\\"]","declared_f/;"	n
+target	target/release/.fingerprint/zerocopy-2f7db8d31f6141ed/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	n
+target	target/release/.fingerprint/zerocopy-c1ef6595f8b17816/lib-zerocopy.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+target	target/release/.fingerprint/zerocopy-d8b2a5d927e3e63c/build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"[\\"simd\\"]","declared_features":"[\\"__internal_use_/;"	n
+test	src/main.rs	/^mod test {$/;"	n
+u8	src/main.rs	/^impl From<Color> for u8 {$/;"	c
+val	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.1.RerunIfEnvChanged
+val	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.2.RerunIfEnvChanged
+val	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.3.RerunIfEnvChanged
+val	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.4.RerunIfEnvChanged
+val	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.5.RerunIfEnvChanged
+val	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.1.RerunIfEnvChanged
+val	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.2.RerunIfEnvChanged
+val	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.3.RerunIfEnvChanged
+val	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.4.RerunIfEnvChanged
+val	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	z	object:local.5.RerunIfEnvChanged
 value	src/main.rs	/^    value: u8,$/;"	m	struct:Dice
+var	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.1.RerunIfEnvChanged
+var	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.2.RerunIfEnvChanged
+var	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.3.RerunIfEnvChanged
+var	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.4.RerunIfEnvChanged
+var	target/debug/.fingerprint/libc-da7b33bd2b1a7cc0/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.5.RerunIfEnvChanged
+var	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.1.RerunIfEnvChanged
+var	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.2.RerunIfEnvChanged
+var	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.3.RerunIfEnvChanged
+var	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.4.RerunIfEnvChanged
+var	target/release/.fingerprint/libc-66ba73d53dc6a8db/run-build-script-build-script-build.json	/^{"rustc":12951614488951162178,"features":"","declared_features":"","target":0,"profile":0,"path"/;"	s	object:local.5.RerunIfEnvChanged
