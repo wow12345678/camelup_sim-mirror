@@ -225,7 +225,7 @@ impl Widget for &CamelField {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 enum State {
     Focused(usize),
     Unfocused(usize),
@@ -277,41 +277,37 @@ impl GameField {
     }
 
     pub fn handle_key_event(&mut self, key: KeyCode) {
-        match key {
-            KeyCode::Enter => todo!(),
-            KeyCode::Left | KeyCode::Char('l') => {
-                if let State::Focused(0..4) = self.highlighted {
-                    self.change_highlight_rel(1)
-                } else if let State::Focused(8..13) = self.highlighted {
-                    self.change_highlight_rel(-1);
-                }
+        match (key, self.highlighted) {
+            (KeyCode::Enter, _) => todo!(),
+            (KeyCode::Left | KeyCode::Char('l'), State::Focused(0..4)) => {
+                self.change_highlight_rel(1)
             }
-            KeyCode::Right | KeyCode::Char('h') => {
-                if let State::Focused(0..4) = self.highlighted {
-                    self.change_highlight_rel(-1)
-                } else if let State::Focused(8..13) = self.highlighted {
-                    self.change_highlight_rel(1);
-                }
+            (KeyCode::Left | KeyCode::Char('l'), State::Focused(9..13)) => {
+                self.change_highlight_rel(-1);
             }
-            KeyCode::Up | KeyCode::Char('k') => {
-                if let State::Focused(4..8) = self.highlighted {
-                    self.change_highlight_rel(-1)
-                } else if let State::Focused(13..15) = self.highlighted {
-                    self.change_highlight_rel(1)
-                }
+
+            (KeyCode::Right | KeyCode::Char('h'), State::Focused(1..5)) => {
+                self.change_highlight_rel(-1)
             }
-            KeyCode::Down | KeyCode::Char('j') => {
-                if let State::Focused(4..8) = self.highlighted {
-                    self.change_highlight_rel(1)
-                } else if let State::Focused(13..15) = self.highlighted {
-                    self.change_highlight_rel(-1)
-                }
+            (KeyCode::Right | KeyCode::Char('h'), State::Focused(8..12)) => {
+                self.change_highlight_rel(1);
             }
-            _ => {}
+            (KeyCode::Up | KeyCode::Char('k'), State::Focused(5..9)) => {
+                self.change_highlight_rel(-1)
+            }
+            (KeyCode::Up | KeyCode::Char('k'), State::Focused(12..16)) => {
+                self.change_highlight_rel(1)
+            }
+            (KeyCode::Down | KeyCode::Char('j'), State::Focused(4..8)) => {
+                self.change_highlight_rel(1)
+            }
+            (KeyCode::Down | KeyCode::Char('j'), State::Focused(13..16) | State::Focused(0)) => {
+                self.change_highlight_rel(-1)
+            }
+            (_, _) => {}
         }
     }
 
-    // only possible if GameField is selected (because keybinds are only available if selected)
     pub fn change_highlight(&mut self, new_highlight_idx: usize) {
         if let State::Focused(old_idx) = self.highlighted {
             self.fields[old_idx].highlighted = false;
@@ -320,12 +316,17 @@ impl GameField {
         }
     }
 
+    // only possible if GameField is selected (because keybinds are only available if selected)
     pub fn change_highlight_rel(&mut self, new_highlight_idx_rel: i32) {
         if let State::Focused(old_idx) = self.highlighted {
-            let new_highlight_idx = if let idx @ 0..16 = old_idx as i32 + new_highlight_idx_rel {
-                idx as usize
+            let new_highlight_idx = if let idx @ 0.. = old_idx as i32 + new_highlight_idx_rel {
+                if idx >= 16 {
+                    idx as usize % 16
+                } else {
+                    idx as usize
+                }
             } else {
-                return;
+                15
             };
             self.fields[old_idx].highlighted = false;
             self.highlighted = State::Focused(new_highlight_idx);
