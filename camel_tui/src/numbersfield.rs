@@ -1,17 +1,15 @@
 use ratatui::{
-    buffer::Buffer,
-    layout::{Constraint, Layout, Rect},
-    widgets::{Block, Widget},
+    buffer::Buffer, crossterm::event::KeyCode, layout::{Constraint, Layout, Rect}, style::{Color, Style}, widgets::{Block, Widget}
 };
 
 #[derive(Debug)]
-struct CamelStateField {
+pub struct CamelStateField {
+    selected: bool,
 }
 
 impl CamelStateField {
     fn new() -> Self {
-        CamelStateField {
-        }
+        Self { selected: true }
     }
 }
 
@@ -20,18 +18,24 @@ impl Widget for &CamelStateField {
     where
         Self: Sized,
     {
-        Block::bordered().title_top("Kamele").render(area, buf);
+        let border_color = if self.selected {
+            Color::LightBlue
+        }else {
+            Color::White
+        };
+
+        Block::bordered()
+            .border_style(Style::default().fg(border_color))
+            .title_top("Kamele").render(area, buf);
     }
 }
 
 #[derive(Debug)]
-struct ProbabilitiesField {
-}
+struct ProbabilitiesField {}
 
 impl ProbabilitiesField {
     fn new() -> Self {
-        ProbabilitiesField {
-        }
+        ProbabilitiesField {}
     }
 }
 
@@ -53,6 +57,36 @@ pub struct NumbersField {
     camel_state: CamelStateField,
 }
 
+impl NumbersField {
+    pub fn focus(&mut self) {
+        if !self.camel_state.selected {
+            self.camel_state.selected = !self.camel_state.selected;
+        } else {
+            panic!("The GameField should be unfocused if the method is called")
+        }
+    }
+
+    pub fn unfocus(&mut self) {
+        if self.camel_state.selected {
+            self.camel_state.selected = !self.camel_state.selected;
+        } else {
+            panic!("The GameField should be focused if the method is called")
+        }
+    }
+
+    pub fn handle_key_event(&self, key: KeyCode) {
+        todo!()
+    }
+
+    pub fn new() -> Self {
+        Self {
+            probabilities: ProbabilitiesField::new(),
+            camel_state: CamelStateField::new(),
+        }
+    }
+
+}
+
 impl Widget for &NumbersField {
     fn render(self, area: Rect, buf: &mut Buffer)
     where
@@ -61,28 +95,16 @@ impl Widget for &NumbersField {
         let numbers_layout = Layout::vertical([
             Constraint::Percentage(50),
             Constraint::Percentage(50),
-            // Constraint::Percentage(10),
         ]);
 
         let [
             probability_area,
-            camel_state_area, //, calculate_buttons_area
+            camel_state_area,
         ] = numbers_layout.areas(area);
 
-        Block::bordered()
-            .title_top("Numbers")
-            .render(area, buf);
+        Block::bordered().title_top("Numbers").render(area, buf);
 
         self.probabilities.render(probability_area, buf);
         self.camel_state.render(camel_state_area, buf);
-    }
-}
-
-impl NumbersField {
-    pub fn new() -> Self {
-        Self {
-            probabilities: ProbabilitiesField::new(),
-            camel_state: CamelStateField::new(),
-        }
     }
 }

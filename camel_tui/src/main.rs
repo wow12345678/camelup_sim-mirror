@@ -1,5 +1,5 @@
-use crate::numbersfield::NumbersField;
 use crate::gamefield::GameField;
+use crate::numbersfield::NumbersField;
 use std::io;
 
 use gamefield::CamelColor;
@@ -8,29 +8,37 @@ use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
     crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind},
-    layout::{Constraint, Layout, Rect},
-    widgets::Widget,
+    layout::{Constraint, Flex, Layout, Rect},
+    text::Line,
+    widgets::{Block, Clear, Widget},
 };
 
 mod gamefield;
 mod numbersfield;
 
-
+#[derive(Debug, PartialEq, Clone, Copy)]
+enum GeneralWindow {
+    KamelWindow,
+    GameFieldWindow,
+}
 
 #[derive(Debug)]
 struct App {
     game_field: GameField,
     numbers_field: NumbersField,
     exit: bool,
+    show_help_popup: bool,
+    selected_window: GeneralWindow,
 }
 
 impl App {
     fn new() -> Self {
-
         Self {
             game_field: GameField::new(),
             exit: false,
             numbers_field: NumbersField::new(),
+            show_help_popup: false,
+            selected_window: GeneralWindow::KamelWindow,
         }
     }
 
@@ -56,11 +64,35 @@ impl App {
         Ok(())
     }
 
+    fn render_help_popup(&self, area: Rect, buf: &mut Buffer) {
+        let popup = Block::bordered().title(Line::from("   Help   ").centered());
+        Clear.render(area, buf);
+        popup.render(area, buf);
+    }
+
     fn handle_key_event(&mut self, key_event: KeyEvent) {
-        #[allow(clippy::single_match)]
-        match key_event.code {
-            KeyCode::Char('q') => self.exit(),
-            _ => {}
+        match (key_event.code, self.selected_window) {
+            (KeyCode::Char('q'), _) => self.exit(),
+            (KeyCode::Char('?'), _) => {
+                self.show_help_popup = !self.show_help_popup;
+            }
+            (KeyCode::Tab, _) => {
+                if self.selected_window == GeneralWindow::GameFieldWindow {
+                    self.selected_window = GeneralWindow::KamelWindow;
+                    self.game_field.unfocus();
+                    self.numbers_field.focus();
+                } else {
+                    self.selected_window = GeneralWindow::GameFieldWindow;
+                    self.numbers_field.unfocus();
+                    self.game_field.focus();
+                }
+            }
+            (key, GeneralWindow::KamelWindow) => {
+                self.numbers_field.handle_key_event(key);
+            }
+            (key, GeneralWindow::GameFieldWindow) => {
+                self.game_field.handle_key_event(key);
+            }
         }
     }
 
@@ -69,6 +101,14 @@ impl App {
     }
 }
 
+/// Create a centered rect using up certain percentage of the available rect
+fn centered_area(area: Rect, percent_x: u16, percent_y: u16) -> Rect {
+    let vertical = Layout::vertical([Constraint::Percentage(percent_y)]).flex(Flex::Center);
+    let horizontal = Layout::horizontal([Constraint::Percentage(percent_x)]).flex(Flex::Center);
+    let [area] = vertical.areas(area);
+    let [area] = horizontal.areas(area);
+    area
+}
 
 impl Widget for &App {
     fn render(self, area: Rect, buf: &mut Buffer) {
@@ -76,8 +116,13 @@ impl Widget for &App {
             Layout::horizontal([Constraint::Percentage(30), Constraint::Percentage(70)]);
         let [numbers_area, game_area] = general_layout.areas(area);
 
-        (&self.numbers_field).render(numbers_area, buf);
-        (&self.game_field).render(game_area, buf);
+        self.numbers_field.render(numbers_area, buf);
+        self.game_field.render(game_area, buf);
+
+        if self.show_help_popup {
+            let center_area = centered_area(area, 60, 40);
+            self.render_help_popup(center_area, buf);
+        }
     }
 }
 

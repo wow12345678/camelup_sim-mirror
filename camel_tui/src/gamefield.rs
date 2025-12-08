@@ -1,9 +1,11 @@
-use std::{array, cmp::max};
+use std::{array, cmp::max, fmt::Display};
 
 use ratatui::{
     buffer::Buffer,
+    crossterm::event::KeyCode,
     layout::{Constraint, Layout, Rect},
-    style::Color,
+    style::{Color, Style},
+    text::Line,
     widgets::{Block, Widget},
 };
 
@@ -14,6 +16,18 @@ pub enum CamelColor {
     Yellow,
     Orange,
     White,
+}
+
+impl Display for CamelColor {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            CamelColor::Red => write!(f, "Red"),
+            CamelColor::Green => write!(f, "Green"),
+            CamelColor::Yellow => write!(f, "Yellow"),
+            CamelColor::Orange => write!(f, "Orange"),
+            CamelColor::White => write!(f, "White"),
+        }
+    }
 }
 
 impl CamelColor {
@@ -70,17 +84,31 @@ const CAMEL_PATTERN_FACING_LEFT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
 ];
 
 /// camels are ordered from bottom to top
+/// index is the index in the representation in GameField
+/// board_index is the index that is rendered for the field
+/// board representation:
+///  ______________
+/// |14|15| 0| 1| 2|
+/// |13|‾‾‾‾‾‾‾‾| 3|
+/// |12|        | 4|
+/// |11|________| 5|
+/// |10| 9| 8| 7| 6|
+///  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 #[derive(Debug, Default)]
 pub struct CamelField {
     pub camels: Vec<CamelColor>,
+    board_index: usize,
     index: usize,
+    highlighted: bool,
 }
 
 impl CamelField {
-    fn new(camels: Vec<CamelColor>, index: usize) -> Self {
+    fn new(camels: Vec<CamelColor>, index: usize, board_index: usize) -> Self {
         Self {
             camels,
+            board_index,
             index,
+            highlighted: false,
         }
     }
 
@@ -173,27 +201,135 @@ impl Widget for &CamelField {
     where
         Self: Sized,
     {
-        Block::bordered()
-            .title_top(format!(
-                "Field {}, area:{},{},{},{}",
-                self.index, area.x,area.y, area.width, area.height
-            ))
-            .render(area, buf);
+        let border_color = if self.highlighted {
+            Color::LightBlue
+        } else {
+            Color::White
+        };
+
+        if cfg!(debug_assertions) {
+            Block::bordered()
+                .border_style(Style::default().fg(border_color))
+                .title_top(format!(
+                    "Field {}, area:{},{},{},{}",
+                    self.board_index, area.x, area.y, area.width, area.height
+                ))
+                .render(area, buf);
+        } else {
+            Block::bordered()
+                .title_top(format!("Field {}", self.board_index))
+                .render(area, buf);
+        }
+
         self.render_camels(area, buf);
     }
 }
 
 #[derive(Debug)]
+enum State {
+    Focused(usize),
+    Unfocused(usize),
+}
+
+#[derive(Debug)]
 pub struct GameField {
     pub fields: [CamelField; 16],
+    highlighted: State,
 }
 
 impl GameField {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        let fields = array::from_fn(|i| CamelField::new(Vec::new(), i));
+        let initial_index = 0;
+
+        let fields = array::from_fn(|i| {
+            if i < 2 {
+                CamelField::new(Vec::new(), i, i + 14)
+            } else {
+                CamelField::new(Vec::new(), i, i - 2)
+            }
+        });
+
+        let init_state = State::Unfocused(initial_index);
 
         Self {
             fields,
+            highlighted: init_state,
+        }
+    }
+
+    pub fn focus(&mut self) {
+        if let State::Unfocused(curr) = self.highlighted {
+            self.highlighted = State::Focused(curr);
+            self.fields[curr].highlighted = true;
+        } else {
+            panic!("The GameField should be unfocused if the method is called")
+        }
+    }
+
+    pub fn unfocus(&mut self) {
+        if let State::Focused(curr) = self.highlighted {
+            self.highlighted = State::Unfocused(curr);
+            self.fields[curr].highlighted = false;
+        } else {
+            panic!("The GameField should be focused if the method is called")
+        }
+    }
+
+    pub fn handle_key_event(&mut self, key: KeyCode) {
+        match key {
+            KeyCode::Enter => todo!(),
+            KeyCode::Left | KeyCode::Char('l') => {
+                if let State::Focused(0..4) = self.highlighted {
+                    self.change_highlight_rel(1)
+                } else if let State::Focused(8..13) = self.highlighted {
+                    self.change_highlight_rel(-1);
+                }
+            }
+            KeyCode::Right | KeyCode::Char('h') => {
+                if let State::Focused(0..4) = self.highlighted {
+                    self.change_highlight_rel(-1)
+                } else if let State::Focused(8..13) = self.highlighted {
+                    self.change_highlight_rel(1);
+                }
+            }
+            KeyCode::Up | KeyCode::Char('k') => {
+                if let State::Focused(4..8) = self.highlighted {
+                    self.change_highlight_rel(-1)
+                } else if let State::Focused(13..15) = self.highlighted {
+                    self.change_highlight_rel(1)
+                }
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                if let State::Focused(4..8) = self.highlighted {
+                    self.change_highlight_rel(1)
+                } else if let State::Focused(13..15) = self.highlighted {
+                    self.change_highlight_rel(-1)
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // only possible if GameField is selected (because keybinds are only available if selected)
+    pub fn change_highlight(&mut self, new_highlight_idx: usize) {
+        if let State::Focused(old_idx) = self.highlighted {
+            self.fields[old_idx].highlighted = false;
+            self.highlighted = State::Focused(new_highlight_idx);
+            self.fields[new_highlight_idx].highlighted = true;
+        }
+    }
+
+    pub fn change_highlight_rel(&mut self, new_highlight_idx_rel: i32) {
+        if let State::Focused(old_idx) = self.highlighted {
+            let new_highlight_idx = if let idx @ 0..16 = old_idx as i32 + new_highlight_idx_rel {
+                idx as usize
+            } else {
+                return;
+            };
+            self.fields[old_idx].highlighted = false;
+            self.highlighted = State::Focused(new_highlight_idx);
+            self.fields[new_highlight_idx].highlighted = true;
         }
     }
 
@@ -228,6 +364,7 @@ impl GameField {
 }
 
 impl Widget for &GameField {
+    //TODO: figure out minimal size and make seperate screen for when size is too small
     fn render(self, area: Rect, buf: &mut Buffer)
     where
         Self: Sized,
@@ -263,37 +400,55 @@ impl Widget for &GameField {
         let bottom_row_rects = row_layout.split(bottom_row_area);
         let left_col_rects = col_layout.split(left_col_area);
 
-        let mut fields = [Rect::default(); 16];
+        let mut camel_field_areas = [Rect::default(); 16];
 
         //  0-4
         for (i, &rect) in top_row_rects.iter().enumerate() {
-            fields[i] = rect;
+            camel_field_areas[i] = rect;
         }
 
         // 5-7
         for (i, &rect) in right_col_rects.iter().enumerate() {
-            fields[5 + i] = rect;
+            camel_field_areas[5 + i] = rect;
         }
 
         //  8-12 (reversed order)
         for (i, &rect) in bottom_row_rects.iter().rev().enumerate() {
-            fields[8 + i] = rect;
+            camel_field_areas[8 + i] = rect;
         }
 
         // 13-15 (reversed order)
         for (i, &rect) in left_col_rects.iter().rev().enumerate() {
-            fields[13 + i] = rect;
+            camel_field_areas[13 + i] = rect;
         }
 
-        Block::bordered()
-            .title_top(format!(
-                "GameField,area:{},{},{},{}",
-                area.x, area.y, area.width, area.height
-            ))
-            .render(area, buf);
+        let border_color = if let State::Focused(_) = self.highlighted {
+            Color::LightBlue
+        } else {
+            Color::White
+        };
 
-        for (i,field) in self.fields.iter().enumerate() {
-            field.render(fields[i], buf);
+        let simple_instructions = "   <q> - quit <?> - help   ";
+
+        if cfg!(debug_assertions) {
+            Block::bordered()
+                .border_style(Style::default().fg(border_color))
+                .title_top(format!(
+                    "GameField,area:{},{},{},{}",
+                    area.x, area.y, area.width, area.height
+                ))
+                .title_bottom(Line::from(simple_instructions).centered())
+                .render(area, buf);
+        } else {
+            Block::bordered()
+                .border_style(Style::default().fg(border_color))
+                .title_top("GameField")
+                .title_bottom(Line::from(simple_instructions).centered())
+                .render(area, buf);
+        }
+
+        for (i, field) in self.fields.iter().enumerate() {
+            field.render(camel_field_areas[i], buf);
         }
     }
 }
