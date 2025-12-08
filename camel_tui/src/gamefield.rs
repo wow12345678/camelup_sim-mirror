@@ -1,4 +1,4 @@
-use std::{array, cmp::max, fmt::Display};
+use std::{array, cmp::max, fmt::Display, slice::Iter};
 
 use ratatui::{
     buffer::Buffer,
@@ -31,7 +31,38 @@ impl Display for CamelColor {
 }
 
 impl CamelColor {
-    pub const fn rgb(&self) -> Color {
+    pub fn all() -> [CamelColor; 5] {
+        [
+            CamelColor::Red,
+            CamelColor::Green,
+            CamelColor::Yellow,
+            CamelColor::Orange,
+            CamelColor::White,
+        ]
+    }
+
+    pub fn from_char_to_int(c: char) -> usize {
+        match c {
+            'r' => 0,
+            'g' => 1,
+            'y' => 2,
+            'o' => 3,
+            'w' => 4,
+            _ => panic!("invalid character"),
+        }
+    }
+
+    pub const fn text_color(self) -> Color {
+        match self {
+            CamelColor::Red => Color::Rgb(255, 255, 255),
+            CamelColor::Green => Color::Rgb(0, 255, 0),
+            CamelColor::Yellow => Color::Rgb(255, 255, 0),
+            CamelColor::Orange => Color::Rgb(255, 165, 0),
+            CamelColor::White => Color::Rgb(0, 0, 0),
+        }
+    }
+
+    pub const fn to_color(self) -> Color {
         match self {
             CamelColor::Red => Color::Rgb(255, 0, 0),
             CamelColor::Green => Color::Rgb(0, 255, 0),
@@ -99,7 +130,7 @@ pub struct CamelField {
     pub camels: Vec<CamelColor>,
     board_index: usize,
     index: usize,
-    highlighted: bool,
+    selected: bool,
 }
 
 impl CamelField {
@@ -108,7 +139,7 @@ impl CamelField {
             camels,
             board_index,
             index,
-            highlighted: false,
+            selected: false,
         }
     }
 
@@ -133,7 +164,7 @@ impl CamelField {
         };
 
         for camel_idx in 0..self.camels.len() {
-            let col = self.camels[camel_idx].rgb();
+            let col = self.camels[camel_idx].to_color();
             let mut y = 0;
 
             let camel_pattern = if (0..8).contains(&self.index) {
@@ -142,6 +173,8 @@ impl CamelField {
                 CAMEL_PATTERN_FACING_LEFT
             };
 
+            // TODO: think about good camel rendering: either camel_idx or stack_position or
+            // something else
             let stack_position = total_camels - camel_idx - 1;
             let y_base =
                 field_bottom - camel_height_chars - stack_position as u16 * camel_stacking_offset;
@@ -201,7 +234,7 @@ impl Widget for &CamelField {
     where
         Self: Sized,
     {
-        let border_color = if self.highlighted {
+        let border_color = if self.selected {
             Color::LightBlue
         } else {
             Color::White
@@ -226,7 +259,7 @@ impl Widget for &CamelField {
 }
 
 #[derive(Debug, Clone, Copy)]
-enum State {
+pub enum State {
     Focused(usize),
     Unfocused(usize),
 }
@@ -234,7 +267,7 @@ enum State {
 #[derive(Debug)]
 pub struct GameField {
     pub fields: [CamelField; 16],
-    highlighted: State,
+    selected: State,
 }
 
 impl GameField {
@@ -242,6 +275,7 @@ impl GameField {
     pub fn new() -> Self {
         let initial_index = 0;
 
+        // [idx:14,idx:15,idx:0,...,idx:13]
         let fields = array::from_fn(|i| {
             if i < 2 {
                 CamelField::new(Vec::new(), i, i + 14)
@@ -254,83 +288,79 @@ impl GameField {
 
         Self {
             fields,
-            highlighted: init_state,
+            selected: init_state,
         }
     }
 
     pub fn focus(&mut self) {
-        if let State::Unfocused(curr) = self.highlighted {
-            self.highlighted = State::Focused(curr);
-            self.fields[curr].highlighted = true;
+        if let State::Unfocused(curr) = self.selected {
+            self.selected = State::Focused(curr);
+            self.fields[curr].selected = true;
         } else {
             panic!("The GameField should be unfocused if the method is called")
         }
     }
 
     pub fn unfocus(&mut self) {
-        if let State::Focused(curr) = self.highlighted {
-            self.highlighted = State::Unfocused(curr);
-            self.fields[curr].highlighted = false;
+        if let State::Focused(curr) = self.selected {
+            self.selected = State::Unfocused(curr);
+            self.fields[curr].selected = false;
         } else {
             panic!("The GameField should be focused if the method is called")
         }
     }
 
     pub fn handle_key_event(&mut self, key: KeyCode) {
-        match (key, self.highlighted) {
+        match (key, self.selected) {
             (KeyCode::Enter, _) => todo!(),
-            (KeyCode::Left | KeyCode::Char('l'), State::Focused(0..4)) => {
-                self.change_highlight_rel(1)
+            (KeyCode::Right | KeyCode::Char('l'), State::Focused(0..4)) => {
+                self.change_selection_rel(1)
             }
-            (KeyCode::Left | KeyCode::Char('l'), State::Focused(9..13)) => {
-                self.change_highlight_rel(-1);
+            (KeyCode::Right | KeyCode::Char('l'), State::Focused(9..13)) => {
+                self.change_selection_rel(-1);
             }
-
-            (KeyCode::Right | KeyCode::Char('h'), State::Focused(1..5)) => {
-                self.change_highlight_rel(-1)
+            (KeyCode::Left | KeyCode::Char('h'), State::Focused(1..5)) => {
+                self.change_selection_rel(-1)
             }
-            (KeyCode::Right | KeyCode::Char('h'), State::Focused(8..12)) => {
-                self.change_highlight_rel(1);
+            (KeyCode::Left | KeyCode::Char('h'), State::Focused(8..12)) => {
+                self.change_selection_rel(1);
             }
             (KeyCode::Up | KeyCode::Char('k'), State::Focused(5..9)) => {
-                self.change_highlight_rel(-1)
+                self.change_selection_rel(-1)
             }
             (KeyCode::Up | KeyCode::Char('k'), State::Focused(12..16)) => {
-                self.change_highlight_rel(1)
+                self.change_selection_rel(1)
             }
             (KeyCode::Down | KeyCode::Char('j'), State::Focused(4..8)) => {
-                self.change_highlight_rel(1)
+                self.change_selection_rel(1)
             }
             (KeyCode::Down | KeyCode::Char('j'), State::Focused(13..16) | State::Focused(0)) => {
-                self.change_highlight_rel(-1)
+                self.change_selection_rel(-1)
             }
             (_, _) => {}
         }
     }
 
-    pub fn change_highlight(&mut self, new_highlight_idx: usize) {
-        if let State::Focused(old_idx) = self.highlighted {
-            self.fields[old_idx].highlighted = false;
-            self.highlighted = State::Focused(new_highlight_idx);
-            self.fields[new_highlight_idx].highlighted = true;
+    pub fn change_selection(&mut self, new_selection_idx: usize) {
+        if let State::Focused(old_idx) = self.selected {
+            self.fields[old_idx].selected = false;
+            self.selected = State::Focused(new_selection_idx);
+            self.fields[new_selection_idx].selected = true;
         }
     }
 
     // only possible if GameField is selected (because keybinds are only available if selected)
-    pub fn change_highlight_rel(&mut self, new_highlight_idx_rel: i32) {
-        if let State::Focused(old_idx) = self.highlighted {
-            let new_highlight_idx = if let idx @ 0.. = old_idx as i32 + new_highlight_idx_rel {
-                if idx >= 16 {
-                    idx as usize % 16
-                } else {
-                    idx as usize
-                }
-            } else {
-                15
+    pub fn change_selection_rel(&mut self, new_selection_idx_rel: i32) {
+        if let State::Focused(old_idx) = self.selected {
+            let new_selection_idx = match old_idx as i32 + new_selection_idx_rel {
+                _idx @ ..0 => 15,
+                _idx @ 16.. => 0,
+                idx => idx as usize,
             };
-            self.fields[old_idx].highlighted = false;
-            self.highlighted = State::Focused(new_highlight_idx);
-            self.fields[new_highlight_idx].highlighted = true;
+
+            self.fields[old_idx].selected = false;
+            self.selected = State::Focused(new_selection_idx);
+            self.fields[new_selection_idx].selected = true;
         }
     }
 
@@ -423,7 +453,7 @@ impl Widget for &GameField {
             camel_field_areas[13 + i] = rect;
         }
 
-        let border_color = if let State::Focused(_) = self.highlighted {
+        let border_color = if let State::Focused(_) = self.selected {
             Color::LightBlue
         } else {
             Color::White

@@ -71,10 +71,15 @@ impl App {
     }
 
     fn handle_key_event(&mut self, key_event: KeyEvent) {
+        const SELECTION_KEYBINDS: [char;5] = ['r','g','y','o','w'];
+
         match (key_event.code, self.selected_window) {
             (KeyCode::Char('q'), _) => self.exit(),
             (KeyCode::Char('?'), _) => {
                 self.show_help_popup = !self.show_help_popup;
+            }
+            (KeyCode::Char(c), _) if SELECTION_KEYBINDS.contains(&c) => {
+                self.numbers_field.change_selection(CamelColor::from_char_to_int(c));
             }
             (KeyCode::Tab, _) => {
                 if self.selected_window == GeneralWindow::GameFieldWindow {
