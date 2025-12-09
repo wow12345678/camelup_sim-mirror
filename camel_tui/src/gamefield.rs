@@ -1,4 +1,4 @@
-use std::{array, cmp::max, fmt::Display, slice::Iter};
+use std::{array, cmp::max, fmt::Display};
 
 use ratatui::{
     buffer::Buffer,
@@ -250,6 +250,7 @@ impl Widget for &CamelField {
                 .render(area, buf);
         } else {
             Block::bordered()
+                .border_style(Style::default().fg(border_color))
                 .title_top(format!("Field {}", self.board_index))
                 .render(area, buf);
         }
@@ -276,7 +277,7 @@ impl GameField {
         let initial_index = 0;
 
         // [idx:14,idx:15,idx:0,...,idx:13]
-        let fields = array::from_fn(|i| {
+        let mut fields = array::from_fn(|i| {
             if i < 2 {
                 CamelField::new(Vec::new(), i, i + 14)
             } else {
@@ -285,6 +286,7 @@ impl GameField {
         });
 
         let init_state = State::Unfocused(initial_index);
+        fields[initial_index].selected = true;
 
         Self {
             fields,
@@ -295,7 +297,6 @@ impl GameField {
     pub fn focus(&mut self) {
         if let State::Unfocused(curr) = self.selected {
             self.selected = State::Focused(curr);
-            self.fields[curr].selected = true;
         } else {
             panic!("The GameField should be unfocused if the method is called")
         }
@@ -304,7 +305,6 @@ impl GameField {
     pub fn unfocus(&mut self) {
         if let State::Focused(curr) = self.selected {
             self.selected = State::Unfocused(curr);
-            self.fields[curr].selected = false;
         } else {
             panic!("The GameField should be focused if the method is called")
         }

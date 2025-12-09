@@ -18,8 +18,9 @@ mod numbersfield;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 enum GeneralWindow {
-    KamelWindow,
-    GameFieldWindow,
+    Kamel,
+    GameField,
+    Help,
 }
 
 #[derive(Debug)]
@@ -27,8 +28,8 @@ struct App {
     game_field: GameField,
     numbers_field: NumbersField,
     exit: bool,
-    show_help_popup: bool,
     selected_window: GeneralWindow,
+    window_stack: Vec<GeneralWindow>,
 }
 
 impl App {
@@ -37,8 +38,8 @@ impl App {
             game_field: GameField::new(),
             exit: false,
             numbers_field: NumbersField::new(),
-            show_help_popup: false,
-            selected_window: GeneralWindow::KamelWindow,
+            selected_window: GeneralWindow::Kamel,
+            window_stack: Vec::new(),
         }
     }
 
@@ -71,33 +72,54 @@ impl App {
     }
 
     fn handle_key_event(&mut self, key_event: KeyEvent) {
-        const SELECTION_KEYBINDS: [char;5] = ['r','g','y','o','w'];
+        const SELECTION_KEYBINDS: [char; 5] = ['r', 'g', 'y', 'o', 'w'];
 
         match (key_event.code, self.selected_window) {
-            (KeyCode::Char('q'), _) => self.exit(),
-            (KeyCode::Char('?'), _) => {
-                self.show_help_popup = !self.show_help_popup;
+            // quit
+            (
+                KeyCode::Char('q') | KeyCode::Esc,
+                GeneralWindow::GameField | GeneralWindow::Kamel,
+            ) => self.exit(),
+            // help window
+            (KeyCode::Char('?'), GeneralWindow::Help) => {
+                if let Some(prev_window) = self.window_stack.pop() {
+                    self.selected_window = prev_window;
+                }
             }
+            (KeyCode::Char('?'), old_window) => {
+                self.window_stack.push(old_window);
+                self.selected_window = GeneralWindow::Help;
+            }
+            // quit help window
+            (KeyCode::Char('q') | KeyCode::Esc, GeneralWindow::Help) => {
+                if let Some(prev_window) = self.window_stack.pop() {
+                    self.selected_window = prev_window;
+                }
+            }
+            // hotkeys
             (KeyCode::Char(c), _) if SELECTION_KEYBINDS.contains(&c) => {
-                self.numbers_field.change_selection(CamelColor::from_char_to_int(c));
+                self.numbers_field
+                    .change_selection(CamelColor::from_char_to_int(c));
             }
+            // switch between main windows
             (KeyCode::Tab, _) => {
-                if self.selected_window == GeneralWindow::GameFieldWindow {
-                    self.selected_window = GeneralWindow::KamelWindow;
+                if self.selected_window == GeneralWindow::GameField {
+                    self.selected_window = GeneralWindow::Kamel;
                     self.game_field.unfocus();
                     self.numbers_field.focus();
                 } else {
-                    self.selected_window = GeneralWindow::GameFieldWindow;
+                    self.selected_window = GeneralWindow::GameField;
                     self.numbers_field.unfocus();
                     self.game_field.focus();
                 }
             }
-            (key, GeneralWindow::KamelWindow) => {
+            (key, GeneralWindow::Kamel) => {
                 self.numbers_field.handle_key_event(key);
             }
-            (key, GeneralWindow::GameFieldWindow) => {
+            (key, GeneralWindow::GameField) => {
                 self.game_field.handle_key_event(key);
             }
+            (_, _) => {}
         }
     }
 
@@ -124,7 +146,7 @@ impl Widget for &App {
         self.numbers_field.render(numbers_area, buf);
         self.game_field.render(game_area, buf);
 
-        if self.show_help_popup {
+        if let GeneralWindow::Help = self.selected_window {
             let center_area = centered_area(area, 60, 40);
             self.render_help_popup(center_area, buf);
         }

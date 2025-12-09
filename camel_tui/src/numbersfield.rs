@@ -1,4 +1,4 @@
-use std::{array, fmt::Display};
+use std::fmt::Display;
 
 use crate::gamefield::{CamelColor, State};
 
@@ -8,7 +8,7 @@ use ratatui::{
     layout::{Constraint, Layout, Rect},
     style::{Color, Style},
     text::Line,
-    widgets::{Block, Widget},
+    widgets::{Block, Row, Table, Widget},
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -133,12 +133,22 @@ impl Widget for &CamelStateField {
 }
 
 #[derive(Debug)]
-struct ProbabilitiesField {}
+struct ProbabilitiesField {
+    probabilities: [[f32; 5]; 5],
+    calculated: bool,
+}
 
 impl ProbabilitiesField {
     fn new() -> Self {
-        ProbabilitiesField {}
+        ProbabilitiesField {
+            probabilities: [[0.0; 5]; 5],
+            calculated: false,
+        }
     }
+
+    //TODO: integrate with calculator (2nd thread?) 
+    //calculate with space
+    fn calculate_probabilties(&mut self) {}
 }
 
 impl Widget for &ProbabilitiesField {
@@ -146,9 +156,34 @@ impl Widget for &ProbabilitiesField {
     where
         Self: Sized,
     {
-        Block::bordered()
-            .title_top("Wahrscheinlichkeiten")
-            .render(area, buf);
+        let outer_line = Block::bordered().title_top("Wahrscheinlichkeiten");
+        let inner_area = outer_line.inner(area);
+        outer_line.render(area, buf);
+
+        let header = Row::new(
+            [" ".to_string()]
+                .into_iter()
+                .chain(CamelColor::all().map(|c| c.to_string())),
+        );
+        let layout = [Constraint::Min(5); 6];
+
+        let empty_rows: Vec<Row<'_>> = (0..5)
+            .map(|i| {
+                Row::new(vec![
+                    format!("{i}"),
+                    "-".to_string(),
+                    "-".to_string(),
+                    "-".to_string(),
+                    "-".to_string(),
+                    "-".to_string(),
+                ])
+            })
+            .collect();
+
+        // let rows = self.probabilities.iter().map(|r| )
+        Table::new(empty_rows, layout)
+            .header(header)
+            .render(inner_area, buf);
     }
 }
 
@@ -194,8 +229,7 @@ impl NumbersField {
             self.camel_state.camels[old_idx].selected = false;
             self.camel_state.selected = State::Focused(new_selection_idx);
             self.camel_state.camels[new_selection_idx].selected = true;
-        }
-        else if let State::Unfocused(old_idx) = self.camel_state.selected {
+        } else if let State::Unfocused(old_idx) = self.camel_state.selected {
             self.camel_state.camels[old_idx].selected = false;
             self.camel_state.selected = State::Unfocused(new_selection_idx);
             self.camel_state.camels[new_selection_idx].selected = true;
