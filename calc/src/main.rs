@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::convert::Into;
 use std::f64;
 use std::fmt::Debug;
 use std::hash::Hash;
@@ -72,9 +73,24 @@ struct Dice {
 /// 3: White
 /// 4: Yellow
 /// 5-7: current color index (for iterator)
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, Eq)]
 struct ColorState {
     state: u8,
+}
+
+impl Hash for ColorState {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        let colors_wo_index = self.state & 0b1111_1000;
+        colors_wo_index.hash(state);
+    }
+}
+
+impl PartialEq for ColorState {
+    fn eq(&self, other: &Self) -> bool {
+        let self_state_wo_index = self.state & 0b1111_1000;
+        let other_state_wo_index = other.state & 0b1111_1000;
+        self_state_wo_index == other_state_wo_index
+    }
 }
 
 impl ColorState {
@@ -98,11 +114,11 @@ impl ColorState {
         Self { state: 0b1111_1000 }
     }
 
-    fn remove_color(&mut self,col:Color) {
+    fn remove_color(&mut self, col: Color) {
         self.assign_to_index(col.into(), false);
     }
 
-    fn add_color(&mut self,col:Color) {
+    fn add_color(&mut self, col: Color) {
         self.assign_to_index(col.into(), true);
     }
 
@@ -191,7 +207,7 @@ impl CamelMap {
     }
 
     //inserts camel at postion
-    fn insert_camel(&mut self, (pos, color): (u8,Color)) {
+    fn insert_camel(&mut self, (pos, color): (u8, Color)) {
         if let Some(vec) = &mut self.pos_color_map[pos as usize] {
             vec.push(color);
         } else {
@@ -200,19 +216,46 @@ impl CamelMap {
         self.color_pos_map[color as usize] = pos;
     }
 
-    //moves camel to position
-    fn move_camel(&mut self, camel: Color, pos: u8) {
-        let old_camel_pos = self.find_camel(camel);
-        let test = self.pos_color_map[old_camel_pos as usize].as_mut().unwrap();
+    // moves camel to position along with all camels on top of it
+    fn move_camel(&mut self, camel: Color, by: u8) {
+        let old_field_pos = self.find_camel(camel);
+        let new_pos = old_field_pos + by;
+
+        let old_pos_in_stack = &mut self.pos_color_map[old_field_pos as usize]
+            .iter()
+            .find_map(|v| v.iter().position(|c| *c == camel))
+            .unwrap();
+
+        let mut moving_camels = self.pos_color_map[old_field_pos as usize]
+            .as_mut()
+            .unwrap()
+            .split_off(*old_pos_in_stack);
+
+        // update positions
+        for col in &moving_camels {
+            self.color_pos_map[Into::<u8>::into(*col) as usize] = new_pos;
+        }
+
+        if let Some(vec) = &self.pos_color_map[old_field_pos as usize]
+            && vec.is_empty()
+        {
+            self.pos_color_map[old_field_pos as usize] = None;
+        }
+
+        if let Some(vec_new_pos) = self.pos_color_map[new_pos as usize].as_mut() {
+            vec_new_pos.append(&mut moving_camels);
+        } else {
+            self.pos_color_map[new_pos as usize] = Some(moving_camels);
+        }
     }
 
     fn find_camel(&self, color: Color) -> u8 {
-        return self.color_pos_map[std::convert::Into::<u8>::into(color) as usize];
+        self.color_pos_map[Into::<u8>::into(color) as usize]
     }
 }
 
 // only use dice_queue in debug mode because not needed but nice for debugging
-#[derive(Debug, Clone, Eq, Hash, PartialEq)]
+#[derive(Debug, Clone, Eq)]
 struct Configuration {
     map: CamelMap,
     #[cfg(debug_assertions)]
@@ -220,12 +263,27 @@ struct Configuration {
     available_colours: ColorState,
 }
 
+impl Hash for Configuration {
+    // dice_queue is not important
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.map.hash(state);
+        self.available_colours.hash(state);
+    }
+}
+
+impl PartialEq for Configuration {
+    fn eq(&self, other: &Self) -> bool {
+        // dice_queue is excluded as it's only for debugging
+        self.map == other.map && self.available_colours == other.available_colours
+    }
+}
+
 impl Configuration {
     fn leaderboard(&self) -> [Color; 5] {
-        let mut positions:Vec<(usize,&Vec<Color>)> = Vec::new();
-        for (i,pos) in self.map.pos_color_map.iter().enumerate() {
+        let mut positions: Vec<(usize, &Vec<Color>)> = Vec::new();
+        for (i, pos) in self.map.pos_color_map.iter().enumerate() {
             if let Some(val) = pos {
-                positions.push((i,val));
+                positions.push((i, val));
             }
         }
         positions.sort_by(|a, b| b.0.cmp(&a.0));
@@ -242,193 +300,181 @@ impl Configuration {
     }
 }
 
-fn main() {
-    const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
-
-    let init_conf = Configuration {
-        map: CamelMap::new(vec![(0,Color::Blue),(0,Color::Green),(1,Color::White),(1,Color::Yellow),(2,Color::Orange)]),
-        #[cfg(debug_assertions)]
-        dice_queue: Vec::new(),
-        available_colours: ColorState::default(),
-    };
-
-    let configs = simulate_round(init_conf);
-
-    // let mut file = OpenOptions::new().append(true).open("test.txt").unwrap();
-    // for (i, conf) in configs.iter().enumerate() {
-    //     let _ = writeln!(file, "Config {i}:\n{conf:?}");
-    // }
-
-    let placements = aggragate_placements(&configs);
-
-    println!("{:?}", placements);
-    let prob_blue = placements[0][0] as f64 / COUNT_ALL as f64;
-    let prob_green = placements[1][0] as f64 / COUNT_ALL as f64;
-    let prob_orange = placements[2][0] as f64 / COUNT_ALL as f64;
-    let prob_white = placements[3][0] as f64 / COUNT_ALL as f64;
-    let prob_yellow = placements[4][0] as f64 / COUNT_ALL as f64;
-
-    println!("Blue: {prob_blue}");
-    println!("Green: {prob_green}");
-    println!("Orange: {prob_orange}");
-    println!("White: {prob_white}");
-    println!("Yellow: {prob_yellow}");
-
-    // TODO: this crashes my pc :(
-    // let mut new_configs: Vec<Configuration> = Vec::new();
-    //
-    // for mut conf in configs {
-    //     conf.available_colours = vec![
-    //         Color::Blue,
-    //         Color::Green,
-    //         Color::Orange,
-    //         Color::White,
-    //         Color::Yellow,
-    //     ];
-    //     new_configs.append(&mut simulate_round(conf));
-    // }
-    //
-    // let new_placements = aggragate_placements(&new_configs);
-    //
-    // println!("{:?}", new_placements);
-    // let new_prob_blue = new_placements[0][0] as f64 / COUNT_ALL as f64;
-    // let new_prob_green = new_placements[1][0] as f64 / COUNT_ALL as f64;
-    // let new_prob_orange = new_placements[2][0] as f64 / COUNT_ALL as f64;
-    // let new_prob_white = new_placements[3][0] as f64 / COUNT_ALL as f64;
-    // let new_prob_yellow = new_placements[4][0] as f64 / COUNT_ALL as f64;
-    //
-    // println!("Blue: {new_prob_blue}");
-    // println!("Green: {new_prob_green}");
-    // println!("Orange: {new_prob_orange}");
-    // println!("White: {new_prob_white}");
-    // println!("Yellow: {new_prob_yellow}");
-}
-
-// [Color] -> [Placements]
-fn aggragate_placements(configs: &Vec<Configuration>) -> [[u32; 5]; 5] {
+fn aggragate_placements(placements_vec: &Vec<Placements>) -> [[u32; 5]; 5] {
     let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
 
-    for conf in configs {
-        for (i, col) in conf.leaderboard().iter().enumerate() {
-            let index: u8 = (*col).into();
-            placements[index as usize][i] += 1;
+    for placement in placements_vec {
+        for (i, &color_index) in placement.numbers.iter().enumerate() {
+            placements[color_index as usize][i] += 1;
         }
     }
 
     placements
 }
 
-#[derive(Hash)]
+#[derive(Debug, Default)]
+struct CacheStatistics {
+    cache_hits: u32,
+    cache_misses: u32,
+    total_function_calls: u32,
+}
+
+impl CacheStatistics {
+    fn new() -> Self {
+        Self {
+            cache_hits: 0,
+            cache_misses: 0,
+            total_function_calls: 0,
+        }
+    }
+
+    fn record_hit(&mut self) {
+        self.cache_hits += 1;
+        self.total_function_calls += 1;
+    }
+
+    fn record_miss(&mut self) {
+        self.cache_misses += 1;
+        self.total_function_calls += 1;
+    }
+
+    fn print_stats(&self) {
+        println!("=== Cache Statistics ===");
+        println!("Total function calls: {}", self.total_function_calls);
+        println!("Cache hits: {}", self.cache_hits);
+        println!("Cache misses: {}", self.cache_misses);
+    }
+}
+
+#[derive(Debug, Hash, Clone)]
 struct Placements {
     numbers: [u8; 5],
 }
 
-impl Placements {}
-
-fn simulate_rounds(init_config: Configuration) {
-    let cache: HashMap<Configuration, Placements> = HashMap::new();
-    let res = simulate_round_new(init_config, cache);
-}
-
-fn simulate_round_new(
-    conf: Configuration,
-    cache: HashMap<Configuration, Placements>,
-) -> Placements {
-    if conf.available_colours.len() == 0 {
-        return Placements {
-            numbers: conf.leaderboard().map(|color| color.into()),
-        };
-    }
-    if cache.contains_key(&conf) {
-        return cache.get(conf);
-    }
-
-    todo!()
-}
-
-//simulate round (remaining dice throws)
-fn simulate_round(init_config: Configuration) -> Vec<Configuration> {
-    let amount_throws = init_config.available_colours.len();
-    let mut configs: Vec<Configuration> = vec![init_config];
-
-    for _ in 0..amount_throws {
-        let mut new_confs: Vec<Configuration> = Vec::new();
-        for conf in &configs {
-            for color_code in &conf.available_colours {
-                new_confs.append(&mut simulate_dice_throw(conf, color_code));
-            }
-        }
-
-        configs = new_confs;
-    }
-
-    configs
-}
-
-///returns all possible 3 dice values as new Configurations
-fn simulate_dice_throw(conf: &Configuration, color_code: u8) -> Vec<Configuration> {
-    let mut confs: Vec<Configuration> = Vec::new();
-    let dice_color: Color = Color::from_byte(color_code);
-    assert_ne!(dice_color, Color::None);
-
-    for n in 1..=3 {
-        let mut new_conf = conf.clone();
-
+fn simulate_rounds(init_config: Configuration) -> (Vec<Placements>, CacheStatistics) {
+    let mut cache: HashMap<Configuration, Vec<Placements>> = HashMap::new();
+    let mut stats = CacheStatistics::new();
+    let placements = simulate_round_rec(
+        init_config,
+        &mut cache,
         #[cfg(debug_assertions)]
-        {
-            new_conf.dice_queue.push(Dice {
-                color: dice_color,
-                value: n,
-            });
-        }
+        &mut stats,
+    );
+    (placements, stats)
+}
 
-        new_conf
-            .available_colours
-
-        let old_pos = new_conf.map.find_camel(dice_color);
-
-        let old_pos_camels = new_conf.map.pos_color_map[old_pos as usize].unwrap();
-
-        let mut moving_camels: Vec<Color> = Vec::new();
-        while let Some(last) = old_pos_camels.pop() {
-            if last != dice_color {
-                moving_camels.push(last);
-            } else {
-                moving_camels.push(last);
-                break;
-            }
-        }
-
-
-        moving_camels.reverse();
-        let new_pos = old_pos + n;
-
-        if let Some(camels_new_pos) = new_conf.map.get_mut(&new_pos) {
-            camels_new_pos.append(&mut moving_camels);
-        } else {
-            new_conf.map.insert(new_pos, moving_camels);
-        }
-
-        confs.push(new_conf);
+fn simulate_round_rec(
+    conf: Configuration,
+    cache: &mut HashMap<Configuration, Vec<Placements>>,
+    #[cfg(debug_assertions)] stats: &mut CacheStatistics,
+) -> Vec<Placements> {
+    // Base case
+    if conf.available_colours.len() == 0 {
+        #[cfg(debug_assertions)]
+        stats.record_miss();
+        return vec![Placements {
+            numbers: conf.leaderboard().map(|color| color.into()),
+        }];
     }
-    confs
+
+    // check cache
+    if let Some(cached_result) = cache.get(&conf) {
+        #[cfg(debug_assertions)]
+        stats.record_hit();
+        return cached_result.clone();
+    }
+
+    #[cfg(debug_assertions)]
+    stats.record_miss();
+
+    let mut all_placements = Vec::new();
+
+    // For each available color, simulate all possible dice outcomes (1, 2, 3)
+    for color_code in &conf.available_colours {
+        let dice_color = Color::from_byte(color_code);
+        assert_ne!(dice_color, Color::None);
+
+        for dice_value in 1..=3 {
+            let mut new_conf = conf.clone();
+
+            #[cfg(debug_assertions)]
+            {
+                new_conf.dice_queue.push(Dice {
+                    color: dice_color,
+                    value: dice_value,
+                });
+            }
+
+            new_conf.available_colours.remove_color(dice_color);
+            new_conf.map.move_camel(dice_color, dice_value);
+
+            // recursive call
+            let mut sub_placements = simulate_round_rec(
+                new_conf,
+                cache,
+                #[cfg(debug_assertions)]
+                stats,
+            );
+
+            all_placements.append(&mut sub_placements);
+        }
+    }
+
+    cache.insert(conf, all_placements.clone());
+
+    all_placements
+}
+
+fn main() {
+    const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
+
+    let init_conf = Configuration {
+        map: CamelMap::new(vec![
+            (0, Color::Blue),
+            (0, Color::Green),
+            (1, Color::White),
+            (1, Color::Yellow),
+            (2, Color::Orange),
+        ]),
+        #[cfg(debug_assertions)]
+        dice_queue: Vec::new(),
+        available_colours: ColorState::default(),
+    };
+
+    let (new_placements_vec, cache_stats) = simulate_rounds(init_conf);
+
+    cache_stats.print_stats();
+
+    let new_placements = aggragate_placements(&new_placements_vec);
+    println!("{:?}", new_placements);
+
+    let new_prob_blue = new_placements[0][0] as f64 / COUNT_ALL as f64;
+    let new_prob_green = new_placements[1][0] as f64 / COUNT_ALL as f64;
+    let new_prob_orange = new_placements[2][0] as f64 / COUNT_ALL as f64;
+    let new_prob_white = new_placements[3][0] as f64 / COUNT_ALL as f64;
+    let new_prob_yellow = new_placements[4][0] as f64 / COUNT_ALL as f64;
+
+    println!("Blue: {new_prob_blue}");
+    println!("Green: {new_prob_green}");
+    println!("Orange: {new_prob_orange}");
+    println!("White: {new_prob_white}");
+    println!("Yellow: {new_prob_yellow}");
 }
 
 #[cfg(test)]
 mod test {
-    use std::collections::HashMap;
+    use crate::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
 
-    use crate::{Color, ColorState, Configuration};
-
-    fn simple_config() -> Configuration {
-        let init_pos_color_map: HashMap<u8, Vec<Color>> = HashMap::from([
-            (0, vec![Color::Blue, Color::Green]),
-            (1, vec![Color::Yellow, Color::White]),
-            (2, vec![Color::Orange]),
-        ]);
-
+    fn simple_test_config() -> Configuration {
         Configuration {
-            map: init_pos_color_map,
+            map: CamelMap::new(vec![
+                (0, Color::Blue),
+                (0, Color::Green),
+                (1, Color::Yellow),
+                (1, Color::White),
+                (2, Color::Orange),
+            ]),
+            #[cfg(debug_assertions)]
             dice_queue: Vec::new(),
             available_colours: ColorState::new(vec![
                 Color::Blue,
@@ -441,16 +487,33 @@ mod test {
     }
 
     #[test]
-    fn color_state_retain() {
-        let mut test_state = simple_config();
-        test_state.available_colours.retain(|c| {
-            let val = c == Color::Blue.as_byte();
-            println!("{c}, {}, {val}", Color::Blue.as_byte());
-            val
-        });
-        let first_val = test_state.available_colours.next();
-        assert!(first_val.is_some());
-        assert_eq!(test_state.available_colours.next(), None);
+    fn test_simulate_round_new() {
+        let mut small_config = simple_test_config();
+        small_config.available_colours = ColorState::new(vec![Color::Blue]);
+
+        let (placements, chachestats) = simulate_rounds(small_config);
+        assert_eq!(placements.len(), 3);
+
+        for placement in placements {
+            for &pos in &placement.numbers {
+                assert!(pos <= 4, "Position should be 0-4, got {}", pos);
+            }
+        }
+    }
+
+    #[test]
+    fn test_move_camel() {
+        let mut map = CamelMap::new(vec![
+            (0, Color::Blue),
+            (0, Color::Green),
+            (1, Color::Orange),
+        ]);
+
+        map.move_camel(Color::Green, 3);
+        assert_eq!(map.find_camel(Color::Green), 3);
+        assert_eq!(map.find_camel(Color::Blue), 0);
+        assert_eq!(map.find_camel(Color::Orange), 1);
+        assert_eq!(map.pos_color_map[3], Some(vec![Color::Green]));
     }
 
     #[test]
