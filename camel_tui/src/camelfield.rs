@@ -16,6 +16,7 @@ pub enum CamelColor {
     White,
 }
 
+
 impl Display for CamelColor {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -33,9 +34,9 @@ impl From<CamelColor> for usize {
         match value {
             CamelColor::Blue => 0,
             CamelColor::Green => 1,
-            CamelColor::Yellow => 2,
-            CamelColor::Orange => 3,
-            CamelColor::White => 4,
+            CamelColor::Orange => 2,
+            CamelColor::White => 3,
+            CamelColor::Yellow => 4,
         }
     }
 }
@@ -45,9 +46,9 @@ impl From<usize> for CamelColor {
         match value {
             0 => CamelColor::Blue,
             1 => CamelColor::Green,
-            2 => CamelColor::Yellow,
-            3 => CamelColor::Orange,
-            4 => CamelColor::White,
+            2 => CamelColor::Orange,
+            3 => CamelColor::White,
+            4 => CamelColor::Yellow,
             _ => panic!("Not a valid value for Color conversion"),
         }
     }
@@ -68,9 +69,9 @@ impl CamelColor {
         match c {
             'b' => 0,
             'g' => 1,
-            'y' => 2,
-            'o' => 3,
-            'w' => 4,
+            'o' => 2,
+            'w' => 3,
+            'y' => 4,
             _ => panic!("invalid character"),
         }
     }

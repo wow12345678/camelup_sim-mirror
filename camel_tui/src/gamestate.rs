@@ -1,5 +1,6 @@
 use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
 
+use calc::Configuration;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -36,6 +37,37 @@ pub enum MoveError {
 }
 
 impl GameState {
+    pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
+        let positions: Vec<(u8, calc::Color)> = game_state
+            .camel_round_info
+            .iter()
+            .enumerate()
+            .map(|(i, cam)| {
+                (
+                    (cam.start_pos as i32 + cam.pos_round_add) as u8,
+                    calc::Color::from(i),
+                )
+            })
+            .collect();
+
+        let colors: Vec<calc::Color> = game_state
+            .camel_round_info
+            .iter()
+            .filter_map(|cam| {
+                if !cam.has_moved {
+                    Some(Into::<usize>::into(cam.camel_color).into())
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        Configuration::builder()
+            .with_map(positions)
+            .with_available_colors(colors)
+            .build()
+    }
+
     pub fn init(config: &Vec<(u8, CamelColor)>) -> GameState {
         let mut init = GameState::default();
 
@@ -129,7 +161,15 @@ impl GameState {
     }
 
     pub fn move_selected_color(&mut self, new_color: usize) {
-        self.camel_round_info[self.selected_color].selected = false;
+        let old_color = self.selected_color;
+        self.camel_round_info[old_color].selected = false;
+
+        for cam_info in &mut self.camel_round_info {
+            if !cam_info.has_moved {
+                cam_info.pos_round_add = 0
+            }
+        }
+
         self.camel_round_info[new_color].selected = true;
         self.selected_color = new_color;
     }
@@ -146,8 +186,12 @@ impl GameState {
         self.camel_round_info[new_selection_idx].selected = true;
     }
 
-    pub fn render_camel_info_field(&self, area: Rect, buf: &mut Buffer, selected_window: GeneralWindow)
-    where
+    pub fn render_camel_info_field(
+        &self,
+        area: Rect,
+        buf: &mut Buffer,
+        selected_window: GeneralWindow,
+    ) where
         Self: Sized,
     {
         let border_color = if let GeneralWindow::NumberField = selected_window {

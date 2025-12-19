@@ -1,6 +1,9 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    thread::{self, JoinHandle},
+};
 
-use crate::camelfield::CamelColor;
+use crate::{camelfield::CamelColor, gamestate::GameState};
 
 use ratatui::{
     buffer::Buffer,
@@ -12,7 +15,7 @@ use ratatui::{
 
 #[derive(Debug, Clone, Copy)]
 pub struct CamelState {
-    camel_color: CamelColor,
+    pub camel_color: CamelColor,
     pub start_pos: u8,
     pub pos_round_add: i32,
     pub selected: bool,
@@ -75,7 +78,6 @@ pub enum State {
     Focused(usize),
     Unfocused(usize),
 }
-
 
 #[derive(Debug)]
 pub struct CamelStateField {
@@ -146,12 +148,22 @@ impl Widget for &CamelStateField {
 pub struct ProbabilitiesField {
     probabilities: [[f32; 5]; 5],
     calculated: bool,
+    handle: Option<JoinHandle<[[u32; 5]; 5]>>,
 }
 
 impl ProbabilitiesField {
-    //TODO: integrate with calculator (2nd thread?)
-    //calculate with space
-    fn calculate_probabilties(&mut self) {
+    pub fn calculate_probabilties(&mut self, game_state: &GameState) {
+        let configuration = GameState::convert_game_state_configuration(game_state);
+
+        let handle = thread::spawn(move || {
+            let res = calc::simulate_rounds(configuration);
+            calc::aggragate_placements(res.placements())
+        });
+
+        self.handle = Some(handle);
+    }
+
+    pub fn update_probabilities(&mut self, probabilities: [[f32; 5]; 5]) {
         todo!()
     }
 }
@@ -161,6 +173,7 @@ impl Default for ProbabilitiesField {
         ProbabilitiesField {
             probabilities: [[0.0; 5]; 5],
             calculated: false,
+            handle: None,
         }
     }
 }

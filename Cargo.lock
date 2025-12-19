@@ -36,19 +36,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "64fa3c856b712db6612c019f14756e64e4bcea13337a6b33b696333a9eaa2d06"
 
 [[package]]
+name = "calc"
+version = "0.1.0"
+
+[[package]]
 name = "camel_tui"
 version = "0.1.0"
 dependencies = [
+ "calc",
  "crossterm 0.29.0",
  "log",
  "palette",
  "ratatui",
  "simplelog",
 ]
-
-[[package]]
-name = "camelup_sim"
-version = "0.1.0"
 
 [[package]]
 name = "cassowary"

@@ -194,11 +194,6 @@ impl App {
     fn focus_window(&mut self, win: GeneralWindow) {
         self.selected_window = win;
     }
-
-    // TODO: make config Configuration type rather than Vec
-    fn init(&mut self, config: Vec<(u8, CamelColor)>) {
-        let init_game_state = GameState::init(&config);
-    }
 }
 
 /// Create a centered rect using up certain percentage of the available rect
@@ -245,6 +240,7 @@ fn main() -> io::Result<()> {
         (2, CamelColor::Orange),
     ];
     let mut app = App::new(&init_config);
+
     WriteLogger::init(
         LevelFilter::Debug,
         Config::default(),
