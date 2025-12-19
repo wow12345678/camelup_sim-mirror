@@ -35,12 +35,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: camelup_sim
           target: ${{ matrix.target }}
           tar: unix
           zip: windows
+          checksum: sha256
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
