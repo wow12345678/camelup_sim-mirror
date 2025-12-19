@@ -38,11 +38,11 @@ impl Widget for CamelState {
 
         borders.render(area, buf);
         Line::from(format!("{self}"))
-            // .style(
-            //     Style::default()
-            //         .fg(self.camel_color.text_color())
+            .style(
+                Style::default()
+                    .fg(self.camel_color.to_color())
             //         .bg(self.camel_color.to_color()),
-            // )
+            )
             .render(inner_area, buf);
     }
 }

@@ -16,7 +16,6 @@ pub enum CamelColor {
     White,
 }
 
-
 impl Display for CamelColor {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -76,13 +75,14 @@ impl CamelColor {
         }
     }
 
+    // was meant for text color when background is different, so that it is still readable
     pub const fn text_color(self) -> Color {
         match self {
-            CamelColor::Blue => Color::Rgb(255, 255, 0),
-            CamelColor::Green => Color::Rgb(0, 255, 0),
-            CamelColor::Yellow => Color::Rgb(255, 255, 0),
-            CamelColor::Orange => Color::Rgb(255, 165, 0),
-            CamelColor::White => Color::Rgb(0, 0, 0),
+            CamelColor::Blue => Color::Rgb(255, 255, 255),
+            CamelColor::Green => Color::Rgb(255, 255, 255),
+            CamelColor::Yellow => Color::Rgb(255, 255, 255),
+            CamelColor::Orange => Color::Rgb(255, 255, 255),
+            CamelColor::White => Color::Rgb(255, 255, 255),
         }
     }
 
@@ -282,4 +282,3 @@ impl Widget for &CamelField {
         self.render_camels(area, buf);
     }
 }
-
