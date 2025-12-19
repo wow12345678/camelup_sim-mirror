@@ -256,7 +256,7 @@ impl CamelMap {
 
 // only use dice_queue in debug mode because not needed but nice for debugging
 #[derive(Debug, Clone, Eq)]
-struct Configuration {
+pub struct Configuration {
     map: CamelMap,
     #[cfg(debug_assertions)]
     dice_queue: Vec<Dice>,
