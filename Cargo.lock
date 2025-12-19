@@ -40,7 +40,7 @@ name = "calc"
 version = "0.1.0"
 
 [[package]]
-name = "camel_tui"
+name = "camelup_tui"
 version = "0.1.0"
 dependencies = [
  "calc",

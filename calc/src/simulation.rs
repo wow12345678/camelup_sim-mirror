@@ -1,5 +1,10 @@
+use crate::{
+    camel_map::CamelMap,
+    color::Color,
+    color_state::ColorState,
+    configuration::{Configuration, Dice},
+};
 use std::{collections::HashMap, convert::Into};
-use crate::{camel_map::CamelMap, color::Color, color_state::ColorState, configuration::{Configuration, Dice}};
 
 pub fn aggragate_placements(placements_vec: &Vec<Placement>) -> [[u32; 5]; 5] {
     let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
