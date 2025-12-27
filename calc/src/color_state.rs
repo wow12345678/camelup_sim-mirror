@@ -50,11 +50,11 @@ impl ColorState {
         Self { state: 0b1111_1000 }
     }
 
-    pub(crate) fn remove_color(&mut self, col: Color) {
+    pub fn remove_color(&mut self, col: Color) {
         self.assign_to_index(col.into(), false);
     }
 
-    pub(crate) fn add_color(&mut self, col: Color) {
+    pub fn add_color(&mut self, col: Color) {
         self.assign_to_index(col.into(), true);
     }
 

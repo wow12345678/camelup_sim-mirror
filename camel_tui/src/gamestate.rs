@@ -68,6 +68,10 @@ impl GameState {
             .build()
     }
 
+    pub fn add_dice_rolled(&mut self) {
+        self.rolled_dice += 1;
+    }
+
     pub fn init(config: &Vec<(u8, CamelColor)>) -> GameState {
         let mut init = GameState::default();
 
@@ -83,7 +87,7 @@ impl GameState {
     }
 
     pub fn move_camel(&mut self, camel: CamelColor, to_field: usize) -> Result<(), MoveError> {
-        let mut camel_state = self.camel_round_info[Into::<usize>::into(camel)];
+        let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
         if to_field >= self.fields.len() {
             return Err(MoveError::InvalidMove);
         }

@@ -5,6 +5,7 @@ use std::{
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
+use log::debug;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -39,9 +40,8 @@ impl Widget for CamelState {
         borders.render(area, buf);
         Line::from(format!("{self}"))
             .style(
-                Style::default()
-                    .fg(self.camel_color.to_color())
-            //         .bg(self.camel_color.to_color()),
+                Style::default().fg(self.camel_color.to_color()),
+                //         .bg(self.camel_color.to_color()),
             )
             .render(inner_area, buf);
     }
@@ -138,17 +138,17 @@ impl Widget for &CamelStateField {
             self.camels[i].render(*r, buf);
         }
 
-        Line::from(format!("Remaining Dice {dice}/5", dice = self.rolled_dice))
+        Line::from(format!("Rolled Dice {dice}/5", dice = self.rolled_dice))
             .centered()
             .render(rows[6], buf);
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct ProbabilitiesField {
-    probabilities: [[f32; 5]; 5],
-    calculated: bool,
-    handle: Option<JoinHandle<[[u32; 5]; 5]>>,
+    probabilities: Option<[[f32; 5]; 5]>,
+    pub calculating: bool,
+    pub handle: Option<JoinHandle<[[f32; 5]; 5]>>,
 }
 
 impl ProbabilitiesField {
@@ -157,24 +157,17 @@ impl ProbabilitiesField {
 
         let handle = thread::spawn(move || {
             let res = calc::simulate_rounds(configuration);
-            calc::aggragate_placements(res.placements())
+            let game_states_count_all = res.placements().len();
+            let placements = calc::aggragate_placements(res.placements());
+            placements.map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))
         });
 
+        self.calculating = true;
         self.handle = Some(handle);
     }
 
-    pub fn update_probabilities(&mut self, probabilities: [[f32; 5]; 5]) {
-        todo!()
-    }
-}
-
-impl Default for ProbabilitiesField {
-    fn default() -> Self {
-        ProbabilitiesField {
-            probabilities: [[0.0; 5]; 5],
-            calculated: false,
-            handle: None,
-        }
+    pub fn update_probabilities(&mut self, new_probabilities: [[f32; 5]; 5]) {
+        self.probabilities = Some(new_probabilities);
     }
 }
 
@@ -194,21 +187,36 @@ impl Widget for &ProbabilitiesField {
         );
         let layout = [Constraint::Min(5); 6];
 
-        let empty_rows: Vec<Row<'_>> = (0..5)
-            .map(|i| {
-                Row::new(vec![
-                    format!("{i}"),
-                    "-".to_string(),
-                    "-".to_string(),
-                    "-".to_string(),
-                    "-".to_string(),
-                    "-".to_string(),
-                ])
-            })
-            .collect();
+        let rows: Vec<Row<'_>>;
 
-        // let rows = self.probabilities.iter().map(|r| )
-        Table::new(empty_rows, layout)
+        if let Some(probs) = self.probabilities {
+            rows = (0..5)
+                .map(|i| {
+                    Row::new(
+                        [
+                            vec![format!("{}.", i + 1)],
+                            // TODO: why is .rev() needed here, maybe bug, maybe me just stupid
+                            probs.iter().rev().map(|r| r[i].to_string()).collect(),
+                        ]
+                        .concat(),
+                    )
+                })
+                .collect();
+        } else {
+            rows = (0..5)
+                .map(|i| {
+                    Row::new(vec![
+                        format!("{}.", i + 1),
+                        "-".to_string(),
+                        "-".to_string(),
+                        "-".to_string(),
+                        "-".to_string(),
+                        "-".to_string(),
+                    ])
+                })
+                .collect();
+        }
+        Table::new(rows, layout)
             .header(header)
             .render(inner_area, buf);
     }

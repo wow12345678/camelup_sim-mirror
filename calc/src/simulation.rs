@@ -18,6 +18,8 @@ pub fn aggragate_placements(placements_vec: &Vec<Placement>) -> [[u32; 5]; 5] {
     placements
 }
 
+pub const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
+
 #[derive(Debug, Default)]
 struct CacheStatistics {
     cache_hits: u32,
@@ -61,7 +63,7 @@ pub struct SimulationResult {
 }
 
 impl SimulationResult {
-    pub(crate) fn print_stats(&self) {
+    pub fn print_stats(&self) {
         if cfg!(debug_assertions) {
             #[cfg(debug_assertions)]
             self.stats.print_stats();
@@ -151,8 +153,6 @@ fn simulate_round_rec(
 }
 
 pub fn main() {
-    const COUNT_ALL: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
-
     let init_conf = Configuration {
         map: CamelMap::new(vec![
             (0, Color::Blue),
@@ -173,11 +173,11 @@ pub fn main() {
     let new_placements = aggragate_placements(res.placements());
     println!("{:?}", new_placements);
 
-    let new_prob_blue = new_placements[0][0] as f64 / COUNT_ALL as f64;
-    let new_prob_green = new_placements[1][0] as f64 / COUNT_ALL as f64;
-    let new_prob_orange = new_placements[2][0] as f64 / COUNT_ALL as f64;
-    let new_prob_white = new_placements[3][0] as f64 / COUNT_ALL as f64;
-    let new_prob_yellow = new_placements[4][0] as f64 / COUNT_ALL as f64;
+    let new_prob_blue = new_placements[0][0] as f64 / ALL_GAME_STATES_COUNT as f64;
+    let new_prob_green = new_placements[1][0] as f64 / ALL_GAME_STATES_COUNT as f64;
+    let new_prob_orange = new_placements[2][0] as f64 / ALL_GAME_STATES_COUNT as f64;
+    let new_prob_white = new_placements[3][0] as f64 / ALL_GAME_STATES_COUNT as f64;
+    let new_prob_yellow = new_placements[4][0] as f64 / ALL_GAME_STATES_COUNT as f64;
 
     println!("Blue: {new_prob_blue}");
     println!("Green: {new_prob_green}");

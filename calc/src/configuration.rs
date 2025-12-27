@@ -39,6 +39,8 @@ impl Configuration {
         ConfigurationBuilder::new()
     }
 
+    /// Creates a array as a leaderboard
+    /// [1., 2., 3., 4., 5.]
     pub(crate) fn leaderboard(&self) -> [Color; 5] {
         let mut positions: Vec<(usize, &Vec<Color>)> = Vec::new();
         for (i, pos) in self.map.pos_color_map.iter().enumerate() {

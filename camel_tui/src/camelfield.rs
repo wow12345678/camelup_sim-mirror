@@ -11,9 +11,9 @@ use ratatui::{
 pub enum CamelColor {
     Blue,
     Green,
-    Yellow,
     Orange,
     White,
+    Yellow,
 }
 
 impl Display for CamelColor {
@@ -58,9 +58,9 @@ impl CamelColor {
         [
             CamelColor::Blue,
             CamelColor::Green,
-            CamelColor::Yellow,
             CamelColor::Orange,
             CamelColor::White,
+            CamelColor::Yellow,
         ]
     }
 

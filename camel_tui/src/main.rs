@@ -1,11 +1,14 @@
 use crate::gamestate::MoveError;
-use std::{fs::File, io};
+use std::{fs::File, io, time::Duration};
 
 use self::{
-    camelfield::CamelField, gamestate::GameState, numbersfield::{CamelState, ProbabilitiesField}
+    camelfield::CamelField,
+    gamestate::GameState,
+    numbersfield::{CamelState, ProbabilitiesField},
 };
 use camelfield::CamelColor;
 
+use log::debug;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
@@ -17,12 +20,11 @@ use ratatui::{
 use simplelog::{Config, LevelFilter, WriteLogger};
 
 mod camelfield;
-mod numbersfield;
 mod gamestate;
-
+mod numbersfield;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-enum GeneralWindow {
+pub enum GeneralWindow {
     NumberField,
     GameField,
     Help,
@@ -54,6 +56,18 @@ impl App {
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
         while !self.exit {
+            if self
+                .probabilities
+                .handle
+                .as_ref()
+                .is_some_and(|j| j.is_finished())
+            {
+                let handle = self.probabilities.handle.take().unwrap();
+                let res = handle.join().unwrap();
+                self.probabilities.update_probabilities(res);
+                self.probabilities.calculating = false;
+            }
+
             terminal.draw(|frame| self.draw(frame))?;
             self.handle_events()?;
         }
@@ -65,12 +79,14 @@ impl App {
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
-        match event::read()? {
-            Event::Key(key_event) if key_event.kind == KeyEventKind::Press => {
-                self.handle_key_event(key_event)
-            }
-            _ => {}
-        };
+        if event::poll(Duration::from_millis(100))? {
+            match event::read()? {
+                Event::Key(key_event) if key_event.kind == KeyEventKind::Press => {
+                    self.handle_key_event(key_event)
+                }
+                _ => {}
+            };
+        }
         Ok(())
     }
 
@@ -121,7 +137,9 @@ impl App {
             }
             (key, GeneralWindow::GameField) => {
                 // TODO: Error handling
-                let _ = self.handle_game_field_keys(key);
+                if self.handle_game_field_keys(key).is_ok() {
+                    self.game_state.add_dice_rolled();
+                }
             }
             (key, GeneralWindow::NumberField) => {
                 self.handle_number_field_keys(key);
@@ -138,19 +156,22 @@ impl App {
             KeyCode::Char('k') | KeyCode::Up => {
                 self.game_state.move_selected_color_rel(-1);
             }
-            KeyCode::Enter => {
-                self.game_state.move_selected_color_rel(-1);
-            }
             _ => {}
         }
     }
 
     fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), MoveError> {
         match (key, self.game_state.selected_field) {
-            (KeyCode::Enter, _) => self.game_state.move_camel(
-                self.game_state.selected_color.into(),
-                self.game_state.selected_field,
-            ),
+            (KeyCode::Enter, _) => {
+                let res = self.game_state.move_camel(
+                    self.game_state.selected_color.into(),
+                    self.game_state.selected_field,
+                );
+                if res.is_ok() {
+                    self.probabilities.calculate_probabilties(&self.game_state);
+                }
+                res
+            }
             (KeyCode::Right | KeyCode::Char('l'), 0..4) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
@@ -220,7 +241,7 @@ impl Widget for &App {
             .render_game_field(game_area, buf, self.selected_window);
         self.game_state
             .render_camel_info_field(camel_state_area, buf, self.selected_window);
-        
+
         self.probabilities.render(probability_area, buf);
 
         if let GeneralWindow::Help = self.selected_window {

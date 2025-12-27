@@ -1,4 +1,4 @@
-use calc::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
+use calc::{CamelMap, Color, ColorState, Configuration, aggragate_placements, simulate_rounds};
 
 fn simple_test_config() -> Configuration {
     Configuration {
@@ -34,4 +34,43 @@ fn test_simulate_round_new() {
             assert!(pos <= 4, "Position should be 0-4, got {}", pos);
         }
     }
+}
+
+#[test]
+#[ignore = "only for debug"]
+fn test_simulate_round_debug() {
+    let mut color_state = ColorState::default();
+    color_state.remove_color(Color::Blue);
+    let init_conf = Configuration {
+        map: CamelMap::new(vec![
+            (1, Color::White),
+            (1, Color::Yellow),
+            (1, Color::Blue),
+            (1, Color::Green),
+            (2, Color::Orange),
+        ]),
+        #[cfg(debug_assertions)]
+        dice_queue: Vec::new(),
+        available_colours: color_state,
+    };
+
+    let res = simulate_rounds(init_conf);
+
+    res.print_stats();
+
+    let new_placements = aggragate_placements(res.placements());
+    println!("{:?}", new_placements);
+    let all_game_states_count = res.placements().len();
+
+    let new_prob_blue = new_placements[0][0] as f64 / all_game_states_count as f64;
+    let new_prob_green = new_placements[1][0] as f64 / all_game_states_count as f64;
+    let new_prob_orange = new_placements[2][0] as f64 / all_game_states_count as f64;
+    let new_prob_white = new_placements[3][0] as f64 / all_game_states_count as f64;
+    let new_prob_yellow = new_placements[4][0] as f64 / all_game_states_count as f64;
+
+    println!("Blue: {new_prob_blue}");
+    println!("Green: {new_prob_green}");
+    println!("Orange: {new_prob_orange}");
+    println!("White: {new_prob_white}");
+    println!("Yellow: {new_prob_yellow}");
 }
