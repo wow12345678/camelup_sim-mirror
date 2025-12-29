@@ -1,6 +1,7 @@
 use std::convert::Into;
 use crate::color::Color;
 
+/// first camel at a position is at the bottom of a stack
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct CamelMap {
     pub pos_color_map: [Option<Vec<Color>>; 16],

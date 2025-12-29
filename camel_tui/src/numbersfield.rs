@@ -158,8 +158,8 @@ impl ProbabilitiesField {
         let handle = thread::spawn(move || {
             let res = calc::simulate_rounds(configuration);
             let game_states_count_all = res.placements().len();
-            let placements = calc::aggragate_placements(res.placements());
-            placements.map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))
+            res.aggragated_leaderboard()
+                .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))
         });
 
         self.calculating = true;
@@ -195,8 +195,8 @@ impl Widget for &ProbabilitiesField {
                     Row::new(
                         [
                             vec![format!("{}.", i + 1)],
-                            // TODO: why is .rev() needed here, maybe bug, maybe me just stupid
-                            probs.iter().rev().map(|r| r[i].to_string()).collect(),
+                            //TODO: probabilities still don't show correctly ?????
+                            probs.iter().map(|r| r[i].to_string()).collect(),
                         ]
                         .concat(),
                     )

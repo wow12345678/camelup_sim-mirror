@@ -8,7 +8,6 @@ use self::{
 };
 use camelfield::CamelColor;
 
-use log::debug;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
@@ -45,13 +44,16 @@ impl App {
         // TODO: setup period of game
         let init_game_state = GameState::init(config);
 
-        Self {
+        let mut app = App {
             exit: false,
             game_state: init_game_state,
             probabilities: ProbabilitiesField::default(),
             selected_window: GeneralWindow::NumberField,
             window_stack: Vec::new(),
-        }
+        };
+
+        app.probabilities.calculate_probabilties(&app.game_state);
+        app
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {

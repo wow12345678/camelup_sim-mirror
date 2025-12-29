@@ -38,17 +38,20 @@ pub enum MoveError {
 
 impl GameState {
     pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
-        let positions: Vec<(u8, calc::Color)> = game_state
-            .camel_round_info
-            .iter()
-            .enumerate()
-            .map(|(i, cam)| {
-                (
-                    (cam.start_pos as i32 + cam.pos_round_add) as u8,
-                    calc::Color::from(i),
-                )
-            })
-            .collect();
+        let positions =
+            game_state
+                .fields
+                .iter()
+                .enumerate()
+                .fold(Vec::new(), |mut acc, (idx, field)| {
+                    let vec: Vec<(u8, calc::Color)> = field
+                        .camels
+                        .iter()
+                        .map(|color| (idx as u8, Into::<calc::Color>::into(*color as usize)))
+                        .collect();
+                    acc.extend(vec);
+                    acc
+                });
 
         let colors: Vec<calc::Color> = game_state
             .camel_round_info

@@ -1,22 +1,7 @@
 use crate::{
-    camel_map::CamelMap,
-    color::Color,
-    color_state::ColorState,
-    configuration::{Configuration, Dice},
+    Dice, camel_map::CamelMap, color::Color, color_state::ColorState, configuration::Configuration,
 };
 use std::{collections::HashMap, convert::Into};
-
-pub fn aggragate_placements(placements_vec: &Vec<Placement>) -> [[u32; 5]; 5] {
-    let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
-
-    for placement in placements_vec {
-        for (i, &color_index) in placement.iter().enumerate() {
-            placements[color_index as usize][i] += 1;
-        }
-    }
-
-    placements
-}
 
 pub const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
 
@@ -70,8 +55,23 @@ impl SimulationResult {
         }
     }
 
+    /// .placements() for Vec of all simulated game results
     pub fn placements(&self) -> &Vec<Placement> {
         &self.placements
+    }
+
+    /// final aggragated placements of all final game_states like this
+    /// [color][place]
+    pub fn aggragated_leaderboard(&self) -> [[u32; 5]; 5] {
+        let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
+
+        for placement in self.placements() {
+            for (i, &color_index) in placement.iter().enumerate() {
+                placements[color_index as usize][i] += 1;
+            }
+        }
+
+        placements
     }
 }
 
@@ -170,7 +170,7 @@ pub fn main() {
 
     res.print_stats();
 
-    let new_placements = aggragate_placements(res.placements());
+    let new_placements = res.aggragated_leaderboard();
     println!("{:?}", new_placements);
 
     let new_prob_blue = new_placements[0][0] as f64 / ALL_GAME_STATES_COUNT as f64;

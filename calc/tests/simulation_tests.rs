@@ -1,4 +1,4 @@
-use calc::{CamelMap, Color, ColorState, Configuration, aggragate_placements, simulate_rounds};
+use calc::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
 
 fn simple_test_config() -> Configuration {
     Configuration {
@@ -39,8 +39,12 @@ fn test_simulate_round_new() {
 #[test]
 #[ignore = "only for debug"]
 fn test_simulate_round_debug() {
-    let mut color_state = ColorState::default();
-    color_state.remove_color(Color::Blue);
+    let color_state = ColorState::new(vec![
+        Color::Green,
+        Color::White,
+        Color::Orange,
+        Color::Yellow,
+    ]);
     let init_conf = Configuration {
         map: CamelMap::new(vec![
             (1, Color::White),
@@ -58,7 +62,7 @@ fn test_simulate_round_debug() {
 
     res.print_stats();
 
-    let new_placements = aggragate_placements(res.placements());
+    let new_placements = res.aggragated_leaderboard();
     println!("{:?}", new_placements);
     let all_game_states_count = res.placements().len();
 

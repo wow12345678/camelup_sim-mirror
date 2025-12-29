@@ -16,6 +16,19 @@ pub enum CamelColor {
     Yellow,
 }
 
+impl From<calc::Color> for CamelColor {
+    fn from(value: calc::Color) -> Self {
+        match value {
+            calc::Color::Blue => CamelColor::Blue,
+            calc::Color::Green => CamelColor::Green,
+            calc::Color::Orange => CamelColor::Orange,
+            calc::Color::White => CamelColor::White,
+            calc::Color::Yellow => CamelColor::Yellow,
+            calc::Color::None => panic!("Invalid color, should never happen"),
+        }
+    }
+}
+
 impl Display for CamelColor {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
