@@ -20,8 +20,15 @@ pub struct GameState {
 
 impl Default for GameState {
     fn default() -> Self {
+        let mut fields: [CamelField; 16] = Default::default();
+
+        for i in 0..16 {
+            fields[i].index = (i + 2) % 16;
+            fields[i].board_index = i;
+        }
+
         Self {
-            fields: Default::default(),
+            fields,
             selected_color: 0,
             selected_field: 0,
             camel_round_info: CamelColor::all().map(CamelState::new),
@@ -173,6 +180,7 @@ impl GameState {
 
         for cam_info in &mut self.camel_round_info {
             if !cam_info.has_moved {
+                // TODO: this is stupid
                 cam_info.pos_round_add = 0
             }
         }
@@ -322,7 +330,8 @@ impl GameState {
         }
 
         for (i, field) in self.fields.iter().enumerate() {
-            field.render(camel_field_areas[i], buf);
+            //wierd indexing because real game starts at second field
+            field.render(camel_field_areas[(i + 2) % 16], buf);
         }
     }
 }

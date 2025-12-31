@@ -5,7 +5,6 @@ use std::{
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
-use log::debug;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -195,7 +194,6 @@ impl Widget for &ProbabilitiesField {
                     Row::new(
                         [
                             vec![format!("{}.", i + 1)],
-                            //TODO: probabilities still don't show correctly ?????
                             probs.iter().map(|r| r[i].to_string()).collect(),
                         ]
                         .concat(),

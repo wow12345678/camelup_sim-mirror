@@ -139,9 +139,7 @@ impl App {
             }
             (key, GeneralWindow::GameField) => {
                 // TODO: Error handling
-                if self.handle_game_field_keys(key).is_ok() {
-                    self.game_state.add_dice_rolled();
-                }
+                let _ = self.handle_game_field_keys(key);
             }
             (key, GeneralWindow::NumberField) => {
                 self.handle_number_field_keys(key);
@@ -171,38 +169,39 @@ impl App {
                 );
                 if res.is_ok() {
                     self.probabilities.calculate_probabilties(&self.game_state);
+                    self.game_state.add_dice_rolled();
                 }
                 res
             }
-            (KeyCode::Right | KeyCode::Char('l'), 0..4) => {
+            (KeyCode::Right | KeyCode::Char('l'), 0..2 | 14..16) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
             }
-            (KeyCode::Right | KeyCode::Char('l'), 9..13) => {
+            (KeyCode::Right | KeyCode::Char('l'), 7..11) => {
                 self.game_state.move_selected_field_rel(-1);
                 Ok(())
             }
-            (KeyCode::Left | KeyCode::Char('h'), 1..5) => {
+            (KeyCode::Left | KeyCode::Char('h'), 0..3 | 15) => {
                 self.game_state.move_selected_field_rel(-1);
                 Ok(())
             }
-            (KeyCode::Left | KeyCode::Char('h'), 8..12) => {
+            (KeyCode::Left | KeyCode::Char('h'), 6..10) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
             }
-            (KeyCode::Up | KeyCode::Char('k'), 5..9) => {
+            (KeyCode::Up | KeyCode::Char('k'), 3..7) => {
                 self.game_state.move_selected_field_rel(-1);
                 Ok(())
             }
-            (KeyCode::Up | KeyCode::Char('k'), 12..16) => {
+            (KeyCode::Up | KeyCode::Char('k'), 10..14) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
             }
-            (KeyCode::Down | KeyCode::Char('j'), 4..8) => {
+            (KeyCode::Down | KeyCode::Char('j'), 2..6) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
             }
-            (KeyCode::Down | KeyCode::Char('j'), 13..16 | 0) => {
+            (KeyCode::Down | KeyCode::Char('j'), 11..15) => {
                 self.game_state.move_selected_field_rel(-1);
                 Ok(())
             }
@@ -256,11 +255,11 @@ impl Widget for &App {
 fn main() -> io::Result<()> {
     let mut terminal = ratatui::init();
     let init_config = vec![
+        (0, CamelColor::Yellow),
         (0, CamelColor::Blue),
         (0, CamelColor::Green),
-        (1, CamelColor::White),
-        (1, CamelColor::Yellow),
-        (2, CamelColor::Orange),
+        (0, CamelColor::Orange),
+        (0, CamelColor::White),
     ];
     let mut app = App::new(&init_config);
 

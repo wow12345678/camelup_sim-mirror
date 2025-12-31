@@ -165,8 +165,8 @@ const CAMEL_PATTERN_FACING_LEFT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
 #[derive(Debug, Default)]
 pub struct CamelField {
     pub camels: Vec<CamelColor>,
-    board_index: usize,
-    index: usize,
+    pub board_index: usize,
+    pub index: usize,
     pub selected: bool,
 }
 
