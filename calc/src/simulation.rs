@@ -1,17 +1,21 @@
-use crate::{
-    Dice, color::Color, configuration::Configuration,
-};
-use std::{collections::HashMap, convert::Into};
+#[cfg(debug_assertions)]
+use crate::Dice;
+use crate::{color::Color, configuration::Configuration};
+use std::convert::Into;
+
+use hashbrown::HashMap;
 
 const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
 
 #[derive(Debug, Default)]
+#[cfg(debug_assertions)]
 struct CacheStatistics {
     cache_hits: u32,
     cache_misses: u32,
     total_function_calls: u32,
 }
 
+#[cfg(debug_assertions)]
 impl CacheStatistics {
     fn new() -> Self {
         Self {

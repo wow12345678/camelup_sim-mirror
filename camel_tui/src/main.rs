@@ -263,11 +263,11 @@ fn main() -> io::Result<()> {
 
     let mut terminal = ratatui::init();
     let init_config = vec![
-        (3, CamelColor::Blue),
-        (3, CamelColor::White),
-        (3, CamelColor::Orange),
-        (3, CamelColor::Green),
-        (3, CamelColor::Yellow),
+        (1, CamelColor::Blue),
+        (1, CamelColor::White),
+        (1, CamelColor::Orange),
+        (1, CamelColor::Green),
+        (1, CamelColor::Yellow),
     ];
     let mut app = App::new(&init_config);
 
