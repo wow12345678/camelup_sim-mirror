@@ -1,9 +1,9 @@
 use crate::{
-    Dice, camel_map::CamelMap, color::Color, color_state::ColorState, configuration::Configuration,
+    Dice, color::Color, configuration::Configuration,
 };
 use std::{collections::HashMap, convert::Into};
 
-pub const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
+const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
 
 #[derive(Debug, Default)]
 struct CacheStatistics {
@@ -93,7 +93,7 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
 }
 
 fn simulate_round_rec(
-    conf: Configuration,
+    mut conf: Configuration,
     cache: &mut HashMap<Configuration, Vec<Placement>>,
     #[cfg(debug_assertions)] stats: &mut CacheStatistics,
 ) -> Vec<Placement> {
@@ -103,6 +103,8 @@ fn simulate_round_rec(
         stats.record_miss();
         return vec![conf.leaderboard().map(|color| color.into())];
     }
+
+    conf.normalize();
 
     // check cache
     if let Some(cached_result) = cache.get(&conf) {
@@ -133,7 +135,7 @@ fn simulate_round_rec(
             }
 
             new_conf.available_colours.remove_color(dice_color);
-            new_conf.map.move_camel(dice_color, dice_value);
+            new_conf.map.move_camel(dice_color, dice_value as i8);
 
             // recursive call
             let mut sub_placements = simulate_round_rec(
@@ -150,38 +152,4 @@ fn simulate_round_rec(
     cache.insert(conf, all_placements.clone());
 
     all_placements
-}
-
-pub fn main() {
-    let init_conf = Configuration {
-        map: CamelMap::new(vec![
-            (0, Color::Blue),
-            (0, Color::Green),
-            (1, Color::White),
-            (1, Color::Yellow),
-            (2, Color::Orange),
-        ]),
-        #[cfg(debug_assertions)]
-        dice_queue: Vec::new(),
-        available_colours: ColorState::default(),
-    };
-
-    let res = simulate_rounds(init_conf);
-
-    res.print_stats();
-
-    let new_placements = res.aggragated_leaderboard();
-    println!("{:?}", new_placements);
-
-    let new_prob_blue = new_placements[0][0] as f64 / ALL_GAME_STATES_COUNT as f64;
-    let new_prob_green = new_placements[1][0] as f64 / ALL_GAME_STATES_COUNT as f64;
-    let new_prob_orange = new_placements[2][0] as f64 / ALL_GAME_STATES_COUNT as f64;
-    let new_prob_white = new_placements[3][0] as f64 / ALL_GAME_STATES_COUNT as f64;
-    let new_prob_yellow = new_placements[4][0] as f64 / ALL_GAME_STATES_COUNT as f64;
-
-    println!("Blue: {new_prob_blue}");
-    println!("Green: {new_prob_green}");
-    println!("Orange: {new_prob_orange}");
-    println!("White: {new_prob_white}");
-    println!("Yellow: {new_prob_yellow}");
 }

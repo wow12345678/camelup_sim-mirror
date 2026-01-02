@@ -16,14 +16,14 @@ fn test_move_camel() {
 }
 
 #[test]
-#[ignore = "only for debug"]
+// #[ignore = "only for debug"]
 fn map_from_vec() {
     let pos_vec = vec![
-        (1, Color::White),
-        (1, Color::Yellow),
-        (1, Color::Blue),
-        (1, Color::Green),
-        (2, Color::Orange),
+        (3, Color::White),
+        (3, Color::Yellow),
+        (3, Color::Blue),
+        (3, Color::Green),
+        (3, Color::Orange),
     ];
     
     let map = CamelMap::new(pos_vec);

@@ -8,6 +8,7 @@ use self::{
 };
 use camelfield::CamelColor;
 
+use log::debug;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
@@ -253,22 +254,23 @@ impl Widget for &App {
 }
 
 fn main() -> io::Result<()> {
-    let mut terminal = ratatui::init();
-    let init_config = vec![
-        (0, CamelColor::Yellow),
-        (0, CamelColor::Blue),
-        (0, CamelColor::Green),
-        (0, CamelColor::Orange),
-        (0, CamelColor::White),
-    ];
-    let mut app = App::new(&init_config);
-
     WriteLogger::init(
         LevelFilter::Debug,
         Config::default(),
         File::create("debug.log").unwrap(),
     )
     .unwrap();
+
+    let mut terminal = ratatui::init();
+    let init_config = vec![
+        (3, CamelColor::Blue),
+        (3, CamelColor::White),
+        (3, CamelColor::Orange),
+        (3, CamelColor::Green),
+        (3, CamelColor::Yellow),
+    ];
+    let mut app = App::new(&init_config);
+
 
     let app_result = app.run(&mut terminal);
 

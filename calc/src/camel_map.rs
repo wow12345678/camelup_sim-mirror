@@ -1,5 +1,6 @@
-use std::convert::Into;
 use crate::color::Color;
+use std::cmp::max;
+use std::convert::Into;
 
 /// first camel at a position is at the bottom of a stack
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -33,9 +34,9 @@ impl CamelMap {
     }
 
     // moves camel to position along with all camels on top of it
-    pub fn move_camel(&mut self, camel: Color, by: u8) {
+    pub fn move_camel(&mut self, camel: Color, by: i8) {
         let old_field_pos = self.find_camel(camel);
-        let new_pos = old_field_pos + by;
+        let new_pos = max(old_field_pos as i8 + by, 0) as u8;
 
         let old_pos_in_stack = &mut self.pos_color_map[old_field_pos as usize]
             .iter()

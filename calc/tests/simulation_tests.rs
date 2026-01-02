@@ -37,9 +37,10 @@ fn test_simulate_round_new() {
 }
 
 #[test]
-#[ignore = "only for debug"]
+// #[ignore = "only for debug"]
 fn test_simulate_round_debug() {
     let color_state = ColorState::new(vec![
+        Color::Blue,
         Color::Green,
         Color::White,
         Color::Orange,
@@ -47,11 +48,11 @@ fn test_simulate_round_debug() {
     ]);
     let init_conf = Configuration {
         map: CamelMap::new(vec![
-            (1, Color::White),
-            (1, Color::Yellow),
             (1, Color::Blue),
             (1, Color::Green),
             (2, Color::Orange),
+            (3, Color::White),
+            (3, Color::Yellow),
         ]),
         #[cfg(debug_assertions)]
         dice_queue: Vec::new(),

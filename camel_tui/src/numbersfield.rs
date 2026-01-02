@@ -5,6 +5,7 @@ use std::{
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
+use log::debug;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -153,9 +154,11 @@ pub struct ProbabilitiesField {
 impl ProbabilitiesField {
     pub fn calculate_probabilties(&mut self, game_state: &GameState) {
         let configuration = GameState::convert_game_state_configuration(game_state);
+        debug!("{configuration:?}");
 
         let handle = thread::spawn(move || {
             let res = calc::simulate_rounds(configuration);
+            debug!("calced probabilities");
             let game_states_count_all = res.placements().len();
             res.aggragated_leaderboard()
                 .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))

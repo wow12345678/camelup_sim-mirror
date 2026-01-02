@@ -1,7 +1,8 @@
-use std::hash::Hash;
+use crate::camel_map::CamelMap;
 use crate::color::Color;
 use crate::color_state::ColorState;
-use crate::camel_map::CamelMap;
+use std::cmp::max;
+use std::hash::Hash;
 
 #[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub struct Dice {
@@ -37,6 +38,31 @@ impl Configuration {
     /// Creates a new ConfigurationBuilder for building Configuration instances
     pub fn builder() -> ConfigurationBuilder {
         ConfigurationBuilder::new()
+    }
+
+    /// normalize the configuration and just keep the relative distances of the camels
+    pub fn normalize(&mut self) {
+        let mut positions: Vec<_> = Color::all()
+            .iter()
+            .map(|col| self.map.find_camel(*col))
+            .collect::<Vec<_>>();
+        positions.sort();
+        let smallest_pos = *positions
+            .first()
+            .expect("There should always be at least 1 camel with a smallest position");
+        if smallest_pos == 0 {
+            return;
+        }
+        for i in 0..self.map.pos_color_map.len() {
+            if let Some(camels) = self.map.pos_color_map[i].take() {
+                let new_idx = max(i as i8 - smallest_pos as i8, 0) as usize;
+                for cam in &camels {
+                    self.map.color_pos_map[Into::<usize>::into(*cam)] = new_idx as u8;
+                }
+                self.map.pos_color_map[i] = None;
+                self.map.pos_color_map[new_idx] = Some(camels);
+            }
+        }
     }
 
     /// Creates a array as a leaderboard

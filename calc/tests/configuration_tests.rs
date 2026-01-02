@@ -1,9 +1,9 @@
-use calc::{Configuration, Color};
+use calc::{Color, Configuration};
 
 #[test]
 fn test_configuration_builder_default() {
     let config = Configuration::builder().build();
-    
+
     // Should use default starting positions
     assert_eq!(config.map.color_pos_map[Color::Blue as usize], 0);
     assert_eq!(config.map.color_pos_map[Color::Green as usize], 0);
@@ -49,11 +49,7 @@ fn test_configuration_builder_with_available_colors() {
 #[test]
 #[cfg(debug_assertions)]
 fn test_configuration_builder_with_dice_queue() {
-    let dice_data = vec![
-        (Color::Blue, 1),
-        (Color::Green, 3),
-        (Color::Orange, 2),
-    ];
+    let dice_data = vec![(Color::Blue, 1), (Color::Green, 3), (Color::Orange, 2)];
 
     let config = Configuration::builder()
         .with_dice_queue(dice_data.clone())
@@ -110,7 +106,6 @@ fn test_configuration_builder_comprehensive() {
 
 #[test]
 fn test_configuration_builder_method_chaining() {
-    // Test that all builder methods return Self for method chaining
     let builder = Configuration::builder()
         .with_map(vec![(0, Color::Blue)])
         .with_available_colors(vec![Color::Blue]);
@@ -118,5 +113,28 @@ fn test_configuration_builder_method_chaining() {
     #[cfg(debug_assertions)]
     let builder = builder.add_dice(Color::Blue, 1);
 
-    let _config = builder.build(); // Should compile successfully
+    let _config = builder.build();
 }
+
+#[test]
+fn test_configuration_normalization() {
+    let mut config = Configuration::builder()
+        .with_map(vec![
+            (2, Color::Blue),
+            (4, Color::Green),
+            (6, Color::Orange),
+            (8, Color::White),
+            (10, Color::Yellow),
+        ])
+        .with_available_colors(vec![Color::Blue, Color::Green, Color::Orange])
+        .build();
+
+    config.normalize();
+
+    assert_eq!(config.map.find_camel(Color::Blue), 0);
+    assert_eq!(config.map.find_camel(Color::Green), 2);
+    assert_eq!(config.map.find_camel(Color::Orange), 4);
+    assert_eq!(config.map.find_camel(Color::White), 6);
+    assert_eq!(config.map.find_camel(Color::Yellow), 8);
+}
+

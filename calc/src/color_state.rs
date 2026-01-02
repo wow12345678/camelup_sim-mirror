@@ -29,6 +29,13 @@ impl PartialEq for ColorState {
     }
 }
 
+impl Default for ColorState {
+    //all colors, no current index
+    fn default() -> Self {
+        Self { state: 0b1111_1000 }
+    }
+}
+
 impl ColorState {
     pub fn len(&self) -> u8 {
         let colors = self.state & 0b1111_1000;
@@ -43,11 +50,6 @@ impl ColorState {
         } else {
             self.state &= !(0b1000_0000 >> index);
         }
-    }
-
-    //all colors, no current index
-    pub fn default() -> Self {
-        Self { state: 0b1111_1000 }
     }
 
     pub fn remove_color(&mut self, col: Color) {
@@ -121,4 +123,3 @@ impl Iterator for ColorState {
         None
     }
 }
-

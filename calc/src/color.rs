@@ -9,6 +9,16 @@ pub enum Color {
 }
 
 impl Color {
+    pub fn all() -> [Color; 5] {
+        [
+            Color::Blue,
+            Color::Green,
+            Color::Orange,
+            Color::White,
+            Color::Yellow,
+        ]
+    }
+
     pub fn as_byte(&self) -> u8 {
         let mask = 0b0000_0001;
         let index: u8 = (*self).into();
