@@ -2,6 +2,7 @@
 use crate::Dice;
 use crate::{color::Color, configuration::Configuration};
 use std::convert::Into;
+use std::rc::Rc;
 
 use hashbrown::HashMap;
 
@@ -80,7 +81,7 @@ impl SimulationResult {
 }
 
 pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
-    let mut cache: HashMap<Configuration, Vec<Placement>> = HashMap::new();
+    let mut cache: HashMap<Configuration, Rc<Vec<Placement>>> = HashMap::new();
     #[cfg(debug_assertions)]
     let mut stats = CacheStatistics::new();
     let placements = simulate_round_rec(
@@ -90,7 +91,7 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
         &mut stats,
     );
     SimulationResult {
-        placements,
+        placements: placements.to_vec(),
         #[cfg(debug_assertions)]
         stats,
     }
@@ -98,14 +99,14 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
 
 fn simulate_round_rec(
     mut conf: Configuration,
-    cache: &mut HashMap<Configuration, Vec<Placement>>,
+    cache: &mut HashMap<Configuration, Rc<Vec<Placement>>>,
     #[cfg(debug_assertions)] stats: &mut CacheStatistics,
-) -> Vec<Placement> {
+) -> Rc<Vec<Placement>> {
     // Base case
     if conf.available_colours.len() == 0 {
         #[cfg(debug_assertions)]
         stats.record_miss();
-        return vec![conf.leaderboard().map(|color| color.into())];
+        return Rc::new(vec![conf.leaderboard().map(|color| color.into())]);
     }
 
     conf.normalize();
@@ -120,7 +121,7 @@ fn simulate_round_rec(
     #[cfg(debug_assertions)]
     stats.record_miss();
 
-    let mut all_placements = Vec::new();
+    let mut all_placements = Vec::with_capacity(3_usize.pow(conf.available_colours.len() as u32));
 
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
     for color_code in &conf.available_colours {
@@ -142,18 +143,19 @@ fn simulate_round_rec(
             new_conf.map.move_camel(dice_color, dice_value as i8);
 
             // recursive call
-            let mut sub_placements = simulate_round_rec(
+            let sub_placements = simulate_round_rec(
                 new_conf,
                 cache,
                 #[cfg(debug_assertions)]
                 stats,
             );
 
-            all_placements.append(&mut sub_placements);
+            all_placements.extend(sub_placements.iter());
         }
     }
 
-    cache.insert(conf, all_placements.clone());
+    let result = Rc::new(all_placements);
+    cache.insert(conf, result.clone());
 
-    all_placements
+    result
 }

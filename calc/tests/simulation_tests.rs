@@ -37,7 +37,7 @@ fn test_simulate_round_new() {
 }
 
 #[test]
-// #[ignore = "only for debug"]
+#[ignore = "only for debug"]
 fn test_simulate_round_debug() {
     let color_state = ColorState::new(vec![
         Color::Blue,
