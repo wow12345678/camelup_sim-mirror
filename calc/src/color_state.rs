@@ -43,6 +43,10 @@ impl ColorState {
         colors.count_ones() as u8
     }
 
+    pub fn is_empty(&self) -> bool {
+        (self.state & 0b1111_1000) == 0
+    }
+
     #[inline]
     pub fn assign_to_index(&mut self, index: u8, value: bool) {
         if value {
@@ -66,17 +70,6 @@ impl ColorState {
             state |= col.into().as_byte();
         }
         Self { state }
-    }
-
-    pub(crate) fn retain(&mut self, predicate: impl Fn(u8) -> bool) {
-        for i in 0..6 {
-            let elem = 0b1000_0000 >> i;
-            // Only keep the bit if it's currently set AND the predicate returns true
-            let is_currently_set = (self.state & elem) != 0;
-            if is_currently_set && !predicate(elem) {
-                self.assign_to_index(i, false);
-            }
-        }
     }
 }
 

@@ -170,7 +170,7 @@ impl ConfigurationBuilder {
             }),
             #[cfg(debug_assertions)]
             dice_queue: self.dice_queue.unwrap_or_default(),
-            available_colours: self.available_colours.unwrap_or_else(ColorState::default),
+            available_colours: self.available_colours.unwrap_or_default(),
         }
     }
 }

@@ -8,7 +8,6 @@ use self::{
 };
 use camelfield::CamelColor;
 
-use log::debug;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,

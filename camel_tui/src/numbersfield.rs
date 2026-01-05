@@ -86,20 +86,6 @@ pub struct CamelStateField {
     camels: [CamelState; 5],
 }
 
-impl CamelStateField {
-    fn new() -> Self {
-        let mut camels: [CamelState; 5] = CamelColor::all().map(CamelState::new);
-
-        camels[0].selected = true;
-
-        Self {
-            selected: State::Focused(0),
-            rolled_dice: 0,
-            camels,
-        }
-    }
-}
-
 impl Widget for &CamelStateField {
     fn render(self, area: Rect, buf: &mut Buffer)
     where

@@ -6,8 +6,6 @@ use std::rc::Rc;
 
 use hashbrown::HashMap;
 
-const ALL_GAME_STATES_COUNT: u32 = 5 * 4 * 3 * 2 * 3_u32.pow(5);
-
 #[derive(Debug, Default)]
 #[cfg(debug_assertions)]
 struct CacheStatistics {
@@ -90,8 +88,9 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
         #[cfg(debug_assertions)]
         &mut stats,
     );
+
     SimulationResult {
-        placements: placements.to_vec(),
+        placements: Rc::try_unwrap(placements).unwrap_or_else(|rc| (*rc).clone()),
         #[cfg(debug_assertions)]
         stats,
     }
@@ -103,7 +102,7 @@ fn simulate_round_rec(
     #[cfg(debug_assertions)] stats: &mut CacheStatistics,
 ) -> Rc<Vec<Placement>> {
     // Base case
-    if conf.available_colours.len() == 0 {
+    if conf.available_colours.is_empty() {
         #[cfg(debug_assertions)]
         stats.record_miss();
         return Rc::new(vec![conf.leaderboard().map(|color| color.into())]);
@@ -126,7 +125,7 @@ fn simulate_round_rec(
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
     for color_code in &conf.available_colours {
         let dice_color = Color::from_byte(color_code);
-        assert_ne!(dice_color, Color::None);
+        debug_assert_ne!(dice_color, Color::None);
 
         for dice_value in 1..=3 {
             let mut new_conf = conf.clone();
