@@ -171,6 +171,7 @@ pub struct CamelField {
 }
 
 impl CamelField {
+    #[allow(unused)]
     fn new(camels: Vec<CamelColor>, index: usize, board_index: usize) -> Self {
         Self {
             camels,

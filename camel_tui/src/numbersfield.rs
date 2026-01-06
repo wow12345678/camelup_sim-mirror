@@ -74,6 +74,7 @@ impl CamelState {
 }
 
 #[derive(Debug)]
+#[allow(unused)]
 pub enum State {
     Focused(usize),
     Unfocused(usize),
