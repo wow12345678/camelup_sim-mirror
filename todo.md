@@ -1,1 +1,1 @@
-- Memoization?: HashMap<Configuration, Leaderboard>
+- Numbersfield correct move information (diff from old pos to new pos)

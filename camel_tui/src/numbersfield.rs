@@ -1,4 +1,5 @@
 use std::{
+    cmp::Ordering,
     fmt::Display,
     thread::{self, JoinHandle},
 };
@@ -17,8 +18,8 @@ use ratatui::{
 #[derive(Debug, Clone, Copy)]
 pub struct CamelState {
     pub camel_color: CamelColor,
-    pub start_pos: u8,
-    pub pos_round_add: i32,
+    pub start_pos: u32,
+    pub end_pos: u32,
     pub selected: bool,
     pub has_moved: bool,
 }
@@ -54,9 +55,19 @@ impl Display for CamelState {
             "{color}: {start_pos} -> {end_pos} | {sign}{increment}",
             color = self.camel_color,
             start_pos = self.start_pos,
-            end_pos = self.start_pos as i32 + self.pos_round_add,
-            sign = if self.pos_round_add >= 0 { '+' } else { ' ' },
-            increment = self.pos_round_add
+            end_pos = self.end_pos,
+            sign = match self.start_pos.cmp(&self.end_pos) {
+                Ordering::Less => {
+                    '+'
+                }
+                Ordering::Equal => {
+                    ' '
+                }
+                Ordering::Greater => {
+                    '-'
+                }
+            },
+            increment = self.end_pos.abs_diff(self.start_pos)
         )
     }
 }
@@ -66,7 +77,7 @@ impl CamelState {
         Self {
             camel_color,
             start_pos: 0,
-            pos_round_add: 0,
+            end_pos: 0,
             selected: false,
             has_moved: false,
         }
@@ -141,11 +152,9 @@ pub struct ProbabilitiesField {
 impl ProbabilitiesField {
     pub fn calculate_probabilties(&mut self, game_state: &GameState) {
         let configuration = GameState::convert_game_state_configuration(game_state);
-        debug!("{configuration:?}");
 
         let handle = thread::spawn(move || {
             let res = calc::simulate_rounds(configuration);
-            debug!("calced probabilities");
             let game_states_count_all = res.placements().len();
             res.aggragated_leaderboard()
                 .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))

@@ -90,7 +90,7 @@ impl GameState {
 
         for (i, col) in config {
             init.fields[*i as usize].camels.push(*col);
-            init.camel_round_info[Into::<usize>::into(*col)].start_pos = *i;
+            init.camel_round_info[Into::<usize>::into(*col)].start_pos = *i as u32;
         }
 
         init
@@ -131,8 +131,7 @@ impl GameState {
 
         let moving_camels = self.fields[old_pos].camels.split_off(camel_index);
         for cam in &moving_camels {
-            self.camel_round_info[Into::<usize>::into(*cam)].pos_round_add =
-                (to_field - old_pos) as i32;
+            self.camel_round_info[Into::<usize>::into(*cam)].end_pos = to_field as u32;
         }
 
         self.fields[to_field].camels.extend(moving_camels);
@@ -170,7 +169,7 @@ impl GameState {
         let moving_camels = self.fields[old_pos].camels.iter().skip(camel_index);
 
         for cam in moving_camels {
-            self.camel_round_info[Into::<usize>::into(*cam)].pos_round_add += by;
+            self.camel_round_info[Into::<usize>::into(*cam)].end_pos = new_selection_idx as u32;
         }
     }
 
@@ -181,7 +180,7 @@ impl GameState {
         for cam_info in &mut self.camel_round_info {
             if !cam_info.has_moved {
                 // TODO: this is stupid
-                cam_info.pos_round_add = 0
+                cam_info.end_pos = cam_info.start_pos;
             }
         }
 
