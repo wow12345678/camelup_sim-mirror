@@ -63,8 +63,8 @@ impl SimulationResult {
         &self.placements
     }
 
-    /// final aggragated placements of all final game_states like this
-    /// [color][place]
+    /// final aggragated placements of all final game_states like this:
+    /// \[󠁠󠁠󠁠`camel_color`\]\[`place`\] = amount of times `camel_color` placed `place`
     pub fn aggragated_leaderboard(&self) -> [[u32; 5]; 5] {
         let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
 
@@ -78,6 +78,7 @@ impl SimulationResult {
     }
 }
 
+/// simulates the game from a initial configuration and returns [SimulationResult]
 pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
     let mut cache: HashMap<Configuration, Rc<Vec<Placement>>> = HashMap::new();
     #[cfg(debug_assertions)]

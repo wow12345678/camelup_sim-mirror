@@ -16,6 +16,7 @@ pub struct GameState {
     pub selected_field: usize,
     pub camel_round_info: [CamelState; 5],
     pub rolled_dice: usize,
+    pub round_number: u8,
 }
 
 impl Default for GameState {
@@ -33,6 +34,7 @@ impl Default for GameState {
             selected_field: 0,
             camel_round_info: CamelColor::all().map(CamelState::new),
             rolled_dice: 0,
+            round_number: 0,
         }
     }
 }
@@ -178,8 +180,8 @@ impl GameState {
         self.camel_round_info[old_color].selected = false;
 
         for cam_info in &mut self.camel_round_info {
+            // TODO: this is studid
             if !cam_info.has_moved {
-                // TODO: this is stupid
                 cam_info.end_pos = cam_info.start_pos;
             }
         }
@@ -198,6 +200,15 @@ impl GameState {
         self.camel_round_info[self.selected_color].selected = false;
         self.selected_color = new_selection_idx;
         self.camel_round_info[new_selection_idx].selected = true;
+    }
+
+    pub fn new_round(&mut self) {
+        self.round_number += 1;
+        //TODO
+        for cam_info in &mut self.camel_round_info {
+            cam_info.start_pos = cam_info.end_pos;
+            cam_info.has_moved = false;
+        }
     }
 
     pub fn render_camel_info_field(
@@ -226,12 +237,13 @@ impl GameState {
             vec![Constraint::Length(1)],
             vec![Constraint::Length(4); 5],
             vec![Constraint::Length(1)],
+            vec![Constraint::Min(1)],
         ]
         .concat();
 
         let camel_layout = Layout::vertical(constraints);
 
-        let rows: [_; 7] = camel_layout.areas(inner_area);
+        let rows: [_; 8] = camel_layout.areas(inner_area);
 
         Line::from(format!("Round {}", 0))
             .centered()
@@ -244,6 +256,9 @@ impl GameState {
         Line::from(format!("Remaining Dice {dice}/5", dice = self.rolled_dice))
             .centered()
             .render(rows[6], buf);
+        Line::from(format!("Current round: {}", self.round_number))
+            .centered()
+            .render(rows[7], buf);
     }
 
     pub fn render_game_field(&self, area: Rect, buf: &mut Buffer, selected_window: GeneralWindow)

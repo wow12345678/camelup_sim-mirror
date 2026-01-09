@@ -6,7 +6,6 @@ use std::{
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
-use log::debug;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},

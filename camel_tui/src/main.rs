@@ -1,5 +1,5 @@
 use crate::gamestate::MoveError;
-use std::{fs::File, io, time::Duration};
+use std::{io, time::Duration};
 
 use self::{
     camelfield::CamelField,
@@ -216,6 +216,7 @@ impl App {
     fn focus_window(&mut self, win: GeneralWindow) {
         self.selected_window = win;
     }
+
 }
 
 /// Create a centered rect using up certain percentage of the available rect
@@ -253,12 +254,12 @@ impl Widget for &App {
 }
 
 fn main() -> io::Result<()> {
-    WriteLogger::init(
-        LevelFilter::Debug,
-        Config::default(),
-        File::create("debug.log").unwrap(),
-    )
-    .unwrap();
+    // WriteLogger::init(
+    //     LevelFilter::Debug,
+    //     Config::default(),
+    //     File::create("debug.log").unwrap(),
+    // )
+    // .unwrap();
 
     let mut terminal = ratatui::init();
     let init_config = vec![
@@ -269,7 +270,7 @@ fn main() -> io::Result<()> {
         (1, CamelColor::Yellow),
     ];
     let mut app = App::new(&init_config);
-
+    // App::init();
 
     let app_result = app.run(&mut terminal);
 
