@@ -1,5 +1,5 @@
-use std::time::Duration;
 use std::hint::black_box;
+use std::time::Duration;
 
 use calc::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
 use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
@@ -292,6 +292,5 @@ criterion_group! {
               bench_camel_map,
               bench_color_state
 }
-
 
 criterion_main!(benches);

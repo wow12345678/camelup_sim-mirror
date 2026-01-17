@@ -46,6 +46,10 @@ pub enum MoveError {
 }
 
 impl GameState {
+    pub fn round_finished(&self) -> bool {
+        self.rolled_dice == 5
+    }
+
     pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
         let positions =
             game_state
@@ -99,7 +103,7 @@ impl GameState {
     }
 
     pub fn move_camel(&mut self, camel: CamelColor, to_field: usize) -> Result<(), MoveError> {
-        let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
+        let camel_state = self.camel_round_info[Into::<usize>::into(camel)];
         if to_field >= self.fields.len() {
             return Err(MoveError::InvalidMove);
         }
@@ -109,16 +113,7 @@ impl GameState {
         }
 
         let (old_pos, camel_index) = self
-            .fields
-            .iter()
-            .enumerate()
-            .find_map(|(field_idx, field)| {
-                field
-                    .camels
-                    .iter()
-                    .position(|&c| c == camel)
-                    .map(|camel_idx| (field_idx, camel_idx))
-            })
+            .find_camel(camel)
             .ok_or(MoveError::InvalidConfiguration)?;
 
         if old_pos > to_field || to_field - old_pos > 3 {
@@ -129,6 +124,7 @@ impl GameState {
             return Err(MoveError::InvalidMove);
         }
 
+        let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
         camel_state.has_moved = true;
 
         let moving_camels = self.fields[old_pos].camels.split_off(camel_index);
@@ -156,16 +152,7 @@ impl GameState {
 
         // has to be some
         let (old_pos, camel_index) = self
-            .fields
-            .iter()
-            .enumerate()
-            .find_map(|(field_idx, field)| {
-                field
-                    .camels
-                    .iter()
-                    .position(|&c| c == camel)
-                    .map(|camel_idx| (field_idx, camel_idx))
-            })
+            .find_camel(camel)
             .expect("This should always be Some, since there is always 1 camel of each color");
 
         let moving_camels = self.fields[old_pos].camels.iter().skip(camel_index);
@@ -180,7 +167,7 @@ impl GameState {
         self.camel_round_info[old_color].selected = false;
 
         for cam_info in &mut self.camel_round_info {
-            // TODO: this is studid
+            // TODO: maybe make this better
             if !cam_info.has_moved {
                 cam_info.end_pos = cam_info.start_pos;
             }
@@ -188,6 +175,19 @@ impl GameState {
 
         self.camel_round_info[new_color].selected = true;
         self.selected_color = new_color;
+    }
+
+    fn find_camel(&self, camel: CamelColor) -> Option<(usize, usize)> {
+        self.fields
+            .iter()
+            .enumerate()
+            .find_map(|(field_idx, field)| {
+                field
+                    .camels
+                    .iter()
+                    .position(|&c| c == camel)
+                    .map(|camel_idx| (field_idx, camel_idx))
+            })
     }
 
     pub fn move_selected_color_rel(&mut self, by: i32) {
@@ -204,11 +204,11 @@ impl GameState {
 
     pub fn new_round(&mut self) {
         self.round_number += 1;
-        //TODO
         for cam_info in &mut self.camel_round_info {
             cam_info.start_pos = cam_info.end_pos;
             cam_info.has_moved = false;
         }
+        self.rolled_dice = 0;
     }
 
     pub fn render_camel_info_field(
@@ -237,17 +237,20 @@ impl GameState {
             vec![Constraint::Length(1)],
             vec![Constraint::Length(4); 5],
             vec![Constraint::Length(1)],
-            vec![Constraint::Min(1)],
         ]
         .concat();
 
         let camel_layout = Layout::vertical(constraints);
 
-        let rows: [_; 8] = camel_layout.areas(inner_area);
+        let rows: [_; 7] = camel_layout.areas(inner_area);
 
-        Line::from(format!("Round {}", 0))
-            .centered()
-            .render(rows[0], buf);
+        let round_string = if self.round_number == 0 {
+            "Initialization Round".to_string()
+        } else {
+            format!("Round {}", self.round_number)
+        };
+
+        Line::from(round_string).centered().render(rows[0], buf);
 
         for (i, r) in rows.iter().take(6).skip(1).enumerate() {
             self.camel_round_info[i].render(*r, buf);
@@ -256,9 +259,6 @@ impl GameState {
         Line::from(format!("Remaining Dice {dice}/5", dice = self.rolled_dice))
             .centered()
             .render(rows[6], buf);
-        Line::from(format!("Current round: {}", self.round_number))
-            .centered()
-            .render(rows[7], buf);
     }
 
     pub fn render_game_field(&self, area: Rect, buf: &mut Buffer, selected_window: GeneralWindow)
@@ -324,7 +324,7 @@ impl GameState {
             Color::White
         };
 
-        let simple_instructions = "   <q> - quit <?> - help   ";
+        let simple_instructions = "   <q> - quit  <Tab> - switch  <?> - help   ";
 
         if cfg!(debug_assertions) {
             Block::bordered()

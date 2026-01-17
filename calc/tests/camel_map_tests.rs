@@ -25,9 +25,8 @@ fn map_from_vec() {
         (3, Color::Green),
         (3, Color::Orange),
     ];
-    
+
     let map = CamelMap::new(pos_vec);
 
     println!("{map:?}");
 }
-

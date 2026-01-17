@@ -137,4 +137,3 @@ fn test_configuration_normalization() {
     assert_eq!(config.map.find_camel(Color::White), 6);
     assert_eq!(config.map.find_camel(Color::Yellow), 8);
 }
-

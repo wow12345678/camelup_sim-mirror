@@ -1,8 +1,4 @@
-use std::{
-    cmp::Ordering,
-    fmt::Display,
-    thread::{self, JoinHandle},
-};
+use std::{cmp::Ordering, fmt::Display, sync::mpsc::Sender, thread};
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
@@ -141,30 +137,61 @@ impl Widget for &CamelStateField {
     }
 }
 
-#[derive(Debug, Default)]
 pub struct ProbabilitiesField {
-    probabilities: Option<[[f32; 5]; 5]>,
+    pub probabilities: Option<[[f32; 5]; 5]>,
     pub calculating: bool,
-    pub handle: Option<JoinHandle<[[f32; 5]; 5]>>,
+    pub sender: Sender<[[f32; 5]; 5]>,
+    pub(crate) calc_thread: Option<thread::JoinHandle<()>>,
+}
+
+impl std::fmt::Debug for ProbabilitiesField {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ProbabilitiesField")
+            .field("probabilities", &self.probabilities)
+            .field("calculating", &self.calculating)
+            .field("sender", &self.sender)
+            .field(
+                "calc_thread",
+                &self.calc_thread.as_ref().map(|_| "<JoinHandle>"),
+            )
+            .finish()
+    }
 }
 
 impl ProbabilitiesField {
     pub fn calculate_probabilties(&mut self, game_state: &GameState) {
+        if let Some(handle) = self.calc_thread.take() {
+            let _ = handle.join();
+        }
+
         let configuration = GameState::convert_game_state_configuration(game_state);
+        let tx = self.sender.clone();
 
-        let handle = thread::spawn(move || {
-            let res = calc::simulate_rounds(configuration);
-            let game_states_count_all = res.placements().len();
-            res.aggragated_leaderboard()
-                .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32))
-        });
+        let handle = thread::Builder::new()
+            .name("probability-calc".to_string())
+            .spawn(move || {
+                let res = calc::simulate_rounds(configuration);
+                let game_states_count_all = res.placements().len();
+                let res = res
+                    .aggragated_leaderboard()
+                    .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32));
 
+                let _ = tx.send(res);
+            })
+            .expect("Failed to spawn probability calculation thread");
+
+        self.calc_thread = Some(handle);
         self.calculating = true;
-        self.handle = Some(handle);
     }
 
     pub fn update_probabilities(&mut self, new_probabilities: [[f32; 5]; 5]) {
         self.probabilities = Some(new_probabilities);
+    }
+
+    /// Takes ownership of the calculation thread handle for cleanup.
+    /// Used when the app is shutting down to ensure threads are properly joined.
+    pub fn take_thread(&mut self) -> Option<thread::JoinHandle<()>> {
+        self.calc_thread.take()
     }
 }
 

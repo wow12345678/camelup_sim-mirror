@@ -1,5 +1,5 @@
 use crate::gamestate::MoveError;
-use std::{io, time::Duration};
+use std::{io, sync::mpsc::Receiver, time::Duration};
 
 use self::{
     camelfield::CamelField,
@@ -14,7 +14,7 @@ use ratatui::{
     crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind},
     layout::{Constraint, Flex, Layout, Rect},
     text::Line,
-    widgets::{Block, Clear, Widget},
+    widgets::{Block, Clear, Paragraph, Widget},
 };
 use simplelog::{Config, LevelFilter, WriteLogger};
 
@@ -36,38 +36,49 @@ struct App {
     exit: bool,
     selected_window: GeneralWindow,
     window_stack: Vec<GeneralWindow>,
+    calc_res: Receiver<[[f32; 5]; 5]>,
 }
 
 impl App {
     fn new(config: &Vec<(u8, CamelColor)>) -> Self {
-        // initialize GameState here
-        // TODO: setup period of game
         let init_game_state = GameState::init(config);
+
+        let (tx, rx) = std::sync::mpsc::channel();
+
+        let probabilities_field = ProbabilitiesField {
+            probabilities: None,
+            calculating: false,
+            sender: tx,
+            calc_thread: None,
+        };
 
         let mut app = App {
             exit: false,
             game_state: init_game_state,
-            probabilities: ProbabilitiesField::default(),
+            probabilities: probabilities_field,
             selected_window: GeneralWindow::NumberField,
             window_stack: Vec::new(),
+            calc_res: rx,
         };
 
         app.probabilities.calculate_probabilties(&app.game_state);
         app
     }
 
+    fn update_probabilities(&mut self, probs: [[f32; 5]; 5]) {
+        self.probabilities.update_probabilities(probs);
+        self.probabilities.calculating = false;
+    }
+
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
         while !self.exit {
-            if self
-                .probabilities
-                .handle
-                .as_ref()
-                .is_some_and(|j| j.is_finished())
-            {
-                let handle = self.probabilities.handle.take().unwrap();
-                let res = handle.join().unwrap();
-                self.probabilities.update_probabilities(res);
-                self.probabilities.calculating = false;
+            if let Ok(res) = self.calc_res.try_recv() {
+                self.update_probabilities(res);
+            }
+
+            if self.game_state.round_finished() {
+                self.game_state.new_round();
+                self.probabilities.calculate_probabilties(&self.game_state);
             }
 
             terminal.draw(|frame| self.draw(frame))?;
@@ -93,9 +104,31 @@ impl App {
     }
 
     fn render_help_popup(&self, area: Rect, buf: &mut Buffer) {
-        let popup = Block::bordered().title(Line::from("   Help   ").centered());
+        let help_text = vec![
+            Line::from(""),
+            Line::from("GLOBAL KEYBINDS"),
+            Line::from("  <?>          Toggle help window"),
+            Line::from("  <q> / <Esc>  Quit application / Close help"),
+            Line::from("  <Tab>        Switch between GameField and NumberField"),
+            Line::from("  <b/g/y/o/w>  Select camel (Blue/Green/Yellow/Orange/White)"),
+            Line::from(""),
+            Line::from("GAMEFIELD WINDOW"),
+            Line::from("  <Enter>      Move camel to selected field"),
+            Line::from("  <h/j/k/l>    Navigate (Vim keys)"),
+            Line::from("  Arrow keys   Navigate (direction adapts to board position)"),
+            Line::from(""),
+            Line::from("NUMBERFIELD WINDOW"),
+            Line::from("  <j> / <Down> Move selected color down"),
+            Line::from("  <k> / <Up>   Move selected color up"),
+            Line::from(""),
+            Line::from("Press <?> or <q> to close this help"),
+        ];
+
+        let popup = Block::bordered().title(Line::from("  Help  ").centered());
+        let paragraph = Paragraph::new(help_text).block(popup);
+
         Clear.render(area, buf);
-        popup.render(area, buf);
+        paragraph.render(area, buf);
     }
 
     // TODO: think about error handling
@@ -210,13 +243,15 @@ impl App {
     }
 
     fn exit(&mut self) {
+        if let Some(handle) = self.probabilities.take_thread() {
+            let _ = handle.join();
+        }
         self.exit = true;
     }
 
     fn focus_window(&mut self, win: GeneralWindow) {
         self.selected_window = win;
     }
-
 }
 
 /// Create a centered rect using up certain percentage of the available rect
@@ -269,8 +304,8 @@ fn main() -> io::Result<()> {
         (1, CamelColor::Green),
         (1, CamelColor::Yellow),
     ];
+    // TODO: initialize app nicer
     let mut app = App::new(&init_config);
-    // App::init();
 
     let app_result = app.run(&mut terminal);
 

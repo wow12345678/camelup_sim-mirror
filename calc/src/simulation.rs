@@ -109,6 +109,8 @@ fn simulate_round_rec(
         return Rc::new(vec![conf.leaderboard().map(|color| color.into())]);
     }
 
+    // this is only good for 1 round simulations, since otherwise the progress 
+    // of the game gets lost
     conf.normalize();
 
     // check cache
