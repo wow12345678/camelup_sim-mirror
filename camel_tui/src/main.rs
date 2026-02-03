@@ -1,9 +1,8 @@
-use crate::gamestate::MoveError;
 use std::{io, sync::mpsc::Receiver, time::Duration};
 
 use self::{
     camelfield::CamelField,
-    gamestate::GameState,
+    gamestate::{GamePeriod, GameState, PlaceError::InvalidColor, PlayerActionError},
     numbersfield::{CamelState, ProbabilitiesField},
 };
 use camelfield::CamelColor;
@@ -16,7 +15,7 @@ use ratatui::{
     text::Line,
     widgets::{Block, Clear, Paragraph, Widget},
 };
-use simplelog::{Config, LevelFilter, WriteLogger};
+// use simplelog::{Config, LevelFilter, WriteLogger};
 
 mod camelfield;
 mod gamestate;
@@ -40,9 +39,7 @@ struct App {
 }
 
 impl App {
-    fn new(config: &Vec<(u8, CamelColor)>) -> Self {
-        let init_game_state = GameState::init(config);
-
+    fn new() -> Self {
         let (tx, rx) = std::sync::mpsc::channel();
 
         let probabilities_field = ProbabilitiesField {
@@ -52,17 +49,15 @@ impl App {
             calc_thread: None,
         };
 
-        let mut app = App {
+
+        App {
             exit: false,
-            game_state: init_game_state,
+            game_state: GameState::default(),
             probabilities: probabilities_field,
             selected_window: GeneralWindow::NumberField,
             window_stack: Vec::new(),
             calc_res: rx,
-        };
-
-        app.probabilities.calculate_probabilties(&app.game_state);
-        app
+        }
     }
 
     fn update_probabilities(&mut self, probs: [[f32; 5]; 5]) {
@@ -71,6 +66,18 @@ impl App {
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
+        //setup period
+        while !self.exit && self.game_state.game_period == GamePeriod::Setup {
+            if self.game_state.round_finished() {
+                self.game_state.game_period = GamePeriod::Game;
+                break;
+            }
+
+            terminal.draw(|frame| self.draw(frame))?;
+            self.handle_events()?;
+        }
+
+        //game period
         while !self.exit {
             if let Ok(res) = self.calc_res.try_recv() {
                 self.update_probabilities(res);
@@ -78,7 +85,8 @@ impl App {
 
             if self.game_state.round_finished() {
                 self.game_state.new_round();
-                self.probabilities.calculate_probabilties(&self.game_state);
+                self.probabilities
+                    .start_probability_calculations(&self.game_state);
             }
 
             terminal.draw(|frame| self.draw(frame))?;
@@ -193,16 +201,25 @@ impl App {
         }
     }
 
-    fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), MoveError> {
+    fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), PlayerActionError> {
         match (key, self.game_state.selected_field) {
             (KeyCode::Enter, _) => {
-                let res = self.game_state.move_camel(
-                    self.game_state.selected_color.into(),
-                    self.game_state.selected_field,
-                );
-                if res.is_ok() {
-                    self.probabilities.calculate_probabilties(&self.game_state);
-                    self.game_state.add_dice_rolled();
+                let res;
+                if self.game_state.game_period == GamePeriod::Setup {
+                    res = self.place_camel(
+                        self.game_state.selected_color,
+                        self.game_state.selected_field,
+                    )
+                } else {
+                    res = self.game_state.move_camel(
+                        self.game_state.selected_color.into(),
+                        self.game_state.selected_field,
+                    );
+                    if res.is_ok() {
+                        self.probabilities
+                            .start_probability_calculations(&self.game_state);
+                        self.game_state.add_dice_rolled();
+                    }
                 }
                 res
             }
@@ -252,6 +269,24 @@ impl App {
     fn focus_window(&mut self, win: GeneralWindow) {
         self.selected_window = win;
     }
+
+    fn place_camel(
+        &mut self,
+        selected_color: usize,
+        selected_field: usize,
+    ) -> Result<(), PlayerActionError> {
+        let camel_info = self
+            .game_state
+            .camel_info(selected_color)
+            .expect("should always be some, since alle camels have info");
+        if camel_info.has_moved {
+            return Err(InvalidColor.into());
+        }
+        camel_info.has_moved = true;
+        self.game_state.add_dice_rolled();
+        self.game_state.add_camel(selected_color, selected_field);
+        Ok(())
+    }
 }
 
 /// Create a centered rect using up certain percentage of the available rect
@@ -297,15 +332,15 @@ fn main() -> io::Result<()> {
     // .unwrap();
 
     let mut terminal = ratatui::init();
-    let init_config = vec![
-        (1, CamelColor::Blue),
-        (1, CamelColor::White),
-        (1, CamelColor::Orange),
-        (1, CamelColor::Green),
-        (1, CamelColor::Yellow),
-    ];
-    // TODO: initialize app nicer
-    let mut app = App::new(&init_config);
+    // let init_config = vec![
+    //     (1, CamelColor::Blue),
+    //     (1, CamelColor::White),
+    //     (1, CamelColor::Orange),
+    //     (1, CamelColor::Green),
+    //     (1, CamelColor::Yellow),
+    // ];
+
+    let mut app = App::new();
 
     let app_result = app.run(&mut terminal);
 

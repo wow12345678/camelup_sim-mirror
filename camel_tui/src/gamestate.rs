@@ -1,4 +1,5 @@
 use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
+use MoveError::{InvalidConfiguration, InvalidMove};
 
 use calc::Configuration;
 use ratatui::{
@@ -11,12 +12,13 @@ use ratatui::{
 
 #[derive(Debug)]
 pub struct GameState {
-    pub fields: [CamelField; 16],
+    fields: [CamelField; 16],
     pub selected_color: usize,
     pub selected_field: usize,
-    pub camel_round_info: [CamelState; 5],
-    pub rolled_dice: usize,
-    pub round_number: u8,
+    camel_round_info: [CamelState; 5],
+    rolled_dice: usize,
+    round_number: u8,
+    pub game_period: GamePeriod,
 }
 
 impl Default for GameState {
@@ -28,15 +30,30 @@ impl Default for GameState {
             fields[i].board_index = i;
         }
 
+        // first field in the game
+        fields[0].selected = true;
+
+        //default camel selected
+        let mut camel_round_info = CamelColor::all().map(CamelState::new);
+        camel_round_info[0].selected = true;
+        
         Self {
             fields,
             selected_color: 0,
             selected_field: 0,
-            camel_round_info: CamelColor::all().map(CamelState::new),
+            camel_round_info,
             rolled_dice: 0,
+            game_period: GamePeriod::Setup,
             round_number: 0,
         }
     }
+}
+
+#[derive(Debug, Default, PartialEq)]
+pub enum GamePeriod {
+    #[default]
+    Setup,
+    Game,
 }
 
 #[derive(Debug)]
@@ -45,9 +62,77 @@ pub enum MoveError {
     InvalidConfiguration,
 }
 
+#[derive(Debug)]
+pub enum PlaceError {
+    InvalidIndex,
+    InvalidColor,
+}
+
+#[derive(Debug)]
+pub enum PlayerActionError {
+    MoveError(MoveError),
+    PlaceError(PlaceError),
+}
+
+impl std::fmt::Display for MoveError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            MoveError::InvalidMove => write!(f, "invalid move"),
+            MoveError::InvalidConfiguration => write!(f, "invalid configuration"),
+        }
+    }
+}
+
+impl std::fmt::Display for PlaceError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            PlaceError::InvalidIndex => write!(f, "invalid index"),
+            PlaceError::InvalidColor => write!(f, "invalid color"),
+        }
+    }
+}
+
+impl std::fmt::Display for PlayerActionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            PlayerActionError::MoveError(e) => write!(f, "move error: {}", e),
+            PlayerActionError::PlaceError(e) => write!(f, "place error: {}", e),
+        }
+    }
+}
+
+impl std::error::Error for MoveError {}
+impl std::error::Error for PlaceError {}
+impl std::error::Error for PlayerActionError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            PlayerActionError::MoveError(e) => Some(e),
+            PlayerActionError::PlaceError(e) => Some(e),
+        }
+    }
+}
+
+impl From<MoveError> for PlayerActionError {
+    fn from(err: MoveError) -> Self {
+        PlayerActionError::MoveError(err)
+    }
+}
+
+impl From<PlaceError> for PlayerActionError {
+    fn from(err: PlaceError) -> Self {
+        PlayerActionError::PlaceError(err)
+    }
+}
+
 impl GameState {
     pub fn round_finished(&self) -> bool {
         self.rolled_dice == 5
+    }
+
+    pub fn add_camel(&mut self, selected_color: usize, selected_field: usize) {
+        self.fields[selected_field]
+            .camels
+            .push(selected_color.into());
     }
 
     pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
@@ -102,26 +187,28 @@ impl GameState {
         init
     }
 
-    pub fn move_camel(&mut self, camel: CamelColor, to_field: usize) -> Result<(), MoveError> {
+    pub fn move_camel(
+        &mut self,
+        camel: CamelColor,
+        to_field: usize,
+    ) -> Result<(), PlayerActionError> {
         let camel_state = self.camel_round_info[Into::<usize>::into(camel)];
         if to_field >= self.fields.len() {
-            return Err(MoveError::InvalidMove);
+            return Err(InvalidMove.into());
         }
 
         if camel_state.has_moved {
-            return Err(MoveError::InvalidMove);
+            return Err(InvalidMove.into());
         }
 
-        let (old_pos, camel_index) = self
-            .find_camel(camel)
-            .ok_or(MoveError::InvalidConfiguration)?;
+        let (old_pos, camel_index) = self.find_camel(camel).ok_or(InvalidConfiguration)?;
 
         if old_pos > to_field || to_field - old_pos > 3 {
-            return Err(MoveError::InvalidMove);
+            return Err(InvalidMove.into());
         }
 
         if old_pos == to_field {
-            return Err(MoveError::InvalidMove);
+            return Err(InvalidMove.into());
         }
 
         let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
@@ -150,15 +237,12 @@ impl GameState {
         self.fields[old_idx].selected = false;
         self.fields[new_selection_idx].selected = true;
 
-        // has to be some
-        let (old_pos, camel_index) = self
-            .find_camel(camel)
-            .expect("This should always be Some, since there is always 1 camel of each color");
+        if let Some((old_pos, camel_index)) = self.find_camel(camel) {
+            let moving_camels = self.fields[old_pos].camels.iter().skip(camel_index);
 
-        let moving_camels = self.fields[old_pos].camels.iter().skip(camel_index);
-
-        for cam in moving_camels {
-            self.camel_round_info[Into::<usize>::into(*cam)].end_pos = new_selection_idx as u32;
+            for cam in moving_camels {
+                self.camel_round_info[Into::<usize>::into(*cam)].end_pos = new_selection_idx as u32;
+            }
         }
     }
 
@@ -347,5 +431,18 @@ impl GameState {
             //wierd indexing because real game starts at second field
             field.render(camel_field_areas[(i + 2) % 16], buf);
         }
+    }
+
+    pub(crate) fn camel_info(&mut self, camel_color: usize) -> Option<&mut CamelState> {
+        self.camel_round_info
+            .iter_mut()
+            .filter_map(|info| {
+                if Into::<usize>::into(info.camel_color) == camel_color {
+                    Some(info)
+                } else {
+                    None
+                }
+            })
+            .next()
     }
 }

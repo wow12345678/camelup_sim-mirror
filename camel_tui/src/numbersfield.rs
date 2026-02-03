@@ -159,7 +159,7 @@ impl std::fmt::Debug for ProbabilitiesField {
 }
 
 impl ProbabilitiesField {
-    pub fn calculate_probabilties(&mut self, game_state: &GameState) {
+    pub fn start_probability_calculations(&mut self, game_state: &GameState) {
         if let Some(handle) = self.calc_thread.take() {
             let _ = handle.join();
         }
