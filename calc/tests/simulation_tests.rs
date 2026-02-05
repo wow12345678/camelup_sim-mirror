@@ -63,7 +63,7 @@ fn test_simulate_round_debug() {
 
     res.print_stats();
 
-    let new_placements = res.aggragated_leaderboard();
+    let new_placements = res.aggregated_leaderboard();
     println!("{:?}", new_placements);
     let all_game_states_count = res.placements().len();
 

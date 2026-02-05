@@ -434,15 +434,6 @@ impl GameState {
     }
 
     pub(crate) fn camel_info(&mut self, camel_color: usize) -> Option<&mut CamelState> {
-        self.camel_round_info
-            .iter_mut()
-            .filter_map(|info| {
-                if Into::<usize>::into(info.camel_color) == camel_color {
-                    Some(info)
-                } else {
-                    None
-                }
-            })
-            .next()
+        self.camel_round_info.get_mut(camel_color)
     }
 }

@@ -174,7 +174,7 @@ fn bench_aggregated_leaderboard(c: &mut Criterion) {
     let result = simulate_rounds(config_clustered());
 
     c.bench_function("aggregated_leaderboard", |b| {
-        b.iter(|| black_box(result.aggragated_leaderboard()))
+        b.iter(|| black_box(result.aggregated_leaderboard()))
     });
 }
 

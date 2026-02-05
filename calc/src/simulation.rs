@@ -63,9 +63,10 @@ impl SimulationResult {
         &self.placements
     }
 
-    /// final aggragated placements of all final game_states like this:
-    /// \[󠁠󠁠󠁠`camel_color`\]\[`place`\] = amount of times `camel_color` placed `place`
-    pub fn aggragated_leaderboard(&self) -> [[u32; 5]; 5] {
+    /// Final aggregated placements of all final game states.
+    ///
+    /// Returns a 2D array where `[camel_color][place]` = number of times `camel_color` finished in `place`.
+    pub fn aggregated_leaderboard(&self) -> [[u32; 5]; 5] {
         let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
 
         for placement in self.placements() {

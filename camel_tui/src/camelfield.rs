@@ -151,6 +151,35 @@ const CAMEL_PATTERN_FACING_LEFT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
     [false, false, true,  true, false, true,  true,  false, false, false, false, true,  true,  false, true,  true,  false, false, false],
 ];
 
+#[rustfmt::skip]
+const LEFT_ARROW: [[bool; 32]; 11] = [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, true,  true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+];
+
+const RIGHT_ARROW: [[bool; 32]; 11] = [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, true,  true,  false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,  true,  false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+];
+
 /// camels are ordered from bottom to top
 /// index is the index in the representation in GameField
 /// board_index is the index that is rendered for the field
@@ -213,7 +242,8 @@ impl CamelField {
 
             // TODO: think about good camel rendering: either camel_idx or stack_position or
             // something else
-            let stack_position = total_camels - camel_idx - 1;
+            // alternative: total_camels - camel_idx - 1
+            let stack_position = camel_idx;
             let y_base =
                 field_bottom - camel_height_chars - stack_position as u16 * camel_stacking_offset;
 
@@ -282,14 +312,14 @@ impl Widget for &CamelField {
             Block::bordered()
                 .border_style(Style::default().fg(border_color))
                 .title_top(format!(
-                    "Field {}, area:{},{},{},{}",
+                    " Field {}, area:{},{},{},{} ",
                     self.board_index, area.x, area.y, area.width, area.height
                 ))
                 .render(area, buf);
         } else {
             Block::bordered()
                 .border_style(Style::default().fg(border_color))
-                .title_top(format!("Field {}", self.board_index))
+                .title_top(format!(" Field {} ", self.board_index))
                 .render(area, buf);
         }
 

@@ -50,9 +50,8 @@ def generate_rust_constant(bool_array):
     print("];")
 
 
-# Example usage
 if __name__ == "__main__":
-    image_path = "camel1.png"  # Replace with your image path
+    image_path = "arrow_right.png"
     
     non_white_bool = find_non_white_pixels(image_path)
     
@@ -67,6 +66,6 @@ if __name__ == "__main__":
     
     # Generate Rust constant
     print("\n" + "="*50)
-    print("Rust constant (copy this into your Rust code):")
+    print("Rust constant")
     print("="*50)
     generate_rust_constant(non_white_bool)

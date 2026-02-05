@@ -173,7 +173,7 @@ impl ProbabilitiesField {
                 let res = calc::simulate_rounds(configuration);
                 let game_states_count_all = res.placements().len();
                 let res = res
-                    .aggragated_leaderboard()
+                    .aggregated_leaderboard()
                     .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32));
 
                 let _ = tx.send(res);

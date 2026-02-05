@@ -1,6 +1,7 @@
 use crate::color::Color;
 use std::cmp::max;
 use std::convert::Into;
+use std::default;
 
 /// first camel at a position is at the bottom of a stack
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -8,11 +9,19 @@ pub struct CamelMap {
     pub pos_color_map: [Option<Vec<Color>>; 16],
     // colors are encoded by index like the enum
     pub color_pos_map: [u8; 5],
+    pub effect_plates: [Option<EffectPlate>; 16],
+}
+
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
+pub enum EffectPlate {
+    Oasis,
+    Desert
 }
 
 impl CamelMap {
     pub fn new(init_positions: Vec<(u8, Color)>) -> Self {
         let mut res = Self {
+            effect_plates: [None; 16],
             pos_color_map: [const { None }; 16],
             color_pos_map: [0; 5],
         };
