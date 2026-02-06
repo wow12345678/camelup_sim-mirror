@@ -2,7 +2,9 @@ use std::{io, sync::mpsc::Receiver, time::Duration};
 
 use self::{
     camelfield::CamelField,
-    gamestate::{GamePeriod, GameState, PlaceError::InvalidColor, PlayerActionError},
+    gamestate::{
+        GamePeriod, GameState, PlaceError::InvalidColor, PlayerActionError, SelectionType,
+    },
     numbersfield::{CamelState, ProbabilitiesField},
 };
 use camelfield::CamelColor;
@@ -48,7 +50,6 @@ impl App {
             sender: tx,
             calc_thread: None,
         };
-
 
         App {
             exit: false,
@@ -122,8 +123,8 @@ impl App {
             Line::from(""),
             Line::from("GAMEFIELD WINDOW"),
             Line::from("  <Enter>      Move camel to selected field"),
-            Line::from("  <h/j/k/l>    Navigate (Vim keys)"),
-            Line::from("  Arrow keys   Navigate (direction adapts to board position)"),
+            Line::from("  <h/j/k/l>    Navigate"),
+            Line::from("  Arrow keys   Navigate"),
             Line::from(""),
             Line::from("NUMBERFIELD WINDOW"),
             Line::from("  <j> / <Down> Move selected color down"),
@@ -204,24 +205,38 @@ impl App {
     fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), PlayerActionError> {
         match (key, self.game_state.selected_field) {
             (KeyCode::Enter, _) => {
-                let res;
-                if self.game_state.game_period == GamePeriod::Setup {
-                    res = self.place_camel(
-                        self.game_state.selected_color,
-                        self.game_state.selected_field,
-                    )
-                } else {
-                    res = self.game_state.move_camel(
-                        self.game_state.selected_color.into(),
-                        self.game_state.selected_field,
-                    );
-                    if res.is_ok() {
-                        self.probabilities
-                            .start_probability_calculations(&self.game_state);
-                        self.game_state.add_dice_rolled();
+                match self.game_state.selected_item_type {
+                    SelectionType::Camel => {
+                        if self.game_state.game_period == GamePeriod::Setup {
+                            self.place_camel(
+                                self.game_state.selected_color,
+                                self.game_state.selected_field,
+                            )
+                        } else {
+                            let res = self.game_state.move_camel(
+                                self.game_state.selected_color.into(),
+                                self.game_state.selected_field,
+                            );
+                            if res.is_ok() {
+                                self.probabilities
+                                    .start_probability_calculations(&self.game_state);
+                                self.game_state.add_dice_rolled();
+                            }
+                            res
+                        }
+                    }
+                    SelectionType::EffectCard => {
+                        self.game_state.toggle_effect_card(
+                            self.game_state.selected_effect,
+                            self.game_state.selected_field,
+                        );
+                        if self.game_state.game_period == GamePeriod::Game {
+                            self.probabilities
+                                .start_probability_calculations(&self.game_state);
+                        }
+                        Ok(())
                     }
                 }
-                res
             }
             (KeyCode::Right | KeyCode::Char('l'), 0..2 | 14..16) => {
                 self.game_state.move_selected_field_rel(1);
@@ -305,7 +320,7 @@ impl Widget for &App {
         let [numbers_area, game_area] = general_layout.areas(area);
 
         let numbers_layout =
-            Layout::vertical([Constraint::Percentage(50), Constraint::Percentage(50)]);
+            Layout::vertical([Constraint::Percentage(40), Constraint::Percentage(60)]);
 
         let [probability_area, camel_state_area] = numbers_layout.areas(numbers_area);
 

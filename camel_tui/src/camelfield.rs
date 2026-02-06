@@ -1,5 +1,6 @@
 use std::{cmp::max, fmt::Display};
 
+use calc::EffectCard;
 use ratatui::{
     buffer::Buffer,
     layout::Rect,
@@ -151,33 +152,35 @@ const CAMEL_PATTERN_FACING_LEFT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
     [false, false, true,  true, false, true,  true,  false, false, false, false, true,  true,  false, true,  true,  false, false, false],
 ];
 
+const ARROW_WIDTH: usize = 20;
+const ARROW_HEIGHT: usize = 10;
+
 #[rustfmt::skip]
-const LEFT_ARROW: [[bool; 32]; 11] = [
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, true,  true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+const LEFT_ARROW: [[bool; ARROW_WIDTH]; ARROW_HEIGHT] = [
+    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, true,  true,  false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false],
+    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  true,],
+    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
+    [true,  true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,],
+    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
+    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  true,],
+    [false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 ];
 
-const RIGHT_ARROW: [[bool; 32]; 11] = [
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, true,  true,  false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,  true,  false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  true,  false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+#[rustfmt::skip]
+const RIGHT_ARROW: [[bool; ARROW_WIDTH]; ARROW_HEIGHT] = [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, true,  true,  false, false, false],
+    [true,  true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false],
+    [true,  false, false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false],
+    [true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,  true,],
+    [true,  false, false, false, false, false, false, true,  false, false, false, true,  false, false, false, false, false, true,  true,  false],
+    [true,  true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  true,  false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 ];
 
 /// camels are ordered from bottom to top
@@ -193,7 +196,7 @@ const RIGHT_ARROW: [[bool; 32]; 11] = [
 ///  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 #[derive(Debug, Default)]
 pub struct CamelField {
-    pub camels: Vec<CamelColor>,
+    pub content: Option<CamelFieldContent>,
     pub board_index: usize,
     pub index: usize,
     pub selected: bool,
@@ -201,17 +204,74 @@ pub struct CamelField {
 
 impl CamelField {
     #[allow(unused)]
-    fn new(camels: Vec<CamelColor>, index: usize, board_index: usize) -> Self {
+    fn new(content: CamelFieldContent, index: usize, board_index: usize) -> Self {
         Self {
-            camels,
+            content: Some(content),
             board_index,
             index,
             selected: false,
         }
     }
 
-    fn render_camels(&self, area: Rect, buf: &mut Buffer) {
-        if self.camels.is_empty() {
+    pub fn camels(&self) -> Option<&Vec<CamelColor>> {
+        match &self.content {
+            Some(CamelFieldContent::Camels(camels)) => Some(camels),
+            Some(CamelFieldContent::EffectPlate(_)) => None,
+            None => None,
+        }
+    }
+
+    pub fn camels_mut(&mut self) -> Option<&mut Vec<CamelColor>> {
+        match &mut self.content {
+            Some(CamelFieldContent::Camels(camels)) => Some(camels),
+            Some(CamelFieldContent::EffectPlate(_)) => None,
+            None => None,
+        }
+    }
+
+    pub fn add_camel(&mut self, new_camel: CamelColor) {
+        match &mut self.content {
+            Some(CamelFieldContent::Camels(camels)) => {
+                camels.push(new_camel);
+            }
+            Some(CamelFieldContent::EffectPlate(_)) => {
+                // do nothing because camels cannot be on fields with effects on them
+            }
+            None => {
+                self.content
+                    .replace(CamelFieldContent::Camels(vec![new_camel]));
+            }
+        }
+    }
+
+    pub fn add_effect(&mut self, new_effect: EffectCard) {
+        match &mut self.content {
+            Some(CamelFieldContent::Camels(_)) => {
+                // do nothing because effects cannot be placed on fields with camels on them
+            }
+            Some(CamelFieldContent::EffectPlate(_)) | None => {
+                self.content
+                    .replace(CamelFieldContent::EffectPlate(new_effect));
+            }
+        }
+    }
+
+    pub fn remove_effect(&mut self, effect_to_remove: EffectCard) {
+        if let Some(CamelFieldContent::EffectPlate(current)) = &self.content
+            && *current == effect_to_remove
+        {
+            self.content = None;
+        }
+    }
+
+    pub fn clear_effects(&mut self) {
+        if matches!(&self.content, Some(CamelFieldContent::EffectPlate(_))) {
+            self.content = None;
+        }
+    }
+
+    fn render_camels(&self, area: Rect, buf: &mut Buffer, camels: &[CamelColor]) {
+        if self.content.is_none() {
             return;
         }
 
@@ -220,7 +280,7 @@ impl CamelField {
 
         // Convert pixel height to character height
         let camel_height_chars = CAMEL_HEIGHT.div_ceil(2) as u16;
-        let total_camels = self.camels.len();
+        let total_camels = camels.len();
         // borders
         let available_height = area.height - 2;
 
@@ -230,8 +290,8 @@ impl CamelField {
             max(1, available_height / (total_camels as u16 + 1))
         };
 
-        for camel_idx in 0..self.camels.len() {
-            let col = self.camels[camel_idx].to_color();
+        for camel_idx in 0..camels.len() {
+            let col = camels[camel_idx].to_color();
             let mut y = 0;
 
             let camel_pattern = if (0..8).contains(&self.index) {
@@ -295,6 +355,76 @@ impl CamelField {
             }
         }
     }
+
+    fn render_effect_card(&self, area: Rect, buf: &mut Buffer, effect: &EffectCard) {
+        if self.content.is_none() {
+            return;
+        }
+
+        // with manual adjustment for looks
+        let x_offset = area.x + area.width / 4 - 2;
+        let field_bottom = area.y + area.height - 1;
+
+        let effect_pattern = if *effect == EffectCard::Oasis {
+            RIGHT_ARROW
+        } else {
+            LEFT_ARROW
+        };
+
+        // Convert pixel height to character height
+        let effect_height_chars = ARROW_HEIGHT.div_ceil(2) as u16;
+
+        let col = Color::from(effect.to_color());
+        let mut y = 0;
+        let y_base = field_bottom - effect_height_chars - area.height / 4;
+
+        while y < ARROW_HEIGHT {
+            // Process two vertical pixels at once except for odd remainder
+            if y + 1 < ARROW_WIDTH {
+                for x in 0..ARROW_WIDTH {
+                    let char_x = x as u16 + x_offset;
+                    let char_y = y_base + (y / 2) as u16;
+
+                    if char_x < buf.area.right()
+                        && char_y < buf.area.bottom()
+                        && char_y >= buf.area.top()
+                    {
+                        match (effect_pattern[y][x], effect_pattern[y + 1][x]) {
+                            (true, true) => {
+                                buf[(char_x, char_y)].set_char('▀').set_fg(col).set_bg(col);
+                            }
+                            (true, false) => {
+                                buf[(char_x, char_y)].set_char('▀').set_fg(col);
+                            }
+                            (false, true) => {
+                                buf[(char_x, char_y)].set_char('▄').set_fg(col);
+                            }
+                            (false, false) => {
+                                // Both pixels empty, skip
+                            }
+                        }
+                    }
+                }
+                y += 2; // Increment by 2 since we processed 2 rows
+            } else {
+                // Handle odd remainder row
+                for x in 0..CAMEL_WIDTH {
+                    if effect_pattern[y][x] {
+                        let char_x = x as u16 + x_offset;
+                        let char_y = y_base + (y / 2) as u16;
+
+                        if char_x < buf.area.right()
+                            && char_y < buf.area.bottom()
+                            && char_y >= buf.area.top()
+                        {
+                            buf[(char_x, char_y)].set_char('▀').set_fg(col);
+                        }
+                    }
+                }
+                y += 1;
+            }
+        }
+    }
 }
 
 impl Widget for &CamelField {
@@ -323,6 +453,20 @@ impl Widget for &CamelField {
                 .render(area, buf);
         }
 
-        self.render_camels(area, buf);
+        match &self.content {
+            Some(CamelFieldContent::Camels(camels)) => {
+                self.render_camels(area, buf, camels);
+            }
+            Some(CamelFieldContent::EffectPlate(effect)) => {
+                self.render_effect_card(area, buf, effect);
+            }
+            None => {}
+        }
     }
+}
+
+#[derive(Debug)]
+pub enum CamelFieldContent {
+    Camels(Vec<CamelColor>),
+    EffectPlate(EffectCard),
 }

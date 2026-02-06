@@ -109,7 +109,7 @@ impl ConfigurationBuilder {
 
     /// Sets the camel map from a vector of (position, color) pairs
     pub fn with_map(mut self, positions: Vec<(u8, Color)>) -> Self {
-        self.map = Some(CamelMap::new(positions));
+        self.map = Some(CamelMap::builder().with_positions(positions).build().unwrap());
         self
     }
 
@@ -160,13 +160,16 @@ impl ConfigurationBuilder {
         Configuration {
             map: self.map.unwrap_or_else(|| {
                 // Default starting positions as used in tests and main
-                CamelMap::new(vec![
-                    (0, Color::Blue),
-                    (0, Color::Green),
-                    (1, Color::White),
-                    (1, Color::Yellow),
-                    (2, Color::Orange),
-                ])
+                CamelMap::builder()
+                    .with_positions(vec![
+                        (0, Color::Blue),
+                        (0, Color::Green),
+                        (1, Color::White),
+                        (1, Color::Yellow),
+                        (2, Color::Orange),
+                    ])
+                    .build()
+                    .unwrap()
             }),
             #[cfg(debug_assertions)]
             dice_queue: self.dice_queue.unwrap_or_default(),

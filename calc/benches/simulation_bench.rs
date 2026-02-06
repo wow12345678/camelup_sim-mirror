@@ -185,13 +185,18 @@ fn bench_camel_map(c: &mut Criterion) {
     // Benchmark map creation
     group.bench_function("new", |b| {
         b.iter(|| {
-            black_box(CamelMap::new(vec![
-                (0, Color::Blue),
-                (0, Color::Green),
-                (1, Color::Yellow),
-                (1, Color::White),
-                (2, Color::Orange),
-            ]))
+            black_box(
+                CamelMap::builder()
+                    .with_positions(vec![
+                        (0, Color::Blue),
+                        (0, Color::Green),
+                        (1, Color::Yellow),
+                        (1, Color::White),
+                        (2, Color::Orange),
+                    ])
+                    .build()
+                    .unwrap(),
+            )
         })
     });
 
@@ -199,13 +204,16 @@ fn bench_camel_map(c: &mut Criterion) {
     group.bench_function("move_camel", |b| {
         b.iter_batched(
             || {
-                CamelMap::new(vec![
-                    (0, Color::Blue),
-                    (0, Color::Green),
-                    (1, Color::Yellow),
-                    (1, Color::White),
-                    (2, Color::Orange),
-                ])
+                CamelMap::builder()
+                    .with_positions(vec![
+                        (0, Color::Blue),
+                        (0, Color::Green),
+                        (1, Color::Yellow),
+                        (1, Color::White),
+                        (2, Color::Orange),
+                    ])
+                    .build()
+                    .unwrap()
             },
             |mut map| {
                 map.move_camel(Color::Blue, 2);
@@ -216,13 +224,16 @@ fn bench_camel_map(c: &mut Criterion) {
     });
 
     // Benchmark find_camel lookup
-    let map = CamelMap::new(vec![
-        (0, Color::Blue),
-        (3, Color::Green),
-        (6, Color::Yellow),
-        (9, Color::White),
-        (12, Color::Orange),
-    ]);
+    let map = CamelMap::builder()
+        .with_positions(vec![
+            (0, Color::Blue),
+            (3, Color::Green),
+            (6, Color::Yellow),
+            (9, Color::White),
+            (12, Color::Orange),
+        ])
+        .build()
+        .unwrap();
     group.bench_function("find_camel", |b| {
         b.iter(|| black_box(map.find_camel(Color::Orange)))
     });

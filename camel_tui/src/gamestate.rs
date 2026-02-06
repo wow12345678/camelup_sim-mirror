@@ -1,7 +1,8 @@
-use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
+use crate::{CamelField, CamelColor, CamelState, GeneralWindow};
+use crate::numbersfield::EffectCardState;
 use MoveError::{InvalidConfiguration, InvalidMove};
 
-use calc::Configuration;
+use calc::{CamelMap, Configuration, EffectCard};
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -10,12 +11,22 @@ use ratatui::{
     widgets::{Block, Widget},
 };
 
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
+pub enum SelectionType {
+    #[default]
+    Camel,
+    EffectCard,
+}
+
 #[derive(Debug)]
 pub struct GameState {
     fields: [CamelField; 16],
     pub selected_color: usize,
     pub selected_field: usize,
     camel_round_info: [CamelState; 5],
+    effect_card_info: [EffectCardState; 2],
+    pub selected_item_type: SelectionType,
+    pub selected_effect: usize,
     rolled_dice: usize,
     round_number: u8,
     pub game_period: GamePeriod,
@@ -36,12 +47,20 @@ impl Default for GameState {
         //default camel selected
         let mut camel_round_info = CamelColor::all().map(CamelState::new);
         camel_round_info[0].selected = true;
-        
+
+        let effect_card_info = [
+            EffectCardState::new(EffectCard::Oasis),
+            EffectCardState::new(EffectCard::Desert),
+        ];
+
         Self {
             fields,
             selected_color: 0,
             selected_field: 0,
             camel_round_info,
+            effect_card_info,
+            selected_item_type: SelectionType::Camel,
+            selected_effect: 0,
             rolled_dice: 0,
             game_period: GamePeriod::Setup,
             round_number: 0,
@@ -130,9 +149,7 @@ impl GameState {
     }
 
     pub fn add_camel(&mut self, selected_color: usize, selected_field: usize) {
-        self.fields[selected_field]
-            .camels
-            .push(selected_color.into());
+        self.fields[selected_field].add_camel(selected_color.into());
     }
 
     pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
@@ -142,14 +159,27 @@ impl GameState {
                 .iter()
                 .enumerate()
                 .fold(Vec::new(), |mut acc, (idx, field)| {
-                    let vec: Vec<(u8, calc::Color)> = field
-                        .camels
-                        .iter()
-                        .map(|color| (idx as u8, Into::<calc::Color>::into(*color as usize)))
-                        .collect();
-                    acc.extend(vec);
+                    if let Some(camels) = field.camels() {
+                        let c: Vec<(u8, calc::Color)> = camels
+                            .iter()
+                            .map(|color| (idx as u8, Into::<calc::Color>::into(*color as usize)))
+                            .collect();
+                        acc.extend(c);
+                    }
                     acc
                 });
+
+        // Collect effect card placements
+        let effect_cards: Vec<(usize, EffectCard)> = game_state
+            .effect_card_info
+            .iter()
+            .flat_map(|effect_state| {
+                effect_state
+                    .placements
+                    .iter()
+                    .map(|&pos| (pos as usize, effect_state.effect_type))
+            })
+            .collect();
 
         let colors: Vec<calc::Color> = game_state
             .camel_round_info
@@ -163,8 +193,15 @@ impl GameState {
             })
             .collect();
 
+        // Build CamelMap with both positions and effect cards
+        let camel_map = CamelMap::builder()
+            .with_positions(positions)
+            .with_effect_cards(effect_cards)
+            .build()
+            .unwrap();
+
         Configuration::builder()
-            .with_map(positions)
+            .with_camel_map(camel_map)
             .with_available_colors(colors)
             .build()
     }
@@ -180,7 +217,9 @@ impl GameState {
         init.camel_round_info[init.selected_color].selected = true;
 
         for (i, col) in config {
-            init.fields[*i as usize].camels.push(*col);
+            if let Some(camels) = init.fields[*i as usize].camels_mut() {
+                camels.push(*col)
+            }
             init.camel_round_info[Into::<usize>::into(*col)].start_pos = *i as u32;
         }
 
@@ -214,12 +253,17 @@ impl GameState {
         let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
         camel_state.has_moved = true;
 
-        let moving_camels = self.fields[old_pos].camels.split_off(camel_index);
-        for cam in &moving_camels {
-            self.camel_round_info[Into::<usize>::into(*cam)].end_pos = to_field as u32;
-        }
+        if let Some(old_camels) = self.fields[old_pos].camels_mut() {
+            let moving_camels = old_camels.split_off(camel_index);
 
-        self.fields[to_field].camels.extend(moving_camels);
+            for cam in &moving_camels {
+                self.camel_round_info[Into::<usize>::into(*cam)].end_pos = to_field as u32;
+            }
+
+            if let Some(new_camels) = self.fields[to_field].camels_mut() {
+                new_camels.extend(moving_camels);
+            }
+        }
 
         Ok(())
     }
@@ -237,16 +281,24 @@ impl GameState {
         self.fields[old_idx].selected = false;
         self.fields[new_selection_idx].selected = true;
 
-        if let Some((old_pos, camel_index)) = self.find_camel(camel) {
-            let moving_camels = self.fields[old_pos].camels.iter().skip(camel_index);
+        if let Some((old_pos, camel_index)) = self.find_camel(camel)
+            && let Some(old_camels) = self.fields[old_pos].camels()
+        {
+            let moving_camels = old_camels.iter().skip(camel_index);
 
             for cam in moving_camels {
                 self.camel_round_info[Into::<usize>::into(*cam)].end_pos = new_selection_idx as u32;
             }
-        }
+        };
     }
 
     pub fn move_selected_color(&mut self, new_color: usize) {
+        // Clear any effect card selection first
+        if self.selected_item_type == SelectionType::EffectCard {
+            self.effect_card_info[self.selected_effect].selected = false;
+            self.selected_item_type = SelectionType::Camel;
+        }
+
         let old_color = self.selected_color;
         self.camel_round_info[old_color].selected = false;
 
@@ -266,24 +318,66 @@ impl GameState {
             .iter()
             .enumerate()
             .find_map(|(field_idx, field)| {
-                field
-                    .camels
-                    .iter()
-                    .position(|&c| c == camel)
-                    .map(|camel_idx| (field_idx, camel_idx))
+                if let Some(camels) = field.camels() {
+                    camels
+                        .iter()
+                        .position(|&c| c == camel)
+                        .map(|camel_idx| (field_idx, camel_idx))
+                } else {
+                    None
+                }
             })
     }
 
     pub fn move_selected_color_rel(&mut self, by: i32) {
-        let old_idx = self.selected_color;
-        let new_selection_idx = match old_idx as i32 + by {
-            _idx @ 5.. => 0,
-            _idx @ ..0 => 4,
-            idx => idx as usize,
-        };
-        self.camel_round_info[self.selected_color].selected = false;
-        self.selected_color = new_selection_idx;
-        self.camel_round_info[new_selection_idx].selected = true;
+        match self.selected_item_type {
+            SelectionType::Camel => {
+                let old_idx = self.selected_color;
+                let new_idx = old_idx as i32 + by;
+
+                if new_idx < 0 {
+                    // Wrap to Desert (bottom of effect cards)
+                    self.camel_round_info[old_idx].selected = false;
+                    self.selected_item_type = SelectionType::EffectCard;
+                    self.selected_effect = 1; // Desert
+                    self.effect_card_info[1].selected = true;
+                } else if new_idx >= 5 {
+                    // Move to Oasis (top of effect cards)
+                    self.camel_round_info[old_idx].selected = false;
+                    self.selected_item_type = SelectionType::EffectCard;
+                    self.selected_effect = 0; // Oasis
+                    self.effect_card_info[0].selected = true;
+                } else {
+                    // Stay in camels
+                    self.camel_round_info[old_idx].selected = false;
+                    self.selected_color = new_idx as usize;
+                    self.camel_round_info[new_idx as usize].selected = true;
+                }
+            }
+            SelectionType::EffectCard => {
+                let old_idx = self.selected_effect;
+                let new_idx = old_idx as i32 + by;
+
+                if new_idx < 0 {
+                    // Move to Yellow (bottom camel)
+                    self.effect_card_info[old_idx].selected = false;
+                    self.selected_item_type = SelectionType::Camel;
+                    self.selected_color = 4; // Yellow
+                    self.camel_round_info[4].selected = true;
+                } else if new_idx >= 2 {
+                    // Wrap to Blue (top camel)
+                    self.effect_card_info[old_idx].selected = false;
+                    self.selected_item_type = SelectionType::Camel;
+                    self.selected_color = 0; // Blue
+                    self.camel_round_info[0].selected = true;
+                } else {
+                    // Stay in effect cards
+                    self.effect_card_info[old_idx].selected = false;
+                    self.selected_effect = new_idx as usize;
+                    self.effect_card_info[new_idx as usize].selected = true;
+                }
+            }
+        }
     }
 
     pub fn new_round(&mut self) {
@@ -291,6 +385,14 @@ impl GameState {
         for cam_info in &mut self.camel_round_info {
             cam_info.start_pos = cam_info.end_pos;
             cam_info.has_moved = false;
+        }
+        // Clear effect card placements
+        for effect_info in &mut self.effect_card_info {
+            effect_info.clear_placements();
+        }
+        // Clear effects from fields
+        for field in &mut self.fields {
+            field.clear_effects();
         }
         self.rolled_dice = 0;
     }
@@ -311,22 +413,23 @@ impl GameState {
 
         let outer_line = Block::bordered()
             .border_style(Style::default().fg(border_color))
-            .title_top("Kamele");
+            .title_top("Camels");
 
         let inner_area = outer_line.inner(area);
 
         outer_line.render(area, buf);
 
         let constraints = [
-            vec![Constraint::Length(1)],
-            vec![Constraint::Length(4); 5],
-            vec![Constraint::Length(1)],
+            vec![Constraint::Length(1)],      // "Round X"
+            vec![Constraint::Length(4); 5],   // 5 camels
+            vec![Constraint::Length(3); 2],   // 2 effect card types
+            vec![Constraint::Length(1)],      // "Remaining Dice"
         ]
         .concat();
 
         let camel_layout = Layout::vertical(constraints);
 
-        let rows: [_; 7] = camel_layout.areas(inner_area);
+        let rows: [_; 9] = camel_layout.areas(inner_area);
 
         let round_string = if self.round_number == 0 {
             "Initialization Round".to_string()
@@ -336,13 +439,19 @@ impl GameState {
 
         Line::from(round_string).centered().render(rows[0], buf);
 
+        // Render camels (rows 1-5)
         for (i, r) in rows.iter().take(6).skip(1).enumerate() {
             self.camel_round_info[i].render(*r, buf);
         }
 
+        // Render effect cards (rows 6-7)
+        for (i, r) in rows.iter().take(8).skip(6).enumerate() {
+            (&self.effect_card_info[i]).render(*r, buf);
+        }
+
         Line::from(format!("Remaining Dice {dice}/5", dice = self.rolled_dice))
             .centered()
-            .render(rows[6], buf);
+            .render(rows[8], buf);
     }
 
     pub fn render_game_field(&self, area: Rect, buf: &mut Buffer, selected_window: GeneralWindow)
@@ -435,5 +544,21 @@ impl GameState {
 
     pub(crate) fn camel_info(&mut self, camel_color: usize) -> Option<&mut CamelState> {
         self.camel_round_info.get_mut(camel_color)
+    }
+
+    pub fn toggle_effect_card(&mut self, effect_idx: usize, field: usize) {
+        let was_placed = self.effect_card_info[effect_idx].has_placement(field as u8);
+        self.effect_card_info[effect_idx].toggle_placement(field as u8);
+
+        let effect_type = self.effect_card_info[effect_idx].effect_type;
+        if was_placed {
+            self.fields[field].remove_effect(effect_type);
+        } else {
+            self.fields[field].add_effect(effect_type);
+        }
+    }
+
+    pub fn effect_card_info(&mut self, idx: usize) -> Option<&mut EffectCardState> {
+        self.effect_card_info.get_mut(idx)
     }
 }

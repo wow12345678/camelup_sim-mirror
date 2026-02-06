@@ -2,13 +2,16 @@ use calc::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
 
 fn simple_test_config() -> Configuration {
     Configuration {
-        map: CamelMap::new(vec![
-            (0, Color::Blue),
-            (0, Color::Green),
-            (1, Color::Yellow),
-            (1, Color::White),
-            (2, Color::Orange),
-        ]),
+        map: CamelMap::builder()
+            .with_positions(vec![
+                (0, Color::Blue),
+                (0, Color::Green),
+                (1, Color::Yellow),
+                (1, Color::White),
+                (2, Color::Orange),
+            ])
+            .build()
+            .unwrap(),
         #[cfg(debug_assertions)]
         dice_queue: Vec::new(),
         available_colours: ColorState::new(vec![
@@ -47,13 +50,15 @@ fn test_simulate_round_debug() {
         Color::Yellow,
     ]);
     let init_conf = Configuration {
-        map: CamelMap::new(vec![
-            (1, Color::Blue),
-            (1, Color::Green),
-            (2, Color::Orange),
-            (3, Color::White),
-            (3, Color::Yellow),
-        ]),
+        map: CamelMap::builder()
+            .with_positions(vec![
+                (1, Color::Blue),
+                (1, Color::Green),
+                (2, Color::Orange),
+                (3, Color::White),
+                (3, Color::Yellow),
+            ])
+            .build().unwrap(),
         #[cfg(debug_assertions)]
         dice_queue: Vec::new(),
         available_colours: color_state,

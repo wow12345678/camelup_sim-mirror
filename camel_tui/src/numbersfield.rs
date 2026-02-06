@@ -1,5 +1,7 @@
 use std::{cmp::Ordering, fmt::Display, sync::mpsc::Sender, thread};
 
+use calc::EffectCard;
+
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
 use ratatui::{
@@ -76,6 +78,81 @@ impl CamelState {
             selected: false,
             has_moved: false,
         }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct EffectCardState {
+    pub effect_type: EffectCard,
+    pub placements: Vec<u8>,
+    pub selected: bool,
+}
+
+impl EffectCardState {
+    pub fn new(effect_type: EffectCard) -> Self {
+        Self {
+            effect_type,
+            placements: Vec::new(),
+            selected: false,
+        }
+    }
+
+    pub fn toggle_placement(&mut self, field: u8) {
+        if let Some(idx) = self.placements.iter().position(|&p| p == field) {
+            self.placements.remove(idx);
+        } else {
+            self.placements.push(field);
+        }
+    }
+
+    pub fn has_placement(&self, field: u8) -> bool {
+        self.placements.contains(&field)
+    }
+
+    pub fn clear_placements(&mut self) {
+        self.placements.clear();
+    }
+}
+
+impl Display for EffectCardState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self.effect_type {
+            EffectCard::Oasis => "Oasis",
+            EffectCard::Desert => "Desert",
+        };
+        if self.placements.is_empty() {
+            write!(f, "{}: -", name)
+        } else {
+            let positions: Vec<String> = self.placements.iter().map(|p| p.to_string()).collect();
+            write!(f, "{}: {}", name, positions.join(", "))
+        }
+    }
+}
+
+impl Widget for &EffectCardState {
+    fn render(self, area: Rect, buf: &mut Buffer)
+    where
+        Self: Sized,
+    {
+        let border_color = if self.selected {
+            Color::LightBlue
+        } else {
+            Color::White
+        };
+
+        let borders = Block::bordered().style(Style::default().fg(border_color));
+        let inner_area = borders.inner(area);
+
+        borders.render(area, buf);
+
+        let text_color = match self.effect_type {
+            EffectCard::Oasis => Color::Green,
+            EffectCard::Desert => Color::Red,
+        };
+
+        Line::from(format!("{self}"))
+            .style(Style::default().fg(text_color))
+            .render(inner_area, buf);
     }
 }
 
@@ -200,7 +277,7 @@ impl Widget for &ProbabilitiesField {
     where
         Self: Sized,
     {
-        let outer_line = Block::bordered().title_top("Wahrscheinlichkeiten");
+        let outer_line = Block::bordered().title_top("Probabilities");
         let inner_area = outer_line.inner(area);
         outer_line.render(area, buf);
 

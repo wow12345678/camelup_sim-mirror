@@ -2,11 +2,14 @@ use calc::{CamelMap, Color};
 
 #[test]
 fn test_move_camel() {
-    let mut map = CamelMap::new(vec![
-        (0, Color::Blue),
-        (0, Color::Green),
-        (1, Color::Orange),
-    ]);
+    let mut map = CamelMap::builder()
+        .with_positions(vec![
+            (0, Color::Blue),
+            (0, Color::Green),
+            (1, Color::Orange),
+        ])
+        .build()
+        .unwrap();
 
     map.move_camel(Color::Green, 3);
     assert_eq!(map.find_camel(Color::Green), 3);
@@ -16,7 +19,7 @@ fn test_move_camel() {
 }
 
 #[test]
-// #[ignore = "only for debug"]
+#[ignore = "only for debug"]
 fn map_from_vec() {
     let pos_vec = vec![
         (3, Color::White),
@@ -26,7 +29,7 @@ fn map_from_vec() {
         (3, Color::Orange),
     ];
 
-    let map = CamelMap::new(pos_vec);
+    let map = CamelMap::builder().with_positions(pos_vec).build().unwrap();
 
     println!("{map:?}");
 }
