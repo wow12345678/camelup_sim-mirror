@@ -60,6 +60,10 @@ impl ColorState {
         self.assign_to_index(col.into(), false);
     }
 
+    pub fn clear(&mut self) {
+        self.state = 0b0000_0000;
+    }
+
     pub fn add_color(&mut self, col: Color) {
         self.assign_to_index(col.into(), true);
     }

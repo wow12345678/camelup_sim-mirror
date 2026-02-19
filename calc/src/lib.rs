@@ -9,4 +9,4 @@ pub use camel_map::{CamelMap, EffectCard};
 pub use color::Color;
 pub use color_state::ColorState;
 pub use configuration::{Configuration, ConfigurationBuilder, Dice};
-pub use simulation::{Placement, SimulationResult, simulate_rounds};
+pub use simulation::{Placement, SimulationResult, simulate_rounds, simulate_rounds_full};

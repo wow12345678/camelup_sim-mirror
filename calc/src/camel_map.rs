@@ -1,14 +1,13 @@
 use crate::color::Color;
-use std::cmp::max;
 use std::convert::Into;
 
 /// first camel at a position is at the bottom of a stack
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct CamelMap {
-    pub pos_color_map: [Option<Vec<Color>>; 16],
+    pub pos_color_map: [Option<Vec<Color>>; 20],
     // colors are encoded by index like the enum
     pub color_pos_map: [u8; 5],
-    pub effect_cards: [Option<EffectCard>; 16],
+    pub effect_cards: [Option<EffectCard>; 20],
 }
 
 /// plates which have a effect when a camel lands on a field with them
@@ -33,14 +32,23 @@ impl CamelMap {
         CamelMapBuilder {
             pos_color_map: None,
             color_pos_map: None,
-            effect_cards: [const { None }; 16],
+            effect_cards: [const { None }; 20],
         }
+    }
+    
+    pub fn clear_effects(&mut self) {
+        self.effect_cards = [const {None}; 20];
+    }
+
+    pub fn camel_has_won(&self) -> bool {
+        self.color_pos_map.iter().filter(|pos| **pos >= 15).count() >= 1
     }
 
     // moves camel to position along with all camels on top of it
     pub fn move_camel(&mut self, camel: Color, by: i8) {
+        let max_pos = (self.pos_color_map.len() - 1) as i8;
         let old_field_pos = self.find_camel(camel);
-        let mut new_pos = max(old_field_pos as i8 + by, 0) as u8;
+        let mut new_pos = (old_field_pos as i8 + by).clamp(0, max_pos) as u8;
         let card_effect = &self.effect_cards[new_pos as usize];
 
         match self.effect_cards[new_pos as usize] {
@@ -48,7 +56,7 @@ impl CamelMap {
             Some(EffectCard::Desert) => new_pos -= 1,
             None => (),
         }
-        new_pos = max(new_pos, 0);
+        new_pos = (new_pos as i8).clamp(0, max_pos) as u8;
 
         let old_pos_in_stack = &mut self.pos_color_map[old_field_pos as usize]
             .iter()
@@ -98,9 +106,9 @@ impl CamelMap {
 }
 
 pub struct CamelMapBuilder {
-    pos_color_map: Option<[Option<Vec<Color>>; 16]>,
+    pos_color_map: Option<[Option<Vec<Color>>; 20]>,
     color_pos_map: Option<[u8; 5]>,
-    effect_cards: [Option<EffectCard>; 16],
+    effect_cards: [Option<EffectCard>; 20],
 }
 
 impl CamelMapBuilder {
@@ -114,7 +122,7 @@ impl CamelMapBuilder {
     pub fn with_positions(mut self, init_positions: Vec<(u8, Color)>) -> CamelMapBuilder {
         self.pos_color_map
             .is_none()
-            .then(|| self.pos_color_map.replace([const { None }; 16]));
+            .then(|| self.pos_color_map.replace([const { None }; 20]));
         self.color_pos_map
             .is_none()
             .then(|| self.color_pos_map.replace([0; 5]));

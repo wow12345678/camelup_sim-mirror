@@ -17,6 +17,7 @@ pub struct Configuration {
     #[cfg(debug_assertions)]
     pub dice_queue: Vec<Dice>,
     pub available_colours: ColorState,
+    pub done: bool,
 }
 
 impl Hash for Configuration {
@@ -24,13 +25,16 @@ impl Hash for Configuration {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.map.hash(state);
         self.available_colours.hash(state);
+        self.done.hash(state);
     }
 }
 
 impl PartialEq for Configuration {
     fn eq(&self, other: &Self) -> bool {
         // dice_queue is excluded as it's only for debugging
-        self.map == other.map && self.available_colours == other.available_colours
+        self.map == other.map
+            && self.available_colours == other.available_colours
+            && self.done == other.done
     }
 }
 
@@ -38,6 +42,10 @@ impl Configuration {
     /// Creates a new ConfigurationBuilder for building Configuration instances
     pub fn builder() -> ConfigurationBuilder {
         ConfigurationBuilder::new()
+    }
+
+    pub fn clear_moveable_camels(&mut self) {
+        self.available_colours.clear();
     }
 
     /// normalize the configuration and just keep the relative distances of the camels
@@ -63,6 +71,13 @@ impl Configuration {
                 self.map.pos_color_map[new_idx] = Some(camels);
             }
         }
+    }
+
+    pub fn new_round(&mut self) {
+        self.available_colours = ColorState::default();
+        #[cfg(debug_assertions)]
+        self.dice_queue.clear();
+        self.map.clear_effects();
     }
 
     /// Creates a array as a leaderboard
@@ -109,7 +124,12 @@ impl ConfigurationBuilder {
 
     /// Sets the camel map from a vector of (position, color) pairs
     pub fn with_map(mut self, positions: Vec<(u8, Color)>) -> Self {
-        self.map = Some(CamelMap::builder().with_positions(positions).build().unwrap());
+        self.map = Some(
+            CamelMap::builder()
+                .with_positions(positions)
+                .build()
+                .unwrap(),
+        );
         self
     }
 
@@ -133,13 +153,16 @@ impl ConfigurationBuilder {
 
     /// Sets the dice queue from a vector of (Color, value) pairs
     /// Note: This field only exists in debug builds
-    #[cfg(debug_assertions)]
+    #[allow(unused)]
     pub fn with_dice_queue(mut self, dice_data: Vec<(Color, u8)>) -> Self {
-        let dice_vec: Vec<Dice> = dice_data
-            .into_iter()
-            .map(|(color, value)| Dice { color, value })
-            .collect();
-        self.dice_queue = Some(dice_vec);
+        #[cfg(debug_assertions)]
+        {
+            let dice_vec: Vec<Dice> = dice_data
+                .into_iter()
+                .map(|(color, value)| Dice { color, value })
+                .collect();
+            self.dice_queue = Some(dice_vec);
+        }
         self
     }
 
@@ -174,6 +197,7 @@ impl ConfigurationBuilder {
             #[cfg(debug_assertions)]
             dice_queue: self.dice_queue.unwrap_or_default(),
             available_colours: self.available_colours.unwrap_or_default(),
+            done: false,
         }
     }
 }

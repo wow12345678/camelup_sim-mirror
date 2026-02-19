@@ -79,6 +79,78 @@ impl SimulationResult {
     }
 }
 
+pub fn simulate_rounds_full(init_config: Configuration, n: u32) -> [[u64; 5]; 5] {
+    let mut compressed: HashMap<Configuration, u64> = HashMap::new();
+    compressed.insert(init_config, 1);
+
+    for _ in 0..n {
+        let mut next_compressed: HashMap<Configuration, u64> = HashMap::new();
+
+        for (conf, count) in compressed.drain() {
+            // if one camel has won, don't continue to simulate
+
+            if conf.done {
+                // scale by the full round factor because of early exit
+                let round_factor = (1..=5_u64).product::<u64>() * 3_u64.pow(5);
+                *next_compressed.entry(conf).or_insert(0) += count * round_factor;
+            } else {
+                simulate_rounds_full_rec(conf, count, &mut next_compressed);
+            }
+        }
+
+        compressed = next_compressed;
+    }
+
+    let configs: Vec<(Configuration, u64)> = compressed.drain().collect();
+
+    // temporary aggregated weighted placements
+    let mut placements: [[u64; 5]; 5] = [[0; 5]; 5];
+    for (conf, count) in configs {
+        for (i, &color_index) in conf.leaderboard().iter().enumerate() {
+            placements[color_index as usize][i] += count;
+        }
+    }
+    placements
+}
+
+fn simulate_rounds_full_rec(
+    conf: Configuration,
+    count: u64,
+    output: &mut HashMap<Configuration, u64>,
+) {
+    // Base case: all dice rolled this round
+    if conf.available_colours.is_empty() {
+        let mut result = conf;
+        result.new_round();
+        *output.entry(result).or_insert(0) += count;
+        return;
+    }
+
+    if conf.map.camel_has_won() {
+        let remaining = conf.available_colours.len() as u32;
+        let multiplier = (1..=remaining as u64).product::<u64>() * 3_u64.pow(remaining);
+        let mut result = conf;
+        result.clear_moveable_camels();
+        result.done = true;
+        *output.entry(result).or_insert(0) += count * multiplier;
+        return;
+    }
+
+    // For each available color, simulate all possible dice outcomes (1, 2, 3)
+    for color_code in &conf.available_colours {
+        let dice_color = Color::from_byte(color_code);
+        debug_assert_ne!(dice_color, Color::None);
+
+        for dice_value in 1..=3 {
+            let mut new_conf = conf.clone();
+            new_conf.available_colours.remove_color(dice_color);
+            new_conf.map.move_camel(dice_color, dice_value as i8);
+
+            simulate_rounds_full_rec(new_conf, count, output);
+        }
+    }
+}
+
 /// simulates the game from a initial configuration and returns [SimulationResult]
 pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
     let mut cache: HashMap<Configuration, Rc<Vec<Placement>>> = HashMap::new();
@@ -110,7 +182,7 @@ fn simulate_round_rec(
         return Rc::new(vec![conf.leaderboard().map(|color| color.into())]);
     }
 
-    // this is only good for 1 round simulations, since otherwise the progress 
+    // this is only good for 1 round simulations, since otherwise the progress
     // of the game gets lost
     conf.normalize();
 
