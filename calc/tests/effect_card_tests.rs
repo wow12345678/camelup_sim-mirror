@@ -1,13 +1,11 @@
 use calc::{CamelMap, Color, EffectCard};
 
-
 #[test]
 fn test_builder_with_single_oasis() {
     let map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
         .with_effect_cards(vec![(3, EffectCard::Oasis)])
-        .build()
-        .unwrap();
+        .build();
 
     assert_eq!(map.effect_cards[3], Some(EffectCard::Oasis));
     // Other positions should be None
@@ -21,8 +19,7 @@ fn test_builder_with_single_desert() {
     let map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
         .with_effect_cards(vec![(5, EffectCard::Desert)])
-        .build()
-        .unwrap();
+        .build();
 
     assert_eq!(map.effect_cards[5], Some(EffectCard::Desert));
     // Other positions should be None
@@ -40,8 +37,7 @@ fn test_builder_with_multiple_effect_cards() {
             (7, EffectCard::Desert),
             (10, EffectCard::Oasis),
         ])
-        .build()
-        .unwrap();
+        .build();
 
     assert_eq!(map.effect_cards[3], Some(EffectCard::Oasis));
     assert_eq!(map.effect_cards[7], Some(EffectCard::Desert));
@@ -50,7 +46,6 @@ fn test_builder_with_multiple_effect_cards() {
     assert_eq!(map.effect_cards[5], None);
 }
 
-
 #[test]
 fn test_oasis_moves_camel_forward_one() {
     // Camel at position 0, Oasis at position 3
@@ -58,14 +53,13 @@ fn test_oasis_moves_camel_forward_one() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
         .with_effect_cards(vec![(3, EffectCard::Oasis)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 4);
-    assert_eq!(map.pos_color_map[4], Some(vec![Color::Blue]));
-    assert_eq!(map.pos_color_map[3], None);
+    assert_eq!(map.camels_at(4), vec![Color::Blue]);
+    assert_eq!(map.camels_at(3), vec![]);
 }
 
 #[test]
@@ -76,15 +70,14 @@ fn test_oasis_places_camel_on_top_of_stack() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (4, Color::Green)])
         .with_effect_cards(vec![(3, EffectCard::Oasis)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 4);
     assert_eq!(map.find_camel(Color::Green), 4);
     // Green at bottom, Blue on top
-    assert_eq!(map.pos_color_map[4], Some(vec![Color::Green, Color::Blue]));
+    assert_eq!(map.camels_at(4), vec![Color::Green, Color::Blue]);
 }
 
 #[test]
@@ -94,16 +87,15 @@ fn test_oasis_with_camel_stack_moves_all() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
         .with_effect_cards(vec![(3, EffectCard::Oasis)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 4);
     assert_eq!(map.find_camel(Color::Green), 4);
     // Blue at bottom, Green on top (preserves stack order)
-    assert_eq!(map.pos_color_map[4], Some(vec![Color::Blue, Color::Green]));
-    assert_eq!(map.pos_color_map[0], None);
+    assert_eq!(map.camels_at(4), vec![Color::Blue, Color::Green]);
+    assert_eq!(map.camels_at(0), vec![]);
 }
 
 #[test]
@@ -113,14 +105,13 @@ fn test_desert_moves_camel_back_one() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
         .with_effect_cards(vec![(3, EffectCard::Desert)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 2);
-    assert_eq!(map.pos_color_map[2], Some(vec![Color::Blue]));
-    assert_eq!(map.pos_color_map[3], None);
+    assert_eq!(map.camels_at(2), vec![Color::Blue]);
+    assert_eq!(map.camels_at(3), vec![]);
 }
 
 #[test]
@@ -131,15 +122,14 @@ fn test_desert_places_camel_at_bottom_of_stack() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (2, Color::Green)])
         .with_effect_cards(vec![(3, EffectCard::Desert)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 2);
     assert_eq!(map.find_camel(Color::Green), 2);
     // Blue at bottom, Green on top
-    assert_eq!(map.pos_color_map[2], Some(vec![Color::Blue, Color::Green]));
+    assert_eq!(map.camels_at(2), vec![Color::Blue, Color::Green]);
 }
 
 #[test]
@@ -149,16 +139,15 @@ fn test_desert_with_camel_stack_moves_all() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
         .with_effect_cards(vec![(3, EffectCard::Desert)])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Blue, 3);
 
     assert_eq!(map.find_camel(Color::Blue), 2);
     assert_eq!(map.find_camel(Color::Green), 2);
     // Blue at bottom, Green on top (preserves stack order)
-    assert_eq!(map.pos_color_map[2], Some(vec![Color::Blue, Color::Green]));
-    assert_eq!(map.pos_color_map[0], None);
+    assert_eq!(map.camels_at(2), vec![Color::Blue, Color::Green]);
+    assert_eq!(map.camels_at(0), vec![]);
 }
 
 #[test]
@@ -168,8 +157,7 @@ fn test_desert_at_position_one_boundary() {
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
         .with_effect_cards(vec![(1, EffectCard::Desert)])
-        .build()
-        .unwrap();
+        .build();
 
     // Move Green (which is on top) by 1
     map.move_camel(Color::Green, 1);
@@ -178,5 +166,5 @@ fn test_desert_at_position_one_boundary() {
     assert_eq!(map.find_camel(Color::Green), 0);
     assert_eq!(map.find_camel(Color::Blue), 0);
     // Green should be at bottom due to Desert placement rules
-    assert_eq!(map.pos_color_map[0], Some(vec![Color::Green, Color::Blue]));
+    assert_eq!(map.camels_at(0), vec![Color::Green, Color::Blue]);
 }

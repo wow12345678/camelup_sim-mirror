@@ -8,14 +8,13 @@ fn test_move_camel() {
             (0, Color::Green),
             (1, Color::Orange),
         ])
-        .build()
-        .unwrap();
+        .build();
 
     map.move_camel(Color::Green, 3);
     assert_eq!(map.find_camel(Color::Green), 3);
     assert_eq!(map.find_camel(Color::Blue), 0);
     assert_eq!(map.find_camel(Color::Orange), 1);
-    assert_eq!(map.pos_color_map[3], Some(vec![Color::Green]));
+    assert_eq!(map.camels_at(3), vec![Color::Green],);
 }
 
 #[test]
@@ -29,7 +28,7 @@ fn map_from_vec() {
         (3, Color::Orange),
     ];
 
-    let map = CamelMap::builder().with_positions(pos_vec).build().unwrap();
+    let map = CamelMap::builder().with_positions(pos_vec).build();
 
     println!("{map:?}");
 }

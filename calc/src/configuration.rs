@@ -62,14 +62,13 @@ impl Configuration {
             return;
         }
         for i in 0..self.map.pos_color_map.len() {
-            if let Some(camels) = self.map.pos_color_map[i].take() {
-                let new_idx = max(i as i8 - smallest_pos as i8, 0) as usize;
-                for cam in &camels {
-                    self.map.color_pos_map[Into::<usize>::into(*cam)] = new_idx as u8;
-                }
-                self.map.pos_color_map[i] = None;
-                self.map.pos_color_map[new_idx] = Some(camels);
+            let camels = self.map.pos_color_map[i];
+            let new_idx = max(i as i8 - smallest_pos as i8, 0) as usize;
+            for cam in camels.iter() {
+                self.map.color_pos_map[Into::<usize>::into(cam)] = new_idx as u8;
             }
+            self.map.pos_color_map[i].clear();
+            self.map.pos_color_map[new_idx].replace(camels);
         }
     }
 
@@ -83,19 +82,12 @@ impl Configuration {
     /// Creates a array as a leaderboard
     /// [1., 2., 3., 4., 5.]
     pub(crate) fn leaderboard(&self) -> [Color; 5] {
-        let mut positions: Vec<(usize, &Vec<Color>)> = Vec::new();
-        for (i, pos) in self.map.pos_color_map.iter().enumerate() {
-            if let Some(val) = pos {
-                positions.push((i, val));
-            }
-        }
-        positions.sort_by(|a, b| b.0.cmp(&a.0));
         let mut leaderboard: [Color; 5] = [Color::None; 5];
-
         let mut i = 0;
-        for pos in positions {
-            for color in pos.1.iter().rev() {
-                leaderboard[i] = *color;
+
+        for pos in self.map.pos_color_map.iter().rev() {
+            for color in pos.iter().rev() {
+                leaderboard[i] = color;
                 i += 1;
             }
         }
@@ -124,12 +116,7 @@ impl ConfigurationBuilder {
 
     /// Sets the camel map from a vector of (position, color) pairs
     pub fn with_map(mut self, positions: Vec<(u8, Color)>) -> Self {
-        self.map = Some(
-            CamelMap::builder()
-                .with_positions(positions)
-                .build()
-                .unwrap(),
-        );
+        self.map = Some(CamelMap::builder().with_positions(positions).build());
         self
     }
 
@@ -192,7 +179,6 @@ impl ConfigurationBuilder {
                         (2, Color::Orange),
                     ])
                     .build()
-                    .unwrap()
             }),
             #[cfg(debug_assertions)]
             dice_queue: self.dice_queue.unwrap_or_default(),

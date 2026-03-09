@@ -1,8 +1,8 @@
 use std::hint::black_box;
 use std::time::Duration;
 
-use calc::{CamelMap, Color, ColorState, Configuration, simulate_rounds};
-use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
+use calc::{simulate_rounds, CamelMap, Color, ColorState, Configuration};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 
 // === Test Configurations ===
 
@@ -194,8 +194,7 @@ fn bench_camel_map(c: &mut Criterion) {
                         (1, Color::White),
                         (2, Color::Orange),
                     ])
-                    .build()
-                    .unwrap(),
+                    .build(),
             )
         })
     });
@@ -213,7 +212,6 @@ fn bench_camel_map(c: &mut Criterion) {
                         (2, Color::Orange),
                     ])
                     .build()
-                    .unwrap()
             },
             |mut map| {
                 map.move_camel(Color::Blue, 2);
@@ -232,8 +230,7 @@ fn bench_camel_map(c: &mut Criterion) {
             (9, Color::White),
             (12, Color::Orange),
         ])
-        .build()
-        .unwrap();
+        .build();
     group.bench_function("find_camel", |b| {
         b.iter(|| black_box(map.find_camel(Color::Orange)))
     });

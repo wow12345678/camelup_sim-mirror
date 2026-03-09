@@ -1,10 +1,12 @@
 #[cfg(debug_assertions)]
 use crate::Dice;
 use crate::{color::Color, configuration::Configuration};
+use dashmap::DashMap;
+use rayon::prelude::*;
 use std::convert::Into;
 use std::rc::Rc;
 
-use hashbrown::HashMap;
+use hashbrown::{DefaultHashBuilder, HashMap};
 
 #[derive(Debug, Default)]
 #[cfg(debug_assertions)]
@@ -79,26 +81,66 @@ impl SimulationResult {
     }
 }
 
-pub fn simulate_rounds_full(init_config: Configuration, n: u32) -> [[u64; 5]; 5] {
+pub fn simulate_n_rounds_full(init_config: Configuration, n: u32) -> [[u64; 5]; 5] {
     let mut compressed: HashMap<Configuration, u64> = HashMap::new();
+    const BRANCH_COUNT: u64 = 2 * 3 * 4 * 5_u64 * 3_u64.pow(5);
     compressed.insert(init_config, 1);
 
     for _ in 0..n {
-        let mut next_compressed: HashMap<Configuration, u64> = HashMap::new();
+        let d_hasher = DefaultHashBuilder::default();
+        let next_compressed: DashMap<Configuration, u64, DefaultHashBuilder> =
+            DashMap::with_hasher(d_hasher);
+        let old_compressed: Vec<(Configuration, u64)> = compressed.drain().collect();
 
-        for (conf, count) in compressed.drain() {
-            // if one camel has won, don't continue to simulate
-
+        old_compressed.into_par_iter().for_each(|(conf, count)| {
             if conf.done {
                 // scale by the full round factor because of early exit
-                let round_factor = (1..=5_u64).product::<u64>() * 3_u64.pow(5);
-                *next_compressed.entry(conf).or_insert(0) += count * round_factor;
+                *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
             } else {
-                simulate_rounds_full_rec(conf, count, &mut next_compressed);
+                simulate_rounds_full_rec(conf, count, &next_compressed);
             }
-        }
+        });
 
-        compressed = next_compressed;
+        compressed = next_compressed.into_iter().collect();
+    }
+
+    let configs: Vec<(Configuration, u64)> = compressed.drain().collect();
+
+    // temporary aggregated weighted placements
+    let mut placements: [[u64; 5]; 5] = [[0; 5]; 5];
+    for (conf, count) in configs {
+        for (i, &color_index) in conf.leaderboard().iter().enumerate() {
+            placements[color_index as usize][i] += count;
+        }
+    }
+    placements
+}
+
+pub fn simulate_rounds_full(init_config: Configuration) -> [[u64; 5]; 5] {
+    let mut compressed: HashMap<Configuration, u64> = HashMap::new();
+    const BRANCH_COUNT: u64 = 2 * 3 * 4 * 5_u64 * 3_u64.pow(5);
+    compressed.insert(init_config, 1);
+
+    loop {
+        let d_hasher = DefaultHashBuilder::default();
+        let next_compressed: DashMap<Configuration, u64, DefaultHashBuilder> =
+            DashMap::with_hasher(d_hasher);
+        let old_compressed: Vec<(Configuration, u64)> = compressed.drain().collect();
+
+        old_compressed.into_par_iter().for_each(|(conf, count)| {
+            if conf.done {
+                // scale by the full round factor because of early exit
+                *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
+            } else {
+                simulate_rounds_full_rec(conf, count, &next_compressed);
+            }
+        });
+
+        compressed = next_compressed.into_iter().collect();
+
+        if compressed.iter().all(|(conf, _)| conf.done) {
+            break;
+        }
     }
 
     let configs: Vec<(Configuration, u64)> = compressed.drain().collect();
@@ -116,7 +158,7 @@ pub fn simulate_rounds_full(init_config: Configuration, n: u32) -> [[u64; 5]; 5]
 fn simulate_rounds_full_rec(
     conf: Configuration,
     count: u64,
-    output: &mut HashMap<Configuration, u64>,
+    output: &DashMap<Configuration, u64, DefaultHashBuilder>,
 ) {
     // Base case: all dice rolled this round
     if conf.available_colours.is_empty() {

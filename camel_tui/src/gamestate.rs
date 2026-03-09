@@ -197,8 +197,7 @@ impl GameState {
         let camel_map = CamelMap::builder()
             .with_positions(positions)
             .with_effect_cards(effect_cards)
-            .build()
-            .unwrap();
+            .build();
 
         Configuration::builder()
             .with_camel_map(camel_map)
