@@ -247,11 +247,10 @@ impl ProbabilitiesField {
         let handle = thread::Builder::new()
             .name("probability-calc".to_string())
             .spawn(move || {
-                let res = calc::simulate_rounds(configuration);
-                let game_states_count_all = res.placements().len();
-                let res = res
-                    .aggregated_leaderboard()
-                    .map(|row| row.map(|elem| elem as f32 / game_states_count_all as f32));
+                let res = calc::simulate_round(configuration);
+                let weighted = res.weighted_leaderboard();
+                let total: u128 = weighted[0].iter().sum();
+                let res = weighted.map(|row| row.map(|elem| elem as f32 / total as f32));
 
                 let _ = tx.send(res);
             })

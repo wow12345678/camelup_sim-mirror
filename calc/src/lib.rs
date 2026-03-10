@@ -1,5 +1,4 @@
 #![feature(optimize_attribute)]
-#![feature(const_swap_with_slice)]
 mod camel_map;
 mod camel_stack;
 mod color;
@@ -12,6 +11,4 @@ pub use camel_map::{CamelMap, EffectCard};
 pub use color::Color;
 pub use color_state::ColorState;
 pub use configuration::{Configuration, ConfigurationBuilder, Dice};
-pub use simulation::{
-    simulate_n_rounds_full, simulate_rounds, simulate_rounds_full, Placement, SimulationResult,
-};
+pub use simulation::{simulate_round, simulate_rounds, SimulationResult};

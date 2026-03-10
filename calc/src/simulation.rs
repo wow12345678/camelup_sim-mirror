@@ -44,10 +44,8 @@ impl CacheStatistics {
     }
 }
 
-pub type Placement = [u8; 5];
-
 pub struct SimulationResult {
-    placements: Vec<Placement>,
+    leaderboard: [[u128; 5]; 5],
     #[cfg(debug_assertions)]
     stats: CacheStatistics,
 }
@@ -60,79 +58,87 @@ impl SimulationResult {
         }
     }
 
-    /// .placements() for Vec of all simulated game results
-    pub fn placements(&self) -> &Vec<Placement> {
-        &self.placements
-    }
-
-    /// Final aggregated placements of all final game states.
+    /// Weighted aggregated leaderboard.
     ///
-    /// Returns a 2D array where `[camel_color][place]` = number of times `camel_color` finished in `place`.
-    pub fn aggregated_leaderboard(&self) -> [[u32; 5]; 5] {
-        let mut placements: [[u32; 5]; 5] = [[0; 5]; 5];
-
-        for placement in self.placements() {
-            for (i, &color_index) in placement.iter().enumerate() {
-                placements[color_index as usize][i] += 1;
-            }
-        }
-
-        placements
+    /// Returns a 2D array where `[camel_color][place]` = weighted count as u128.
+    pub fn weighted_leaderboard(&self) -> [[u128; 5]; 5] {
+        self.leaderboard
     }
 }
 
-pub fn simulate_n_rounds_full(init_config: Configuration, n: u32) -> [[u64; 5]; 5] {
-    let mut compressed: HashMap<Configuration, u64> = HashMap::new();
-    const BRANCH_COUNT: u64 = 2 * 3 * 4 * 5_u64 * 3_u64.pow(5);
-    compressed.insert(init_config, 1);
+// pub fn simulate_n_rounds_full(init_config: Configuration, n: u32) -> [[u128; 5]; 5] {
+//     let mut compressed: HashMap<Configuration, u128> = HashMap::new();
+//     const BRANCH_COUNT: u128 = 2 * 3 * 4 * 5_u128 * 3_u128.pow(5);
+//     compressed.insert(init_config, 1);
+//
+//     for _ in 0..n {
+//         let d_hasher = DefaultHashBuilder::default();
+//         let next_compressed: DashMap<Configuration, u128, DefaultHashBuilder> =
+//             DashMap::with_hasher(d_hasher);
+//         let old_compressed: Vec<(Configuration, u128)> = compressed.drain().collect();
+//
+//         old_compressed.into_par_iter().for_each(|(conf, count)| {
+//             if conf.done {
+//                 // scale by the full round factor because of early exit
+//                 *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
+//             } else {
+//                 simulate_rounds_full_rec(conf, count, &next_compressed);
+//             }
+//         });
+//
+//         compressed = next_compressed.into_iter().collect();
+//     }
+//
+//     let configs: Vec<(Configuration, u128)> = compressed.drain().collect();
+//
+//     // temporary aggregated weighted placements
+//     let mut placements: [[u128; 5]; 5] = [[0; 5]; 5];
+//     for (conf, count) in configs {
+//         for (i, &color_index) in conf.leaderboard().iter().enumerate() {
+//             placements[color_index as usize][i] += count;
+//         }
+//     }
+//     placements
+// }
 
-    for _ in 0..n {
-        let d_hasher = DefaultHashBuilder::default();
-        let next_compressed: DashMap<Configuration, u64, DefaultHashBuilder> =
-            DashMap::with_hasher(d_hasher);
-        let old_compressed: Vec<(Configuration, u64)> = compressed.drain().collect();
-
-        old_compressed.into_par_iter().for_each(|(conf, count)| {
-            if conf.done {
-                // scale by the full round factor because of early exit
-                *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
-            } else {
-                simulate_rounds_full_rec(conf, count, &next_compressed);
-            }
-        });
-
-        compressed = next_compressed.into_iter().collect();
-    }
-
-    let configs: Vec<(Configuration, u64)> = compressed.drain().collect();
-
-    // temporary aggregated weighted placements
-    let mut placements: [[u64; 5]; 5] = [[0; 5]; 5];
-    for (conf, count) in configs {
-        for (i, &color_index) in conf.leaderboard().iter().enumerate() {
-            placements[color_index as usize][i] += count;
-        }
-    }
-    placements
-}
-
-pub fn simulate_rounds_full(init_config: Configuration) -> [[u64; 5]; 5] {
-    let mut compressed: HashMap<Configuration, u64> = HashMap::new();
-    const BRANCH_COUNT: u64 = 2 * 3 * 4 * 5_u64 * 3_u64.pow(5);
+/// Simulates a complete Camel Up game from the given configuration until a camel wins.
+///
+/// Exhaustively explores all possible dice outcomes across multiple rounds using
+/// parallel breadth-first expansion. Each round, every non-finished configuration is
+/// expanded into all `5! × 3^5 = 29,160` possible dice permutations. Equivalent
+/// configurations are compressed via a `HashMap` to keep the state space manageable.
+///
+/// Configurations where a camel has already won are marked `done` and carried forward
+/// with a scaling factor so that all branches are weighted equally in the final result.
+///
+/// Returns a [`SimulationResult`] containing a weighted leaderboard where
+/// `[camel_color][place]` holds the number of branches in which that camel finished
+/// in that position. Divide by the row sum to get probabilities.
+///
+/// <div class="warning">
+///
+/// Do not try to simulate for Configurations with many camels on fields earlier than 7,
+/// it takes very long and u128 overflows and thus the results are wrong.
+///
+/// </div>
+///
+pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
+    let mut compressed: HashMap<Configuration, u128> = HashMap::new();
+    const BRANCH_COUNT: u128 = 2 * 3 * 4 * 5_u128 * 3_u128.pow(5);
     compressed.insert(init_config, 1);
 
     loop {
         let d_hasher = DefaultHashBuilder::default();
-        let next_compressed: DashMap<Configuration, u64, DefaultHashBuilder> =
+        let next_compressed: DashMap<Configuration, u128, DefaultHashBuilder> =
             DashMap::with_hasher(d_hasher);
-        let old_compressed: Vec<(Configuration, u64)> = compressed.drain().collect();
+        let old_compressed: Vec<(Configuration, u128)> = compressed.drain().collect();
 
         old_compressed.into_par_iter().for_each(|(conf, count)| {
             if conf.done {
                 // scale by the full round factor because of early exit
                 *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
             } else {
-                simulate_rounds_full_rec(conf, count, &next_compressed);
+                simulate_rounds_rec(conf, count, &next_compressed);
             }
         });
 
@@ -143,38 +149,44 @@ pub fn simulate_rounds_full(init_config: Configuration) -> [[u64; 5]; 5] {
         }
     }
 
-    let configs: Vec<(Configuration, u64)> = compressed.drain().collect();
+    let configs: Vec<(Configuration, u128)> = compressed.drain().collect();
 
-    // temporary aggregated weighted placements
-    let mut placements: [[u64; 5]; 5] = [[0; 5]; 5];
+    // aggregated weighted placements
+    let mut placements: [[u128; 5]; 5] = [[0; 5]; 5];
     for (conf, count) in configs {
         for (i, &color_index) in conf.leaderboard().iter().enumerate() {
             placements[color_index as usize][i] += count;
         }
     }
-    placements
+
+    SimulationResult {
+        leaderboard: placements,
+        #[cfg(debug_assertions)]
+        stats: CacheStatistics::new(),
+    }
 }
 
-fn simulate_rounds_full_rec(
+fn simulate_rounds_rec(
     conf: Configuration,
-    count: u64,
-    output: &DashMap<Configuration, u64, DefaultHashBuilder>,
+    count: u128,
+    output: &DashMap<Configuration, u128, DefaultHashBuilder>,
 ) {
-    // Base case: all dice rolled this round
-    if conf.available_colours.is_empty() {
-        let mut result = conf;
-        result.new_round();
-        *output.entry(result).or_insert(0) += count;
-        return;
-    }
-
+    // Check for game-ending condition first, even if all dice have been rolled
     if conf.map.camel_has_won() {
         let remaining = conf.available_colours.len() as u32;
-        let multiplier = (1..=remaining as u64).product::<u64>() * 3_u64.pow(remaining);
+        let multiplier = (1..=remaining as u128).product::<u128>() * 3_u128.pow(remaining);
         let mut result = conf;
         result.clear_moveable_camels();
         result.done = true;
         *output.entry(result).or_insert(0) += count * multiplier;
+        return;
+    }
+
+    // Base case: all dice rolled this round, no winner yet
+    if conf.available_colours.is_empty() {
+        let mut result = conf;
+        result.new_round();
+        *output.entry(result).or_insert(0) += count;
         return;
     }
 
@@ -188,14 +200,14 @@ fn simulate_rounds_full_rec(
             new_conf.available_colours.remove_color(dice_color);
             new_conf.map.move_camel(dice_color, dice_value as i8);
 
-            simulate_rounds_full_rec(new_conf, count, output);
+            simulate_rounds_rec(new_conf, count, output);
         }
     }
 }
 
 /// simulates the game from a initial configuration and returns [SimulationResult]
-pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
-    let mut cache: HashMap<Configuration, Rc<Vec<Placement>>> = HashMap::new();
+pub fn simulate_round(init_config: Configuration) -> SimulationResult {
+    let mut cache: HashMap<Configuration, Rc<Vec<[u8; 5]>>> = HashMap::new();
     #[cfg(debug_assertions)]
     let mut stats = CacheStatistics::new();
     let placements = simulate_round_rec(
@@ -205,8 +217,15 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
         &mut stats,
     );
 
+    let mut leaderboard: [[u128; 5]; 5] = [[0; 5]; 5];
+    for placement in placements.iter() {
+        for (i, &color_index) in placement.iter().enumerate() {
+            leaderboard[color_index as usize][i] += 1;
+        }
+    }
+
     SimulationResult {
-        placements: Rc::try_unwrap(placements).unwrap_or_else(|rc| (*rc).clone()),
+        leaderboard,
         #[cfg(debug_assertions)]
         stats,
     }
@@ -214,9 +233,9 @@ pub fn simulate_rounds(init_config: Configuration) -> SimulationResult {
 
 fn simulate_round_rec(
     mut conf: Configuration,
-    cache: &mut HashMap<Configuration, Rc<Vec<Placement>>>,
+    cache: &mut HashMap<Configuration, Rc<Vec<[u8; 5]>>>,
     #[cfg(debug_assertions)] stats: &mut CacheStatistics,
-) -> Rc<Vec<Placement>> {
+) -> Rc<Vec<[u8; 5]>> {
     // Base case
     if conf.available_colours.is_empty() {
         #[cfg(debug_assertions)]

@@ -1,10 +1,12 @@
+use rand::RngExt;
 use std::hint::black_box;
 use std::time::Duration;
 
-use calc::{simulate_rounds, CamelMap, Color, ColorState, Configuration};
-use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
-
-// === Test Configurations ===
+use calc::{CamelMap, Color, ColorState, Configuration, simulate_round, simulate_rounds};
+use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
+use rand::SeedableRng;
+use rand::rngs::StdRng;
+use rand::seq::SliceRandom;
 
 /// camels close together
 fn config_clustered() -> Configuration {
@@ -87,36 +89,67 @@ fn config_partial(num_colors: usize) -> Configuration {
         .build()
 }
 
-// === Benchmarks ===
+/// Generates a configuration with camels placed around `base_pos` within `spread` range.
+/// - spread=0: all camels stacked on base_pos
+/// - spread=3: clustered (base_pos to base_pos+2)
+/// - spread=5: spread out (base_pos to base_pos+4)
+///
+/// Color order is shuffled to randomize stacking. Fixed seed ensures reproducibility.
+fn gen_config(seed: u64, base_pos: u8, spread: u8) -> Configuration {
+    let mut colors = [
+        Color::Blue,
+        Color::Green,
+        Color::Yellow,
+        Color::White,
+        Color::Orange,
+    ];
+    let mut rng = StdRng::seed_from_u64(seed);
+    colors.shuffle(&mut rng);
+    let positions: Vec<(u8, Color)> = colors
+        .iter()
+        .map(|&color| {
+            let offset = if spread == 0 {
+                0
+            } else {
+                rng.random_range(0..spread)
+            };
+            (base_pos + offset, color)
+        })
+        .collect();
+    Configuration::builder()
+        .with_map(positions)
+        .with_available_colors(colors.to_vec())
+        .build()
+}
 
 /// Benchmark full simulation with different board configurations
-fn bench_full_simulation(c: &mut Criterion) {
-    let mut group = c.benchmark_group("full_simulation");
+fn bench_full_single_round_simulation(c: &mut Criterion) {
+    let mut group = c.benchmark_group("full_single_round_simulation");
 
     group.bench_function("clustered", |b| {
-        b.iter(|| simulate_rounds(black_box(config_clustered())))
+        b.iter(|| simulate_round(black_box(config_clustered())))
     });
 
     group.bench_function("spread", |b| {
-        b.iter(|| simulate_rounds(black_box(config_spread())))
+        b.iter(|| simulate_round(black_box(config_spread())))
     });
 
     group.bench_function("stacked", |b| {
-        b.iter(|| simulate_rounds(black_box(config_stacked())))
+        b.iter(|| simulate_round(black_box(config_stacked())))
     });
 
     group.finish();
 }
 
 /// Benchmark simulation with varying number of remaining dice
-fn bench_partial_simulation(c: &mut Criterion) {
-    let mut group = c.benchmark_group("partial_simulation");
+fn bench_partial_single_round_simulation(c: &mut Criterion) {
+    let mut group = c.benchmark_group("partial_single_round_simulation");
 
-    for num_colors in [1, 2, 3, 4, 5] {
+    for num_colors in [1, 2, 3, 4] {
         group.bench_with_input(
             BenchmarkId::from_parameter(num_colors),
             &num_colors,
-            |b, &n| b.iter(|| simulate_rounds(black_box(config_partial(n)))),
+            |b, &n| b.iter(|| simulate_round(black_box(config_partial(n)))),
         );
     }
 
@@ -124,7 +157,7 @@ fn bench_partial_simulation(c: &mut Criterion) {
 }
 
 /// Benchmark the normalize operation in isolation
-fn bench_normalize(c: &mut Criterion) {
+fn bench_normalize_configuration(c: &mut Criterion) {
     let mut group = c.benchmark_group("normalize");
 
     group.bench_function("spread_config", |b| {
@@ -166,16 +199,6 @@ fn bench_clone_configuration(c: &mut Criterion) {
     group.bench_function("stacked", |b| b.iter(|| black_box(stacked.clone())));
 
     group.finish();
-}
-
-/// Benchmark the aggregated leaderboard calculation
-fn bench_aggregated_leaderboard(c: &mut Criterion) {
-    // Pre-compute simulation result once
-    let result = simulate_rounds(config_clustered());
-
-    c.bench_function("aggregated_leaderboard", |b| {
-        b.iter(|| black_box(result.aggregated_leaderboard()))
-    });
 }
 
 /// Benchmark CamelMap operations
@@ -288,17 +311,52 @@ fn bench_color_state(c: &mut Criterion) {
     group.finish();
 }
 
+/// Benchmark multi-round simulation with 3 layouts × 3 game stages
+fn bench_full_game_simulation(c: &mut Criterion) {
+    let mut group = c.benchmark_group("full_game_simulation");
+
+    let cases: Vec<(&str, Configuration)> = vec![
+        // Stacked (spread=0)
+        ("stacked/mid", gen_config(43, 7, 0)),
+        ("stacked/end", gen_config(44, 12, 0)),
+        // Clustered (spread=3)
+        ("clustered/mid", gen_config(46, 7, 3)),
+        ("clustered/end", gen_config(47, 10, 3)),
+        // Spread (spread=5)
+        ("spread/mid", gen_config(49, 7, 5)),
+        ("spread/end", gen_config(50, 10, 5)),
+    ];
+
+    for (name, config) in cases {
+        group.bench_with_input(
+            BenchmarkId::new("simulate_rounds", name),
+            &config,
+            |b, config| b.iter(|| simulate_rounds(black_box(config.clone()))),
+        );
+    }
+
+    group.finish();
+}
+
 criterion_group! {
-    name = benches;
+    name = single_round_benches;
     config = Criterion::default()
-                .measurement_time(Duration::from_secs(20));
-    targets = bench_full_simulation,
-              bench_partial_simulation,
-              bench_normalize,
+                .measurement_time(Duration::from_secs(20))
+                .sample_size(50);
+    targets = bench_full_single_round_simulation,
+              bench_partial_single_round_simulation,
+              bench_normalize_configuration,
               bench_clone_configuration,
-              bench_aggregated_leaderboard,
               bench_camel_map,
               bench_color_state
 }
 
-criterion_main!(benches);
+criterion_group! {
+    name = multi_round_benches;
+    config = Criterion::default()
+                .measurement_time(Duration::from_secs(60))
+                .sample_size(50);
+    targets = bench_full_game_simulation
+}
+
+criterion_main!(single_round_benches, multi_round_benches);
