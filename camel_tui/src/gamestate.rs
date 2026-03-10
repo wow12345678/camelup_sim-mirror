@@ -1,5 +1,6 @@
-use crate::{CamelField, CamelColor, CamelState, GeneralWindow};
+use crate::camelfield::CamelFieldContent;
 use crate::numbersfield::EffectCardState;
+use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
 use MoveError::{InvalidConfiguration, InvalidMove};
 
 use calc::{CamelMap, Configuration, EffectCard};
@@ -259,8 +260,17 @@ impl GameState {
                 self.camel_round_info[Into::<usize>::into(*cam)].end_pos = to_field as u32;
             }
 
-            if let Some(new_camels) = self.fields[to_field].camels_mut() {
-                new_camels.extend(moving_camels);
+            match &mut self.fields[to_field].content {
+                Some(CamelFieldContent::Camels(new_camels)) => {
+                    new_camels.extend(moving_camels);
+                }
+                Some(CamelFieldContent::EffectCard(_)) => {
+                    // the player accounts for correct movement if the camel would've landed on a
+                    // effect card
+                }
+                None => {
+                    self.fields[to_field].content = Some(CamelFieldContent::Camels(moving_camels));
+                }
             }
         }
 
@@ -310,6 +320,20 @@ impl GameState {
 
         self.camel_round_info[new_color].selected = true;
         self.selected_color = new_color;
+    }
+
+    pub fn move_selected_effect(&mut self, new_effect: usize) {
+        // Clear any camel selection first
+        if self.selected_item_type == SelectionType::Camel {
+            self.camel_round_info[self.selected_color].selected = false;
+            self.selected_item_type = SelectionType::EffectCard;
+        }
+
+        let old_effect = self.selected_effect;
+        self.effect_card_info[old_effect].selected = false;
+
+        self.effect_card_info[new_effect].selected = true;
+        self.selected_effect = new_effect;
     }
 
     fn find_camel(&self, camel: CamelColor) -> Option<(usize, usize)> {
@@ -419,10 +443,10 @@ impl GameState {
         outer_line.render(area, buf);
 
         let constraints = [
-            vec![Constraint::Length(1)],      // "Round X"
-            vec![Constraint::Length(4); 5],   // 5 camels
-            vec![Constraint::Length(3); 2],   // 2 effect card types
-            vec![Constraint::Length(1)],      // "Remaining Dice"
+            vec![Constraint::Length(1)],    // "Round X"
+            vec![Constraint::Length(4); 5], // 5 camels
+            vec![Constraint::Length(3); 2], // 2 effect card types
+            vec![Constraint::Length(1)],    // "Remaining Dice"
         ]
         .concat();
 

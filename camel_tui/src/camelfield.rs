@@ -216,7 +216,7 @@ impl CamelField {
     pub fn camels(&self) -> Option<&Vec<CamelColor>> {
         match &self.content {
             Some(CamelFieldContent::Camels(camels)) => Some(camels),
-            Some(CamelFieldContent::EffectPlate(_)) => None,
+            Some(CamelFieldContent::EffectCard(_)) => None,
             None => None,
         }
     }
@@ -224,7 +224,7 @@ impl CamelField {
     pub fn camels_mut(&mut self) -> Option<&mut Vec<CamelColor>> {
         match &mut self.content {
             Some(CamelFieldContent::Camels(camels)) => Some(camels),
-            Some(CamelFieldContent::EffectPlate(_)) => None,
+            Some(CamelFieldContent::EffectCard(_)) => None,
             None => None,
         }
     }
@@ -234,7 +234,7 @@ impl CamelField {
             Some(CamelFieldContent::Camels(camels)) => {
                 camels.push(new_camel);
             }
-            Some(CamelFieldContent::EffectPlate(_)) => {
+            Some(CamelFieldContent::EffectCard(_)) => {
                 // do nothing because camels cannot be on fields with effects on them
             }
             None => {
@@ -249,15 +249,15 @@ impl CamelField {
             Some(CamelFieldContent::Camels(_)) => {
                 // do nothing because effects cannot be placed on fields with camels on them
             }
-            Some(CamelFieldContent::EffectPlate(_)) | None => {
+            Some(CamelFieldContent::EffectCard(_)) | None => {
                 self.content
-                    .replace(CamelFieldContent::EffectPlate(new_effect));
+                    .replace(CamelFieldContent::EffectCard(new_effect));
             }
         }
     }
 
     pub fn remove_effect(&mut self, effect_to_remove: EffectCard) {
-        if let Some(CamelFieldContent::EffectPlate(current)) = &self.content
+        if let Some(CamelFieldContent::EffectCard(current)) = &self.content
             && *current == effect_to_remove
         {
             self.content = None;
@@ -265,7 +265,7 @@ impl CamelField {
     }
 
     pub fn clear_effects(&mut self) {
-        if matches!(&self.content, Some(CamelFieldContent::EffectPlate(_))) {
+        if matches!(&self.content, Some(CamelFieldContent::EffectCard(_))) {
             self.content = None;
         }
     }
@@ -275,7 +275,7 @@ impl CamelField {
             return;
         }
 
-        let x_offset = area.x + area.width / 4;
+        let x_offset = area.x + area.width / 8;
         let field_bottom = area.y + area.height - 1;
 
         // Convert pixel height to character height
@@ -457,7 +457,7 @@ impl Widget for &CamelField {
             Some(CamelFieldContent::Camels(camels)) => {
                 self.render_camels(area, buf, camels);
             }
-            Some(CamelFieldContent::EffectPlate(effect)) => {
+            Some(CamelFieldContent::EffectCard(effect)) => {
                 self.render_effect_card(area, buf, effect);
             }
             None => {}
@@ -468,5 +468,5 @@ impl Widget for &CamelField {
 #[derive(Debug)]
 pub enum CamelFieldContent {
     Camels(Vec<CamelColor>),
-    EffectPlate(EffectCard),
+    EffectCard(EffectCard),
 }

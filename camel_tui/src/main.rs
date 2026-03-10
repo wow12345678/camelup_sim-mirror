@@ -17,7 +17,8 @@ use ratatui::{
     text::Line,
     widgets::{Block, Clear, Paragraph, Widget},
 };
-// use simplelog::{Config, LevelFilter, WriteLogger};
+use simplelog::{Config, LevelFilter, WriteLogger};
+use std::fs::File;
 
 mod camelfield;
 mod gamestate;
@@ -38,17 +39,25 @@ struct App {
     selected_window: GeneralWindow,
     window_stack: Vec<GeneralWindow>,
     calc_res: Receiver<[[f32; 5]; 5]>,
+    game_calc_res: Receiver<[[f32; 5]; 5]>,
 }
 
 impl App {
     fn new() -> Self {
         let (tx, rx) = std::sync::mpsc::channel();
+        let (game_tx, game_rx) = std::sync::mpsc::channel();
 
         let probabilities_field = ProbabilitiesField {
             probabilities: None,
             calculating: false,
             sender: tx,
             calc_thread: None,
+            game_win_probabilities: None,
+            game_win_calculating: false,
+            game_win_sender: game_tx,
+            game_win_calc_thread: None,
+            round_throbber_state: throbber_widgets_tui::ThrobberState::default(),
+            game_win_throbber_state: throbber_widgets_tui::ThrobberState::default(),
         };
 
         App {
@@ -58,6 +67,7 @@ impl App {
             selected_window: GeneralWindow::NumberField,
             window_stack: Vec::new(),
             calc_res: rx,
+            game_calc_res: game_rx,
         }
     }
 
@@ -67,10 +77,12 @@ impl App {
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
-        //setup period
+        // setup period
         while !self.exit && self.game_state.game_period == GamePeriod::Setup {
             if self.game_state.round_finished() {
                 self.game_state.game_period = GamePeriod::Game;
+
+                terminal.draw(|frame| self.draw(frame))?;
                 break;
             }
 
@@ -78,10 +90,15 @@ impl App {
             self.handle_events()?;
         }
 
-        //game period
+        // game period
         while !self.exit {
             if let Ok(res) = self.calc_res.try_recv() {
                 self.update_probabilities(res);
+            }
+
+            if let Ok(res) = self.game_calc_res.try_recv() {
+                self.probabilities.update_game_win_probabilities(res);
+                self.probabilities.game_win_calculating = false;
             }
 
             if self.game_state.round_finished() {
@@ -89,6 +106,8 @@ impl App {
                 self.probabilities
                     .start_probability_calculations(&self.game_state);
             }
+
+            self.probabilities.tick_throbbers();
 
             terminal.draw(|frame| self.draw(frame))?;
             self.handle_events()?;
@@ -120,6 +139,9 @@ impl App {
             Line::from("  <q> / <Esc>  Quit application / Close help"),
             Line::from("  <Tab>        Switch between GameField and NumberField"),
             Line::from("  <b/g/y/o/w>  Select camel (Blue/Green/Yellow/Orange/White)"),
+            Line::from("  <+>          Select Oasis effect card"),
+            Line::from("  <->          Select Desert effect card"),
+            Line::from("  <Space>      Calculate game-win probabilities"),
             Line::from(""),
             Line::from("GAMEFIELD WINDOW"),
             Line::from("  <Enter>      Move camel to selected field"),
@@ -171,12 +193,26 @@ impl App {
                 self.game_state
                     .move_selected_color(CamelColor::from_char_to_usize(c));
             }
+            // effect card hotkeys
+            (KeyCode::Char('+'), _) => {
+                self.game_state.move_selected_effect(0); // Oasis
+            }
+            (KeyCode::Char('-'), _) => {
+                self.game_state.move_selected_effect(1); // Desert
+            }
             // switch between main windows
             (KeyCode::Tab, _) => {
                 if self.selected_window == GeneralWindow::GameField {
                     self.focus_window(GeneralWindow::NumberField);
                 } else {
                     self.focus_window(GeneralWindow::GameField);
+                }
+            }
+            // calculate probabilities for entire game win
+            (KeyCode::Char(' '), _) => {
+                if self.game_state.game_period == GamePeriod::Game {
+                    self.probabilities
+                        .start_game_win_calculations(&self.game_state);
                 }
             }
             (key, GeneralWindow::GameField) => {
@@ -217,6 +253,7 @@ impl App {
                                 self.game_state.selected_color.into(),
                                 self.game_state.selected_field,
                             );
+                            log::debug!("{:?}", &self.game_state);
                             if res.is_ok() {
                                 self.probabilities
                                     .start_probability_calculations(&self.game_state);
@@ -278,6 +315,9 @@ impl App {
         if let Some(handle) = self.probabilities.take_thread() {
             let _ = handle.join();
         }
+        if let Some(handle) = self.probabilities.take_game_win_thread() {
+            let _ = handle.join();
+        }
         self.exit = true;
     }
 
@@ -298,6 +338,7 @@ impl App {
             return Err(InvalidColor.into());
         }
         camel_info.has_moved = true;
+        camel_info.end_pos = selected_field as u32;
         self.game_state.add_dice_rolled();
         self.game_state.add_camel(selected_color, selected_field);
         Ok(())
@@ -339,12 +380,12 @@ impl Widget for &App {
 }
 
 fn main() -> io::Result<()> {
-    // WriteLogger::init(
-    //     LevelFilter::Debug,
-    //     Config::default(),
-    //     File::create("debug.log").unwrap(),
-    // )
-    // .unwrap();
+    WriteLogger::init(
+        LevelFilter::Debug,
+        Config::default(),
+        File::create("debug.log").unwrap(),
+    )
+    .unwrap();
 
     let mut terminal = ratatui::init();
     // let init_config = vec![

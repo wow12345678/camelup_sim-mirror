@@ -1,6 +1,7 @@
 use std::{cmp::Ordering, fmt::Display, sync::mpsc::Sender, thread};
 
 use calc::EffectCard;
+use throbber_widgets_tui::{BRAILLE_SIX_DOUBLE, Throbber, ThrobberState, WhichUse};
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
 
@@ -8,7 +9,7 @@ use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
     style::{Color, Style},
-    text::Line,
+    text::{Line, ToSpan},
     widgets::{Block, Row, Table, Widget},
 };
 
@@ -183,7 +184,7 @@ impl Widget for &CamelStateField {
 
         let outer_line = Block::bordered()
             .border_style(Style::default().fg(border_color))
-            .title_top("Kamele");
+            .title_top("Camels");
 
         let inner_area = outer_line.inner(area);
 
@@ -219,6 +220,14 @@ pub struct ProbabilitiesField {
     pub calculating: bool,
     pub sender: Sender<[[f32; 5]; 5]>,
     pub(crate) calc_thread: Option<thread::JoinHandle<()>>,
+
+    pub game_win_probabilities: Option<[[f32; 5]; 5]>,
+    pub game_win_calculating: bool,
+    pub game_win_sender: Sender<[[f32; 5]; 5]>,
+    pub(crate) game_win_calc_thread: Option<thread::JoinHandle<()>>,
+
+    pub round_throbber_state: ThrobberState,
+    pub game_win_throbber_state: ThrobberState,
 }
 
 impl std::fmt::Debug for ProbabilitiesField {
@@ -231,6 +240,15 @@ impl std::fmt::Debug for ProbabilitiesField {
                 "calc_thread",
                 &self.calc_thread.as_ref().map(|_| "<JoinHandle>"),
             )
+            .field("game_win_probabilities", &self.game_win_probabilities)
+            .field("game_win_calculating", &self.game_win_calculating)
+            .field("game_win_sender", &self.game_win_sender)
+            .field(
+                "game_win_calc_thread",
+                &self.game_win_calc_thread.as_ref().map(|_| "<JoinHandle>"),
+            )
+            .field("round_throbber_state", &self.round_throbber_state)
+            .field("game_win_throbber_state", &self.game_win_throbber_state)
             .finish()
     }
 }
@@ -242,15 +260,16 @@ impl ProbabilitiesField {
         }
 
         let configuration = GameState::convert_game_state_configuration(game_state);
+        log::debug!("{configuration:?}");
         let tx = self.sender.clone();
 
         let handle = thread::Builder::new()
             .name("probability-calc".to_string())
             .spawn(move || {
                 let res = calc::simulate_round(configuration);
-                let weighted = res.weighted_leaderboard();
-                let total: u128 = weighted[0].iter().sum();
-                let res = weighted.map(|row| row.map(|elem| elem as f32 / total as f32));
+                let leaderboard = res.weighted_leaderboard();
+                let total: u128 = leaderboard[0].iter().sum();
+                let res = leaderboard.map(|row| row.map(|elem| elem as f32 / total as f32));
 
                 let _ = tx.send(res);
             })
@@ -264,10 +283,51 @@ impl ProbabilitiesField {
         self.probabilities = Some(new_probabilities);
     }
 
+    pub fn start_game_win_calculations(&mut self, game_state: &GameState) {
+        if let Some(handle) = self.game_win_calc_thread.take() {
+            let _ = handle.join();
+        }
+
+        let configuration = GameState::convert_game_state_configuration(game_state);
+        let tx = self.game_win_sender.clone();
+
+        let handle = thread::Builder::new()
+            .name("game-win-calc".to_string())
+            .spawn(move || {
+                let res = calc::simulate_rounds(configuration);
+                let weighted = res.weighted_leaderboard();
+                let total: u128 = weighted[0].iter().sum();
+                let res = weighted.map(|row| row.map(|elem| elem as f32 / total as f32));
+
+                let _ = tx.send(res);
+            })
+            .expect("Failed to spawn game win calculation thread");
+
+        self.game_win_calc_thread = Some(handle);
+        self.game_win_calculating = true;
+    }
+
+    pub fn update_game_win_probabilities(&mut self, new_probabilities: [[f32; 5]; 5]) {
+        self.game_win_probabilities = Some(new_probabilities);
+    }
+
     /// Takes ownership of the calculation thread handle for cleanup.
     /// Used when the app is shutting down to ensure threads are properly joined.
     pub fn take_thread(&mut self) -> Option<thread::JoinHandle<()>> {
         self.calc_thread.take()
+    }
+
+    pub fn take_game_win_thread(&mut self) -> Option<thread::JoinHandle<()>> {
+        self.game_win_calc_thread.take()
+    }
+
+    pub fn tick_throbbers(&mut self) {
+        if self.calculating {
+            self.round_throbber_state.calc_next();
+        }
+        if self.game_win_calculating {
+            self.game_win_throbber_state.calc_next();
+        }
     }
 }
 
@@ -276,7 +336,54 @@ impl Widget for &ProbabilitiesField {
     where
         Self: Sized,
     {
-        let outer_line = Block::bordered().title_top("Probabilities");
+        let layout = Layout::vertical([Constraint::Ratio(1, 2), Constraint::Ratio(1, 2)]);
+        let [round_area, game_win_area] = layout.areas(area);
+
+        ProbabilitiesField::render_probability_table(
+            "Round Probabilities",
+            self.probabilities,
+            self.calculating,
+            &self.round_throbber_state,
+            round_area,
+            buf,
+        );
+        ProbabilitiesField::render_probability_table(
+            "Game Win Probabilities",
+            self.game_win_probabilities,
+            self.game_win_calculating,
+            &self.game_win_throbber_state,
+            game_win_area,
+            buf,
+        );
+    }
+}
+
+impl ProbabilitiesField {
+    fn render_probability_table(
+        title: &str,
+        probabilities: Option<[[f32; 5]; 5]>,
+        calculating: bool,
+        throbber_state: &ThrobberState,
+        area: Rect,
+        buf: &mut Buffer,
+    ) {
+        let display_title = if calculating {
+            let throbber = Throbber::default()
+                .throbber_set(BRAILLE_SIX_DOUBLE)
+                .use_type(WhichUse::Spin);
+            let symbol = throbber.to_symbol_span(throbber_state);
+            Line::from(vec![
+                " ".into(),
+                title.into(),
+                " ".into(),
+                symbol,
+                " ".into(),
+            ])
+        } else {
+            Line::from(vec![" ".into(), title.to_span(), "    ".into()])
+        };
+
+        let outer_line = Block::bordered().title_top(display_title);
         let inner_area = outer_line.inner(area);
         outer_line.render(area, buf);
 
@@ -285,11 +392,11 @@ impl Widget for &ProbabilitiesField {
                 .into_iter()
                 .chain(CamelColor::all().map(|c| c.to_string())),
         );
-        let layout = [Constraint::Min(5); 6];
+        let col_layout = [vec![Constraint::Max(2)], vec![Constraint::Min(5); 5]].concat();
 
         let rows: Vec<Row<'_>>;
 
-        if let Some(probs) = self.probabilities {
+        if let Some(probs) = probabilities {
             rows = (0..5)
                 .map(|i| {
                     Row::new(
@@ -315,7 +422,7 @@ impl Widget for &ProbabilitiesField {
                 })
                 .collect();
         }
-        Table::new(rows, layout)
+        Table::new(rows, col_layout)
             .header(header)
             .render(inner_area, buf);
     }
