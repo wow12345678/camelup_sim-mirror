@@ -61,14 +61,19 @@ impl Configuration {
         if smallest_pos == 0 {
             return;
         }
+        let shift = smallest_pos as usize;
         for i in 0..self.map.pos_color_map.len() {
             let camels = self.map.pos_color_map[i];
-            let new_idx = max(i as i8 - smallest_pos as i8, 0) as usize;
+            let effect = self.map.effect_cards[i];
+            let new_idx = max(i as i8 - shift as i8, 0) as usize;
             for cam in camels.iter() {
                 self.map.color_pos_map[Into::<usize>::into(cam)] = new_idx as u8;
             }
             self.map.pos_color_map[i].clear();
+            self.map.effect_cards[i] = None;
+
             self.map.pos_color_map[new_idx].replace(camels);
+            self.map.effect_cards[new_idx] = effect;
         }
     }
 
