@@ -87,7 +87,7 @@ impl Configuration {
     /// Creates a array as a leaderboard
     /// [1., 2., 3., 4., 5.]
     pub(crate) fn leaderboard(&self) -> [Color; 5] {
-        let mut leaderboard: [Color; 5] = [Color::None; 5];
+        let mut leaderboard: [Color; 5] = [Color::Blue; 5];
         let mut i = 0;
 
         for pos in self.map.pos_color_map.iter().rev() {

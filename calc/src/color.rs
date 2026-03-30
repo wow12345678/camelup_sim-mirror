@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Color {
     Blue,
@@ -5,7 +7,6 @@ pub enum Color {
     Orange,
     White,
     Yellow,
-    None,
 }
 
 impl Color {
@@ -25,27 +26,43 @@ impl Color {
         mask << (7 - index)
     }
 
-    pub(crate) fn from_byte(color_code: u8) -> Self {
+    pub(crate) fn try_from_byte(color_code: u8) -> Result<Self, ColorConversionError<u8>> {
         match color_code {
-            0b1000_0000 => Color::Blue,
-            0b0100_0000 => Color::Green,
-            0b0010_0000 => Color::Orange,
-            0b0001_0000 => Color::White,
-            0b0000_1000 => Color::Yellow,
-            _ => Color::None,
+            0b1000_0000 => Ok(Color::Blue),
+            0b0100_0000 => Ok(Color::Green),
+            0b0010_0000 => Ok(Color::Orange),
+            0b0001_0000 => Ok(Color::White),
+            0b0000_1000 => Ok(Color::Yellow),
+            _ => Err(ColorConversionError(color_code)),
         }
     }
 }
 
-impl From<usize> for Color {
-    fn from(value: usize) -> Self {
+#[derive(Debug)]
+pub struct ColorConversionError<A>(A);
+
+impl<A: Display> Display for ColorConversionError<A> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "invalid converion from {} with value {}",
+            std::any::type_name::<A>(),
+            self.0
+        )
+    }
+}
+
+impl TryFrom<usize> for Color {
+    type Error = ColorConversionError<usize>;
+
+    fn try_from(value: usize) -> Result<Self, Self::Error> {
         match value {
-            0 => Color::Blue,
-            1 => Color::Green,
-            2 => Color::Orange,
-            3 => Color::White,
-            4 => Color::Yellow,
-            _ => Color::None,
+            0 => Ok(Color::Blue),
+            1 => Ok(Color::Green),
+            2 => Ok(Color::Orange),
+            3 => Ok(Color::White),
+            4 => Ok(Color::Yellow),
+            _ => Err(ColorConversionError(value)),
         }
     }
 }
@@ -58,7 +75,6 @@ impl From<Color> for usize {
             Color::Orange => 2,
             Color::White => 3,
             Color::Yellow => 4,
-            Color::None => 5,
         }
     }
 }
@@ -71,20 +87,21 @@ impl From<Color> for u8 {
             Color::Orange => 2,
             Color::White => 3,
             Color::Yellow => 4,
-            Color::None => 5,
         }
     }
 }
 
-impl From<u8> for Color {
-    fn from(value: u8) -> Self {
+impl TryFrom<u8> for Color {
+    type Error = ColorConversionError<u8>;
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
         match value {
-            0 => Color::Blue,
-            1 => Color::Green,
-            2 => Color::Orange,
-            3 => Color::White,
-            4 => Color::Yellow,
-            _ => Color::None,
+            0 => Ok(Color::Blue),
+            1 => Ok(Color::Green),
+            2 => Ok(Color::Orange),
+            3 => Ok(Color::White),
+            4 => Ok(Color::Yellow),
+            _ => Err(ColorConversionError(value)),
         }
     }
 }

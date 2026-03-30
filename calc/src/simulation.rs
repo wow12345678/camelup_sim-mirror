@@ -192,8 +192,11 @@ fn simulate_rounds_rec(
 
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
     for color_code in &conf.available_colours {
-        let dice_color = Color::from_byte(color_code);
-        debug_assert_ne!(dice_color, Color::None);
+        let dice_color = Color::try_from_byte(color_code);
+        if let Err(e) = dice_color {
+            panic!("{}", e);
+        }
+        let dice_color = dice_color.unwrap();
 
         for dice_value in 1..=3 {
             let mut new_conf = conf.clone();
@@ -261,8 +264,11 @@ fn simulate_round_rec(
 
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
     for color_code in &conf.available_colours {
-        let dice_color = Color::from_byte(color_code);
-        debug_assert_ne!(dice_color, Color::None);
+        let dice_color = Color::try_from_byte(color_code);
+        if let Err(e) = dice_color {
+            panic!("{}", e);
+        }
+        let dice_color = dice_color.unwrap();
 
         for dice_value in 1..=3 {
             let mut new_conf = conf.clone();

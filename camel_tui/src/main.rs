@@ -240,41 +240,39 @@ impl App {
 
     fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), PlayerActionError> {
         match (key, self.game_state.selected_field) {
-            (KeyCode::Enter, _) => {
-                match self.game_state.selected_item_type {
-                    SelectionType::Camel => {
-                        if self.game_state.game_period == GamePeriod::Setup {
-                            self.place_camel(
-                                self.game_state.selected_color,
-                                self.game_state.selected_field,
-                            )
-                        } else {
-                            let res = self.game_state.move_camel(
-                                self.game_state.selected_color.into(),
-                                self.game_state.selected_field,
-                            );
-                            log::debug!("{:?}", &self.game_state);
-                            if res.is_ok() {
-                                self.probabilities
-                                    .start_probability_calculations(&self.game_state);
-                                self.game_state.add_dice_rolled();
-                            }
-                            res
-                        }
-                    }
-                    SelectionType::EffectCard => {
-                        self.game_state.toggle_effect_card(
-                            self.game_state.selected_effect,
+            (KeyCode::Enter, _) => match self.game_state.selected_item_type {
+                SelectionType::Camel => {
+                    if self.game_state.game_period == GamePeriod::Setup {
+                        self.place_camel(
+                            self.game_state.selected_color,
+                            self.game_state.selected_field,
+                        )
+                    } else {
+                        let res = self.game_state.move_camel(
+                            self.game_state.selected_color.into(),
                             self.game_state.selected_field,
                         );
-                        if self.game_state.game_period == GamePeriod::Game {
+                        log::debug!("{:?}", &self.game_state);
+                        if res.is_ok() {
                             self.probabilities
                                 .start_probability_calculations(&self.game_state);
+                            self.game_state.add_dice_rolled();
                         }
-                        Ok(())
+                        res
                     }
                 }
-            }
+                SelectionType::EffectCard => {
+                    self.game_state.toggle_effect_card(
+                        self.game_state.selected_effect,
+                        self.game_state.selected_field,
+                    );
+                    if self.game_state.game_period == GamePeriod::Game {
+                        self.probabilities
+                            .start_probability_calculations(&self.game_state);
+                    }
+                    Ok(())
+                }
+            },
             (KeyCode::Right | KeyCode::Char('l'), 0..2 | 14..16) => {
                 self.game_state.move_selected_field_rel(1);
                 Ok(())
