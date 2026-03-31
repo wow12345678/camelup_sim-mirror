@@ -163,7 +163,7 @@ impl GameState {
                     if let Some(camels) = field.camels() {
                         let c: Vec<(u8, calc::Color)> = camels
                             .iter()
-                            .map(|color| (idx as u8, Into::<calc::Color>::into(*color as usize)))
+                            .map(|color| (idx as u8, Into::<calc::Color>::into(*color)))
                             .collect();
                         acc.extend(c);
                     }
@@ -187,7 +187,7 @@ impl GameState {
             .iter()
             .filter_map(|cam| {
                 if !cam.has_moved {
-                    Some(Into::<usize>::into(cam.camel_color).into())
+                    Some(cam.camel_color.into())
                 } else {
                     None
                 }

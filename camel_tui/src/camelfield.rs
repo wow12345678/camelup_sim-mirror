@@ -25,7 +25,18 @@ impl From<calc::Color> for CamelColor {
             calc::Color::Orange => CamelColor::Orange,
             calc::Color::White => CamelColor::White,
             calc::Color::Yellow => CamelColor::Yellow,
-            calc::Color::None => panic!("Invalid color, should never happen"),
+        }
+    }
+}
+
+impl From<CamelColor> for calc::Color {
+    fn from(value: CamelColor) -> Self {
+        match value {
+            CamelColor::Blue => calc::Color::Blue,
+            CamelColor::Green => calc::Color::Green,
+            CamelColor::Orange => calc::Color::Orange,
+            CamelColor::White => calc::Color::White,
+            CamelColor::Yellow => calc::Color::Yellow,
         }
     }
 }
