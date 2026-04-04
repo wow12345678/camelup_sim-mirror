@@ -23,6 +23,7 @@ use std::fs::File;
 mod camelfield;
 mod gamestate;
 mod numbersfield;
+mod gameasset;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GeneralWindow {

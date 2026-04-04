@@ -16,7 +16,7 @@ pub struct Configuration {
     pub map: CamelMap,
     #[cfg(debug_assertions)]
     pub dice_queue: Vec<Dice>,
-    pub available_colours: ColorState,
+    pub available_colors: ColorState,
     pub done: bool,
 }
 
@@ -24,7 +24,7 @@ impl Hash for Configuration {
     // dice_queue is not important
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.map.hash(state);
-        self.available_colours.hash(state);
+        self.available_colors.hash(state);
         self.done.hash(state);
     }
 }
@@ -33,7 +33,7 @@ impl PartialEq for Configuration {
     fn eq(&self, other: &Self) -> bool {
         // dice_queue is excluded as it's only for debugging
         self.map == other.map
-            && self.available_colours == other.available_colours
+            && self.available_colors == other.available_colors
             && self.done == other.done
     }
 }
@@ -45,7 +45,7 @@ impl Configuration {
     }
 
     pub fn clear_moveable_camels(&mut self) {
-        self.available_colours.clear();
+        self.available_colors.clear();
     }
 
     /// normalize the configuration and just keep the relative distances of the camels
@@ -78,7 +78,7 @@ impl Configuration {
     }
 
     pub fn new_round(&mut self) {
-        self.available_colours = ColorState::default();
+        self.available_colors = ColorState::default();
         #[cfg(debug_assertions)]
         self.dice_queue.clear();
         self.map.clear_effects();
@@ -105,7 +105,7 @@ pub struct ConfigurationBuilder {
     map: Option<CamelMap>,
     #[cfg(debug_assertions)]
     dice_queue: Option<Vec<Dice>>,
-    available_colours: Option<ColorState>,
+    available_colors: Option<ColorState>,
 }
 
 impl ConfigurationBuilder {
@@ -115,7 +115,7 @@ impl ConfigurationBuilder {
             map: None,
             #[cfg(debug_assertions)]
             dice_queue: None,
-            available_colours: None,
+            available_colors: None,
         }
     }
 
@@ -133,13 +133,13 @@ impl ConfigurationBuilder {
 
     /// Sets the available colors that can still be rolled
     pub fn with_available_colors(mut self, colors: Vec<Color>) -> Self {
-        self.available_colours = Some(ColorState::new(colors));
+        self.available_colors = Some(ColorState::new(colors));
         self
     }
 
     /// Sets the available colors using a ColorState directly
     pub fn with_color_state(mut self, color_state: ColorState) -> Self {
-        self.available_colours = Some(color_state);
+        self.available_colors = Some(color_state);
         self
     }
 
@@ -187,7 +187,7 @@ impl ConfigurationBuilder {
             }),
             #[cfg(debug_assertions)]
             dice_queue: self.dice_queue.unwrap_or_default(),
-            available_colours: self.available_colours.unwrap_or_default(),
+            available_colors: self.available_colors.unwrap_or_default(),
             done: false,
         }
     }

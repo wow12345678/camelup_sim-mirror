@@ -1,4 +1,4 @@
-use std::{cmp::max, fmt::Display};
+use std::{cmp, fmt::Display};
 
 use calc::EffectCard;
 use ratatui::{
@@ -8,8 +8,12 @@ use ratatui::{
     widgets::{Block, Widget},
 };
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+use crate::gameasset::GameAssetManager;
+
+#[derive(Debug, PartialEq, Clone, Copy, Default)]
+// CamelColor with first as default
 pub enum CamelColor {
+    #[default]
     Blue,
     Green,
     Orange,
@@ -122,11 +126,8 @@ impl CamelColor {
     }
 }
 
-const CAMEL_HEIGHT: usize = 15;
-const CAMEL_WIDTH: usize = 19;
-
 #[rustfmt::skip]
-const CAMEL_PATTERN_FACING_RIGHT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
+pub const CAMEL_PATTERN: [[bool; 19]; 15] = [
     [false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, true, true,  false, false ],
     [false, false, false, false, false, false, false,false, false, false, false, false, false, false, true,  true, true,  true,  true  ],
     [false, false, false, false, false, false, true, true,  true,  true,  false, false, false, false, true,  true, true,  true,  true  ],
@@ -145,43 +146,7 @@ const CAMEL_PATTERN_FACING_RIGHT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
 ];
 
 #[rustfmt::skip]
-const CAMEL_PATTERN_FACING_LEFT: [[bool; CAMEL_WIDTH]; CAMEL_HEIGHT] = [
-    [false, false, true,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [true,  true,  true,  true, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [true,  true,  true,  true, true,  false, false, false, false, true,  true,  true,  true,  false, false, false, false, false, false],
-    [false, false, true,  true, true,  false, false, false, true,  true,  true,  true,  true,  true,  false, false, false, false, false],
-    [false, false, true,  true, true,  false, false, true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false],
-    [false, false, true,  true, true,  false, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false],
-    [false, false, true,  true, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false],
-    [false, false, true,  true, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true],
-    [false, false, true,  true, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true],
-    [false, false, false, true, false, false, true,  false, false, false, false, false, true,  false, false, true,  false, false, true],
-    [false, false, false, true, false, false, true,  false, false, false, false, false, true,  false, false, true,  false, false, true],
-    [false, false, false, true, false, false, true,  false, false, false, false, false, true,  false, false, true,  false, false, false],
-    [false, false, false, true, false, false, true,  false, false, false, false, false, true,  false, false, true,  false, false, false],
-    [false, false, false, true, false, false, true,  false, false, false, false, false, true,  false, false, true,  false, false, false],
-    [false, false, true,  true, false, true,  true,  false, false, false, false, true,  true,  false, true,  true,  false, false, false],
-];
-
-const ARROW_WIDTH: usize = 20;
-const ARROW_HEIGHT: usize = 10;
-
-#[rustfmt::skip]
-const LEFT_ARROW: [[bool; ARROW_WIDTH]; ARROW_HEIGHT] = [
-    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, true,  true,  false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false],
-    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  true,],
-    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
-    [true,  true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,],
-    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
-    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  true,],
-    [false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-];
-
-#[rustfmt::skip]
-const RIGHT_ARROW: [[bool; ARROW_WIDTH]; ARROW_HEIGHT] = [
+pub const ARROW_RIGHT: [[bool; 20]; 10] = [
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, true,  true,  false, false, false],
     [true,  true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  false, false],
@@ -191,6 +156,20 @@ const RIGHT_ARROW: [[bool; ARROW_WIDTH]; ARROW_HEIGHT] = [
     [true,  true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  false, false],
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  true,  false, false, false],
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+];
+
+#[rustfmt::skip]
+pub const ARROW_LEFT: [[bool; 20]; 10] = [
+    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, true,  true,  false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false],
+    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  false, false, true,  true,  true,  true,  true,],
+    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
+    [true,  true,  false, false, false, false, false, true,  true,  true,  false, false, true,  false, false, false, false, false, false, true,],
+    [false, true,  true,  false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, true,],
+    [false, false, true,  true,  true,  true,  false, false, false, false, false, true,  true,  true,  false, true,  true,  true,  true,  true,],
+    [false, false, false, true,  true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 ];
 
@@ -281,168 +260,61 @@ impl CamelField {
         }
     }
 
-    fn render_camels(&self, area: Rect, buf: &mut Buffer, camels: &[CamelColor]) {
-        if self.content.is_none() {
-            return;
-        }
+    fn render_camels(
+        &self,
+        area: Rect,
+        buf: &mut Buffer,
+        camels: &[CamelColor],
+        asset_manager: &GameAssetManager,
+    ) {
+        let asset = asset_manager
+            .get_asset("camel_pattern")
+            .expect("asset should be initialized");
 
-        let x_offset = area.x + area.width / 8;
+        // Account for borders (1 char each side)
+        let inner_x = area.x + 1;
+        let inner_width = area.width.saturating_sub(2);
+        let inner_height = area.height.saturating_sub(2);
         let field_bottom = area.y + area.height - 1;
 
-        // Convert pixel height to character height
-        let camel_height_chars = CAMEL_HEIGHT.div_ceil(2) as u16;
-        let total_camels = camels.len();
-        // borders
-        let available_height = area.height - 2;
+        // Flip camel direction based on which half of the board they're on
+        let flip = (8..16).contains(&self.index);
 
+        // Scale camel to fit within field height with some padding (1.3x factor)
+        let camel_pixel_height = asset.view().height();
+        let camel_char_height = camel_pixel_height.div_ceil(2) as u16;
+        let scale = (area.height as f32) / (1.3 * camel_char_height as f32);
+
+        // Calculate vertical stacking offset to distribute camels evenly
+        let total_camels = camels.len();
         let camel_stacking_offset = if total_camels == 0 {
             0
         } else {
-            max(1, available_height / (total_camels as u16 + 1))
+            cmp::max(1, inner_height / (total_camels as u16 + 1))
         };
 
-        for camel_idx in 0..camels.len() {
-            let col = camels[camel_idx].to_color();
-            let mut y = 0;
+        for (camel_idx, camel) in camels.iter().enumerate() {
+            let view = asset.view().scale(scale).flip(flip);
 
-            let camel_pattern = if (0..8).contains(&self.index) {
-                CAMEL_PATTERN_FACING_RIGHT
-            } else {
-                CAMEL_PATTERN_FACING_LEFT
-            };
+            let camel_width = view.width() as u16;
+            let camel_height = view.height().div_ceil(2) as u16;
 
-            // TODO: think about good camel rendering: either camel_idx or stack_position or
-            // something else
-            // alternative: total_camels - camel_idx - 1
-            let stack_position = camel_idx;
-            let y_base =
-                field_bottom - camel_height_chars - stack_position as u16 * camel_stacking_offset;
+            // Center horizontally within the inner area
+            let x = inner_x + (inner_width.saturating_sub(camel_width)) / 2;
 
-            while y < CAMEL_HEIGHT {
-                // Process two vertical pixels at once except for odd remainder
-                if y + 1 < CAMEL_HEIGHT {
-                    for x in 0..CAMEL_WIDTH {
-                        let char_x = x as u16 + x_offset;
-                        let char_y = y_base + (y / 2) as u16;
+            // Stack camels from bottom, with each camel offset upward
+            // TODO: consider using total_camels - camel_idx - 1 for reverse stacking
+            let y = field_bottom - camel_height - (camel_idx as u16 * camel_stacking_offset);
 
-                        if char_x < buf.area.right()
-                            && char_y < buf.area.bottom()
-                            && char_y >= buf.area.top()
-                        {
-                            match (camel_pattern[y][x], camel_pattern[y + 1][x]) {
-                                (true, true) => {
-                                    buf[(char_x, char_y)].set_char('▀').set_fg(col).set_bg(col);
-                                }
-                                (true, false) => {
-                                    buf[(char_x, char_y)].set_char('▀').set_fg(col);
-                                }
-                                (false, true) => {
-                                    buf[(char_x, char_y)].set_char('▄').set_fg(col);
-                                }
-                                (false, false) => {
-                                    // Both pixels empty, skip
-                                }
-                            }
-                        }
-                    }
-                    y += 2; // Increment by 2 since we processed 2 rows
-                } else {
-                    // Handle odd remainder row
-                    for x in 0..CAMEL_WIDTH {
-                        if camel_pattern[y][x] {
-                            let char_x = x as u16 + x_offset;
-                            let char_y = y_base + (y / 2) as u16;
+            let drawing_area = Rect::new(x, y, camel_width, camel_height);
 
-                            if char_x < buf.area.right()
-                                && char_y < buf.area.bottom()
-                                && char_y >= buf.area.top()
-                            {
-                                buf[(char_x, char_y)].set_char('▀').set_fg(col);
-                            }
-                        }
-                    }
-                    y += 1;
-                }
-            }
-        }
-    }
-
-    fn render_effect_card(&self, area: Rect, buf: &mut Buffer, effect: &EffectCard) {
-        if self.content.is_none() {
-            return;
-        }
-
-        // with manual adjustment for looks
-        let x_offset = area.x + area.width / 4 - 2;
-        let field_bottom = area.y + area.height - 1;
-
-        let effect_pattern = if *effect == EffectCard::Oasis {
-            RIGHT_ARROW
-        } else {
-            LEFT_ARROW
-        };
-
-        // Convert pixel height to character height
-        let effect_height_chars = ARROW_HEIGHT.div_ceil(2) as u16;
-
-        let col = Color::from(effect.to_color());
-        let mut y = 0;
-        let y_base = field_bottom - effect_height_chars - area.height / 4;
-
-        while y < ARROW_HEIGHT {
-            // Process two vertical pixels at once except for odd remainder
-            if y + 1 < ARROW_WIDTH {
-                for x in 0..ARROW_WIDTH {
-                    let char_x = x as u16 + x_offset;
-                    let char_y = y_base + (y / 2) as u16;
-
-                    if char_x < buf.area.right()
-                        && char_y < buf.area.bottom()
-                        && char_y >= buf.area.top()
-                    {
-                        match (effect_pattern[y][x], effect_pattern[y + 1][x]) {
-                            (true, true) => {
-                                buf[(char_x, char_y)].set_char('▀').set_fg(col).set_bg(col);
-                            }
-                            (true, false) => {
-                                buf[(char_x, char_y)].set_char('▀').set_fg(col);
-                            }
-                            (false, true) => {
-                                buf[(char_x, char_y)].set_char('▄').set_fg(col);
-                            }
-                            (false, false) => {
-                                // Both pixels empty, skip
-                            }
-                        }
-                    }
-                }
-                y += 2; // Increment by 2 since we processed 2 rows
-            } else {
-                // Handle odd remainder row
-                for x in 0..CAMEL_WIDTH {
-                    if effect_pattern[y][x] {
-                        let char_x = x as u16 + x_offset;
-                        let char_y = y_base + (y / 2) as u16;
-
-                        if char_x < buf.area.right()
-                            && char_y < buf.area.bottom()
-                            && char_y >= buf.area.top()
-                        {
-                            buf[(char_x, char_y)].set_char('▀').set_fg(col);
-                        }
-                    }
-                }
-                y += 1;
-            }
+            view.render(drawing_area, buf, camel.to_color());
         }
     }
 }
 
-impl Widget for &CamelField {
-    fn render(self, area: Rect, buf: &mut Buffer)
-    where
-        Self: Sized,
-    {
+impl CamelField {
+    pub fn render(&self, area: Rect, buf: &mut Buffer, asset_manager: &GameAssetManager) {
         let border_color = if self.selected {
             Color::LightBlue
         } else {
@@ -466,10 +338,38 @@ impl Widget for &CamelField {
 
         match &self.content {
             Some(CamelFieldContent::Camels(camels)) => {
-                self.render_camels(area, buf, camels);
+                self.render_camels(area, buf, camels, asset_manager);
             }
             Some(CamelFieldContent::EffectCard(effect)) => {
-                self.render_effect_card(area, buf, effect);
+                let asset = if let EffectCard::Oasis = effect {
+                    asset_manager
+                        .get_asset("arrow_right")
+                        .expect("asset should be initialized")
+                } else {
+                    asset_manager
+                        .get_asset("arrow_left")
+                        .expect("asset should be initialized")
+                };
+
+                let scale = (area.height as f32) / (asset.view().height() as f32);
+                let view = asset.view().scale(scale);
+
+                let arrow_width = view.width() as u16;
+                let arrow_height = view.height().div_ceil(2) as u16;
+
+                let inner_x = area.x + 1;
+                let inner_y = area.y + 1;
+                let inner_width = area.width.saturating_sub(2);
+                let inner_height = area.height.saturating_sub(2);
+
+                let drawing_area = Rect::new(
+                    inner_x + (inner_width.saturating_sub(arrow_width)) / 2,
+                    inner_y + (inner_height.saturating_sub(arrow_height)) / 2,
+                    arrow_width,
+                    arrow_height,
+                );
+
+                view.render(drawing_area, buf, Color::from(effect.to_color()));
             }
             None => {}
         }

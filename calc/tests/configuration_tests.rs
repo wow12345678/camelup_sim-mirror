@@ -12,7 +12,7 @@ fn test_configuration_builder_default() {
     assert_eq!(config.map.color_pos_map[Color::Orange as usize], 2);
 
     // Should have all colors available
-    assert_eq!(config.available_colours.len(), 5);
+    assert_eq!(config.available_colors.len(), 5);
 
     #[cfg(debug_assertions)]
     assert!(config.dice_queue.is_empty());
@@ -43,7 +43,7 @@ fn test_configuration_builder_with_available_colors() {
         .with_available_colors(vec![Color::Blue, Color::Orange])
         .build();
 
-    assert_eq!(config.available_colours.len(), 2);
+    assert_eq!(config.available_colors.len(), 2);
 }
 
 #[test]
@@ -98,7 +98,7 @@ fn test_configuration_builder_comprehensive() {
     assert_eq!(config.map.color_pos_map[Color::Blue as usize], 2);
     assert_eq!(config.map.color_pos_map[Color::Green as usize], 4);
     assert_eq!(config.map.color_pos_map[Color::Orange as usize], 6);
-    assert_eq!(config.available_colours.len(), 3);
+    assert_eq!(config.available_colors.len(), 3);
 
     #[cfg(debug_assertions)]
     assert!(config.dice_queue.is_empty());

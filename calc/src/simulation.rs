@@ -66,41 +66,6 @@ impl SimulationResult {
     }
 }
 
-// pub fn simulate_n_rounds_full(init_config: Configuration, n: u32) -> [[u128; 5]; 5] {
-//     let mut compressed: HashMap<Configuration, u128> = HashMap::new();
-//     const BRANCH_COUNT: u128 = 2 * 3 * 4 * 5_u128 * 3_u128.pow(5);
-//     compressed.insert(init_config, 1);
-//
-//     for _ in 0..n {
-//         let d_hasher = DefaultHashBuilder::default();
-//         let next_compressed: DashMap<Configuration, u128, DefaultHashBuilder> =
-//             DashMap::with_hasher(d_hasher);
-//         let old_compressed: Vec<(Configuration, u128)> = compressed.drain().collect();
-//
-//         old_compressed.into_par_iter().for_each(|(conf, count)| {
-//             if conf.done {
-//                 // scale by the full round factor because of early exit
-//                 *next_compressed.entry(conf).or_insert(0) += count * BRANCH_COUNT;
-//             } else {
-//                 simulate_rounds_full_rec(conf, count, &next_compressed);
-//             }
-//         });
-//
-//         compressed = next_compressed.into_iter().collect();
-//     }
-//
-//     let configs: Vec<(Configuration, u128)> = compressed.drain().collect();
-//
-//     // temporary aggregated weighted placements
-//     let mut placements: [[u128; 5]; 5] = [[0; 5]; 5];
-//     for (conf, count) in configs {
-//         for (i, &color_index) in conf.leaderboard().iter().enumerate() {
-//             placements[color_index as usize][i] += count;
-//         }
-//     }
-//     placements
-// }
-
 /// Simulates a complete Camel Up game from the given configuration until a camel wins.
 ///
 /// Exhaustively explores all possible dice outcomes across multiple rounds using
@@ -173,7 +138,7 @@ fn simulate_rounds_rec(
 ) {
     // Check for game-ending condition first, even if all dice have been rolled
     if conf.map.camel_has_won() {
-        let remaining = conf.available_colours.len() as u32;
+        let remaining = conf.available_colors.len() as u32;
         let multiplier = (1..=remaining as u128).product::<u128>() * 3_u128.pow(remaining);
         let mut result = conf;
         result.clear_moveable_camels();
@@ -183,7 +148,7 @@ fn simulate_rounds_rec(
     }
 
     // Base case: all dice rolled this round, no winner yet
-    if conf.available_colours.is_empty() {
+    if conf.available_colors.is_empty() {
         let mut result = conf;
         result.new_round();
         *output.entry(result).or_insert(0) += count;
@@ -191,16 +156,12 @@ fn simulate_rounds_rec(
     }
 
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
-    for color_code in &conf.available_colours {
-        let dice_color = Color::try_from_byte(color_code);
-        if let Err(e) = dice_color {
-            panic!("{}", e);
-        }
-        let dice_color = dice_color.unwrap();
+    for color_code in &conf.available_colors {
+        let dice_color = Color::try_from_byte(color_code).unwrap_or_else(|e| panic!("{}", e));
 
         for dice_value in 1..=3 {
             let mut new_conf = conf.clone();
-            new_conf.available_colours.remove_color(dice_color);
+            new_conf.available_colors.remove_color(dice_color);
             new_conf.map.move_camel(dice_color, dice_value as i8);
 
             simulate_rounds_rec(new_conf, count, output);
@@ -240,7 +201,7 @@ fn simulate_round_rec(
     #[cfg(debug_assertions)] stats: &mut CacheStatistics,
 ) -> Rc<Vec<[u8; 5]>> {
     // Base case
-    if conf.available_colours.is_empty() {
+    if conf.available_colors.is_empty() {
         #[cfg(debug_assertions)]
         stats.record_miss();
         return Rc::new(vec![conf.leaderboard().map(|color| color.into())]);
@@ -260,15 +221,11 @@ fn simulate_round_rec(
     #[cfg(debug_assertions)]
     stats.record_miss();
 
-    let mut all_placements = Vec::with_capacity(3_usize.pow(conf.available_colours.len() as u32));
+    let mut all_placements = Vec::with_capacity(3_usize.pow(conf.available_colors.len() as u32));
 
     // For each available color, simulate all possible dice outcomes (1, 2, 3)
-    for color_code in &conf.available_colours {
-        let dice_color = Color::try_from_byte(color_code);
-        if let Err(e) = dice_color {
-            panic!("{}", e);
-        }
-        let dice_color = dice_color.unwrap();
+    for color_code in &conf.available_colors {
+        let dice_color = Color::try_from_byte(color_code).unwrap_or_else(|e| panic!("{}", e));
 
         for dice_value in 1..=3 {
             let mut new_conf = conf.clone();
@@ -281,7 +238,7 @@ fn simulate_round_rec(
                 });
             }
 
-            new_conf.available_colours.remove_color(dice_color);
+            new_conf.available_colors.remove_color(dice_color);
             new_conf.map.move_camel(dice_color, dice_value as i8);
 
             // recursive call

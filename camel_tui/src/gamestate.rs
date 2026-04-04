@@ -1,6 +1,12 @@
-use crate::camelfield::CamelFieldContent;
+use crate::asset_vec;
+use crate::camelfield::{ARROW_LEFT, CamelFieldContent};
+use crate::gameasset::GameAssetManager;
 use crate::numbersfield::EffectCardState;
 use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
+use crate::{
+    camelfield::{ARROW_RIGHT, CAMEL_PATTERN},
+    gameasset::GameAsset,
+};
 use MoveError::{InvalidConfiguration, InvalidMove};
 
 use calc::{CamelMap, Configuration, EffectCard};
@@ -31,15 +37,23 @@ pub struct GameState {
     rolled_dice: usize,
     round_number: u8,
     pub game_period: GamePeriod,
+    asset_manager: GameAssetManager,
 }
 
 impl Default for GameState {
     fn default() -> Self {
+        let assets = asset_vec![
+            ("arrow_right", ARROW_RIGHT),
+            ("arrow_left", ARROW_LEFT),
+            ("camel_pattern", CAMEL_PATTERN)
+        ];
+        let asset_manager = GameAssetManager::init_with_assets(assets);
+
         let mut fields: [CamelField; 16] = Default::default();
 
-        for i in 0..16 {
-            fields[i].index = (i + 2) % 16;
-            fields[i].board_index = i;
+        for (i, field) in fields.iter_mut().enumerate() {
+            field.index = (i + 2) % 16;
+            field.board_index = i;
         }
 
         // first field in the game
@@ -65,6 +79,7 @@ impl Default for GameState {
             rolled_dice: 0,
             game_period: GamePeriod::Setup,
             round_number: 0,
+            asset_manager,
         }
     }
 }
@@ -561,7 +576,7 @@ impl GameState {
 
         for (i, field) in self.fields.iter().enumerate() {
             //wierd indexing because real game starts at second field
-            field.render(camel_field_areas[(i + 2) % 16], buf);
+            field.render(camel_field_areas[(i + 2) % 16], buf, &self.asset_manager);
         }
     }
 
