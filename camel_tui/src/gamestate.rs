@@ -257,7 +257,24 @@ impl GameState {
 
         let (old_pos, camel_index) = self.find_camel(camel).ok_or(InvalidConfiguration)?;
 
-        if old_pos > to_field || to_field - old_pos > 3 {
+        let move_dist = if self.effect_card_info[0]
+            .placements
+            .contains(&(to_field.saturating_sub(1) as u8))
+        {
+            4
+        } else {
+            3
+        };
+
+        if self
+            .effect_card_info
+            .iter()
+            .any(|card_type| card_type.placements.contains(&(to_field as u8)))
+        {
+            return Err(InvalidMove.into());
+        }
+
+        if old_pos > to_field || to_field - old_pos > move_dist {
             return Err(InvalidMove.into());
         }
 
