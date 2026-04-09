@@ -30,10 +30,10 @@ pub struct GameState {
     fields: [CamelField; 16],
     pub selected_color: usize,
     pub selected_field: usize,
-    camel_round_info: [CamelState; 5],
-    effect_card_info: [EffectCardState; 2],
     pub selected_item_type: SelectionType,
     pub selected_effect: usize,
+    camel_round_info: [CamelState; 5],
+    effect_card_info: [EffectCardState; 2],
     rolled_dice: usize,
     round_number: u8,
     pub game_period: GamePeriod,
@@ -321,6 +321,11 @@ impl GameState {
         self.selected_field = new_selection_idx;
         self.fields[old_idx].selected = false;
         self.fields[new_selection_idx].selected = true;
+
+        // if current selection is effect card, camel info doesn't have to be updated
+        if self.selected_item_type == SelectionType::EffectCard {
+            return;
+        }
 
         if let Some((old_pos, camel_index)) = self.find_camel(camel)
             && let Some(old_camels) = self.fields[old_pos].camels()
