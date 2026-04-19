@@ -1,4 +1,4 @@
-use calc::{Configuration, CamelMap, EffectCard, Color};
+use calc::{Configuration, CamelMap, EffectCardType, Color};
 
 #[test]
 fn test_normalize_shifts_effect_cards() {
@@ -11,8 +11,8 @@ fn test_normalize_shifts_effect_cards() {
             (5, Color::Yellow),
         ])
         .with_effect_cards(vec![
-            (5, EffectCard::Oasis),
-            (7, EffectCard::Desert)
+            (5, EffectCardType::Oasis),
+            (7, EffectCardType::Desert)
         ])
         .build();
 
@@ -24,8 +24,8 @@ fn test_normalize_shifts_effect_cards() {
     // The Oasis card at position 5 should shift to 2 (5 - 3 = 2).
     assert_eq!(config.map.find_camel(Color::Blue), 0);
     assert_eq!(config.map.find_camel(Color::Green), 0);
-    assert_eq!(config.map.effect_cards[2], Some(EffectCard::Oasis));
-    assert_eq!(config.map.effect_cards[4], Some(EffectCard::Desert));
+    assert_eq!(config.map.effect_cards[2], Some(EffectCardType::Oasis));
+    assert_eq!(config.map.effect_cards[4], Some(EffectCardType::Desert));
     assert_eq!(config.map.effect_cards[5], None);
     assert_eq!(config.map.effect_cards[7], None);
 }

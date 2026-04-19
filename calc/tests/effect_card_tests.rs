@@ -1,13 +1,13 @@
-use calc::{CamelMap, Color, EffectCard};
+use calc::{CamelMap, Color, EffectCardType};
 
 #[test]
 fn test_builder_with_single_oasis() {
     let map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
-        .with_effect_cards(vec![(3, EffectCard::Oasis)])
+        .with_effect_cards(vec![(3, EffectCardType::Oasis)])
         .build();
 
-    assert_eq!(map.effect_cards[3], Some(EffectCard::Oasis));
+    assert_eq!(map.effect_cards[3], Some(EffectCardType::Oasis));
     // Other positions should be None
     assert_eq!(map.effect_cards[0], None);
     assert_eq!(map.effect_cards[2], None);
@@ -18,10 +18,10 @@ fn test_builder_with_single_oasis() {
 fn test_builder_with_single_desert() {
     let map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
-        .with_effect_cards(vec![(5, EffectCard::Desert)])
+        .with_effect_cards(vec![(5, EffectCardType::Desert)])
         .build();
 
-    assert_eq!(map.effect_cards[5], Some(EffectCard::Desert));
+    assert_eq!(map.effect_cards[5], Some(EffectCardType::Desert));
     // Other positions should be None
     assert_eq!(map.effect_cards[0], None);
     assert_eq!(map.effect_cards[4], None);
@@ -33,15 +33,15 @@ fn test_builder_with_multiple_effect_cards() {
     let map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
         .with_effect_cards(vec![
-            (3, EffectCard::Oasis),
-            (7, EffectCard::Desert),
-            (10, EffectCard::Oasis),
+            (3, EffectCardType::Oasis),
+            (7, EffectCardType::Desert),
+            (10, EffectCardType::Oasis),
         ])
         .build();
 
-    assert_eq!(map.effect_cards[3], Some(EffectCard::Oasis));
-    assert_eq!(map.effect_cards[7], Some(EffectCard::Desert));
-    assert_eq!(map.effect_cards[10], Some(EffectCard::Oasis));
+    assert_eq!(map.effect_cards[3], Some(EffectCardType::Oasis));
+    assert_eq!(map.effect_cards[7], Some(EffectCardType::Desert));
+    assert_eq!(map.effect_cards[10], Some(EffectCardType::Oasis));
     assert_eq!(map.effect_cards[0], None);
     assert_eq!(map.effect_cards[5], None);
 }
@@ -52,7 +52,7 @@ fn test_oasis_moves_camel_forward_one() {
     // Moving by 3 should land on Oasis, then move +1 to position 4
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
-        .with_effect_cards(vec![(3, EffectCard::Oasis)])
+        .with_effect_cards(vec![(3, EffectCardType::Oasis)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -69,7 +69,7 @@ fn test_oasis_places_camel_on_top_of_stack() {
     // Blue should be placed ON TOP of Green
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (4, Color::Green)])
-        .with_effect_cards(vec![(3, EffectCard::Oasis)])
+        .with_effect_cards(vec![(3, EffectCardType::Oasis)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -86,7 +86,7 @@ fn test_oasis_with_camel_stack_moves_all() {
     // Moving Blue by 3 should move both Blue and Green to position 4
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
-        .with_effect_cards(vec![(3, EffectCard::Oasis)])
+        .with_effect_cards(vec![(3, EffectCardType::Oasis)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -104,7 +104,7 @@ fn test_desert_moves_camel_back_one() {
     // Moving by 3 should land on Desert, then move -1 to position 2
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue)])
-        .with_effect_cards(vec![(3, EffectCard::Desert)])
+        .with_effect_cards(vec![(3, EffectCardType::Desert)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -121,7 +121,7 @@ fn test_desert_places_camel_at_bottom_of_stack() {
     // Blue should be placed AT BOTTOM (under Green)
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (2, Color::Green)])
-        .with_effect_cards(vec![(3, EffectCard::Desert)])
+        .with_effect_cards(vec![(3, EffectCardType::Desert)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -138,7 +138,7 @@ fn test_desert_with_camel_stack_moves_all() {
     // Moving Blue by 3 should move both Blue and Green to position 2
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
-        .with_effect_cards(vec![(3, EffectCard::Desert)])
+        .with_effect_cards(vec![(3, EffectCardType::Desert)])
         .build();
 
     map.move_camel(Color::Blue, 3);
@@ -156,7 +156,7 @@ fn test_desert_at_position_one_boundary() {
     // Moving by 1 should land on Desert, then move -1 to position 0 (not negative)
     let mut map = CamelMap::builder()
         .with_positions(vec![(0, Color::Blue), (0, Color::Green)])
-        .with_effect_cards(vec![(1, EffectCard::Desert)])
+        .with_effect_cards(vec![(1, EffectCardType::Desert)])
         .build();
 
     // Move Green (which is on top) by 1

@@ -253,7 +253,7 @@ impl App {
                             self.game_state.selected_color.into(),
                             self.game_state.selected_field,
                         );
-                        log::debug!("{:?}", &self.game_state);
+                        log::debug!("{:?}", &res);
                         if res.is_ok() {
                             self.probabilities
                                 .start_probability_calculations(&self.game_state);

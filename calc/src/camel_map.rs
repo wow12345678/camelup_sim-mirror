@@ -7,23 +7,24 @@ pub struct CamelMap {
     pub pos_color_map: [CamelStack; 20],
     // colors are encoded by index like the enum
     pub color_pos_map: [u8; 5],
-    pub effect_cards: [Option<EffectCard>; 20],
+    pub effect_cards: [Option<EffectCardType>; 20],
 }
 
 /// plates which have a effect when a camel lands on a field with them
 /// Oasis => +1 field to top of camels on the next field
 /// Desert => -1 field to the bottom of the camels on the previous field
+// The enum values are associated with the index in the game state array
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
-pub enum EffectCard {
-    Oasis,
-    Desert,
+pub enum EffectCardType {
+    Oasis = 0,
+    Desert = 1,
 }
 
-impl EffectCard {
+impl EffectCardType {
     pub fn to_color(&self) -> (u8, u8, u8) {
         match self {
-            EffectCard::Oasis => (0, 100, 0),
-            EffectCard::Desert => (100, 0, 0),
+            EffectCardType::Oasis => (0, 100, 0),
+            EffectCardType::Desert => (100, 0, 0),
         }
     }
 }
@@ -49,8 +50,8 @@ impl CamelMap {
         let card_effect = self.effect_cards[new_pos as usize];
 
         match card_effect {
-            Some(EffectCard::Oasis) => new_pos += 1,
-            Some(EffectCard::Desert) => new_pos -= 1,
+            Some(EffectCardType::Oasis) => new_pos += 1,
+            Some(EffectCardType::Desert) => new_pos -= 1,
             None => (),
         }
         new_pos = (new_pos as i8).clamp(0, max_pos) as u8;
@@ -72,10 +73,10 @@ impl CamelMap {
 
         // adjust moving behavior based on effect card
         match card_effect {
-            Some(EffectCard::Oasis) | None => {
+            Some(EffectCardType::Oasis) | None => {
                 self.pos_color_map[new_pos as usize].append(moving_camels);
             }
-            Some(EffectCard::Desert) => {
+            Some(EffectCardType::Desert) => {
                 self.pos_color_map[new_pos as usize].prepend(moving_camels);
             }
         }
@@ -94,11 +95,14 @@ impl CamelMap {
 pub struct CamelMapBuilder {
     pos_color_map: [CamelStack; 20],
     color_pos_map: [u8; 5],
-    effect_cards: [Option<EffectCard>; 20],
+    effect_cards: [Option<EffectCardType>; 20],
 }
 
 impl CamelMapBuilder {
-    pub fn with_effect_cards(mut self, effect_cards: Vec<(usize, EffectCard)>) -> CamelMapBuilder {
+    pub fn with_effect_cards(
+        mut self,
+        effect_cards: Vec<(usize, EffectCardType)>,
+    ) -> CamelMapBuilder {
         for (effect_pos, effect_val) in effect_cards {
             self.effect_cards[effect_pos].replace(effect_val);
         }

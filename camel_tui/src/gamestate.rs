@@ -9,7 +9,7 @@ use crate::{
 };
 use MoveError::{InvalidConfiguration, InvalidMove};
 
-use calc::{CamelMap, Configuration, EffectCard};
+use calc::{CamelMap, Configuration, EffectCardType};
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -64,8 +64,8 @@ impl Default for GameState {
         camel_round_info[0].selected = true;
 
         let effect_card_info = [
-            EffectCardState::new(EffectCard::Oasis),
-            EffectCardState::new(EffectCard::Desert),
+            EffectCardState::new(EffectCardType::Oasis),
+            EffectCardState::new(EffectCardType::Desert),
         ];
 
         Self {
@@ -186,7 +186,7 @@ impl GameState {
                 });
 
         // Collect effect card placements
-        let effect_cards: Vec<(usize, EffectCard)> = game_state
+        let effect_cards: Vec<(usize, EffectCardType)> = game_state
             .effect_card_info
             .iter()
             .flat_map(|effect_state| {
@@ -221,6 +221,10 @@ impl GameState {
             .build()
     }
 
+    pub fn effect_placements(&self, effect: EffectCardType) -> &Vec<u8> {
+        &self.effect_card_info[effect as usize].placements
+    }
+
     pub fn add_dice_rolled(&mut self) {
         self.rolled_dice += 1;
     }
@@ -235,7 +239,7 @@ impl GameState {
             if let Some(camels) = init.fields[*i as usize].camels_mut() {
                 camels.push(*col)
             }
-            init.camel_round_info[Into::<usize>::into(*col)].start_pos = *i as u32;
+            init.camel_round_info[*col as usize].start_pos = *i as u32;
         }
 
         init
@@ -246,7 +250,7 @@ impl GameState {
         camel: CamelColor,
         to_field: usize,
     ) -> Result<(), PlayerActionError> {
-        let camel_state = self.camel_round_info[Into::<usize>::into(camel)];
+        let camel_state = self.camel_round_info[camel as usize];
         if to_field >= self.fields.len() {
             return Err(InvalidMove.into());
         }
@@ -257,8 +261,8 @@ impl GameState {
 
         let (old_pos, camel_index) = self.find_camel(camel).ok_or(InvalidConfiguration)?;
 
-        let move_dist = if self.effect_card_info[0]
-            .placements
+        let move_dist = if self
+            .effect_placements(EffectCardType::Oasis)
             .contains(&(to_field.saturating_sub(1) as u8))
         {
             4
@@ -274,27 +278,38 @@ impl GameState {
             return Err(InvalidMove.into());
         }
 
-        if old_pos > to_field || to_field - old_pos > move_dist {
+        if old_pos > to_field && to_field - old_pos > move_dist {
             return Err(InvalidMove.into());
         }
 
-        if old_pos == to_field {
+        let move_camels_under = self
+            .effect_placements(EffectCardType::Desert)
+            .contains(&((to_field + 1) as u8));
+
+        // only be able to move to same field if next field has desert effect card
+        if old_pos == to_field && !move_camels_under {
             return Err(InvalidMove.into());
         }
 
-        let camel_state = &mut self.camel_round_info[Into::<usize>::into(camel)];
+        let camel_state = &mut self.camel_round_info[camel as usize];
         camel_state.has_moved = true;
 
         if let Some(old_camels) = self.fields[old_pos].camels_mut() {
-            let moving_camels = old_camels.split_off(camel_index);
+            let mut moving_camels = old_camels.split_off(camel_index);
 
             for cam in &moving_camels {
-                self.camel_round_info[Into::<usize>::into(*cam)].end_pos = to_field as u32;
+                self.camel_round_info[*cam as usize].end_pos = to_field as u32;
             }
 
             match &mut self.fields[to_field].content {
                 Some(CamelFieldContent::Camels(new_camels)) => {
-                    new_camels.extend(moving_camels);
+                    // put moving camels under current ones
+                    if move_camels_under {
+                        moving_camels.append(new_camels);
+                        std::mem::swap(new_camels, &mut moving_camels);
+                    } else {
+                        new_camels.extend(moving_camels);
+                    }
                 }
                 Some(CamelFieldContent::EffectCard(_)) => {
                     // the player accounts for correct movement if the camel would've landed on a
@@ -333,7 +348,7 @@ impl GameState {
             let moving_camels = old_camels.iter().skip(camel_index);
 
             for cam in moving_camels {
-                self.camel_round_info[Into::<usize>::into(*cam)].end_pos = new_selection_idx as u32;
+                self.camel_round_info[*cam as usize].end_pos = new_selection_idx as u32;
             }
         };
     }
@@ -419,19 +434,18 @@ impl GameState {
                 let new_idx = old_idx as i32 + by;
 
                 if new_idx < 0 {
-                    // Move to Yellow (bottom camel)
+                    // Move to bottom camel
                     self.effect_card_info[old_idx].selected = false;
                     self.selected_item_type = SelectionType::Camel;
                     self.selected_color = 4; // Yellow
                     self.camel_round_info[4].selected = true;
                 } else if new_idx >= 2 {
-                    // Wrap to Blue (top camel)
+                    // Wrap to top camel
                     self.effect_card_info[old_idx].selected = false;
                     self.selected_item_type = SelectionType::Camel;
                     self.selected_color = 0; // Blue
                     self.camel_round_info[0].selected = true;
                 } else {
-                    // Stay in effect cards
                     self.effect_card_info[old_idx].selected = false;
                     self.selected_effect = new_idx as usize;
                     self.effect_card_info[new_idx as usize].selected = true;

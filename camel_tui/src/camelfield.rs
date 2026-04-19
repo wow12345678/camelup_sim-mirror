@@ -1,6 +1,6 @@
 use std::{cmp, fmt::Display};
 
-use calc::EffectCard;
+use calc::EffectCardType;
 use ratatui::{
     buffer::Buffer,
     layout::Rect,
@@ -14,11 +14,11 @@ use crate::gameasset::GameAssetManager;
 // CamelColor with first as default
 pub enum CamelColor {
     #[default]
-    Blue,
-    Green,
-    Orange,
-    White,
-    Yellow,
+    Blue = 0,
+    Green = 1,
+    Orange = 2,
+    White = 3,
+    Yellow = 4,
 }
 
 impl From<calc::Color> for CamelColor {
@@ -53,18 +53,6 @@ impl Display for CamelColor {
             CamelColor::Yellow => write!(f, "Yellow"),
             CamelColor::Orange => write!(f, "Orange"),
             CamelColor::White => write!(f, "White"),
-        }
-    }
-}
-
-impl From<CamelColor> for usize {
-    fn from(value: CamelColor) -> Self {
-        match value {
-            CamelColor::Blue => 0,
-            CamelColor::Green => 1,
-            CamelColor::Orange => 2,
-            CamelColor::White => 3,
-            CamelColor::Yellow => 4,
         }
     }
 }
@@ -234,7 +222,7 @@ impl CamelField {
         }
     }
 
-    pub fn add_effect(&mut self, new_effect: EffectCard) {
+    pub fn add_effect(&mut self, new_effect: EffectCardType) {
         match &mut self.content {
             Some(CamelFieldContent::Camels(_)) => {
                 // do nothing because effects cannot be placed on fields with camels on them
@@ -246,7 +234,7 @@ impl CamelField {
         }
     }
 
-    pub fn remove_effect(&mut self, effect_to_remove: EffectCard) {
+    pub fn remove_effect(&mut self, effect_to_remove: EffectCardType) {
         if let Some(CamelFieldContent::EffectCard(current)) = &self.content
             && *current == effect_to_remove
         {
@@ -341,7 +329,7 @@ impl CamelField {
                 self.render_camels(area, buf, camels, asset_manager);
             }
             Some(CamelFieldContent::EffectCard(effect)) => {
-                let asset = if let EffectCard::Oasis = effect {
+                let asset = if let EffectCardType::Oasis = effect {
                     asset_manager
                         .get_asset("arrow_right")
                         .expect("asset should be initialized")
@@ -379,5 +367,5 @@ impl CamelField {
 #[derive(Debug)]
 pub enum CamelFieldContent {
     Camels(Vec<CamelColor>),
-    EffectCard(EffectCard),
+    EffectCard(EffectCardType),
 }

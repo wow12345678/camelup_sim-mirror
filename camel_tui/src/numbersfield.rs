@@ -1,6 +1,6 @@
 use std::{cmp::Ordering, fmt::Display, sync::mpsc::Sender, thread};
 
-use calc::EffectCard;
+use calc::EffectCardType;
 use throbber_widgets_tui::{BRAILLE_SIX_DOUBLE, Throbber, ThrobberState, WhichUse};
 
 use crate::{camelfield::CamelColor, gamestate::GameState};
@@ -84,13 +84,13 @@ impl CamelState {
 
 #[derive(Debug, Clone)]
 pub struct EffectCardState {
-    pub effect_type: EffectCard,
+    pub effect_type: EffectCardType,
     pub placements: Vec<u8>,
     pub selected: bool,
 }
 
 impl EffectCardState {
-    pub fn new(effect_type: EffectCard) -> Self {
+    pub fn new(effect_type: EffectCardType) -> Self {
         Self {
             effect_type,
             placements: Vec::new(),
@@ -118,8 +118,8 @@ impl EffectCardState {
 impl Display for EffectCardState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let name = match self.effect_type {
-            EffectCard::Oasis => "Oasis",
-            EffectCard::Desert => "Desert",
+            EffectCardType::Oasis => "Oasis",
+            EffectCardType::Desert => "Desert",
         };
         if self.placements.is_empty() {
             write!(f, "{}: -", name)
@@ -147,8 +147,8 @@ impl Widget for &EffectCardState {
         borders.render(area, buf);
 
         let text_color = match self.effect_type {
-            EffectCard::Oasis => Color::Green,
-            EffectCard::Desert => Color::Red,
+            EffectCardType::Oasis => Color::Green,
+            EffectCardType::Desert => Color::Red,
         };
 
         Line::from(format!("{self}"))
@@ -260,7 +260,7 @@ impl ProbabilitiesField {
         }
 
         let configuration = GameState::convert_game_state_configuration(game_state);
-        log::debug!("{configuration:?}");
+        // log::debug!("{configuration:?}");
         let tx = self.sender.clone();
 
         let handle = thread::Builder::new()
