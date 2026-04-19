@@ -27,6 +27,14 @@ impl EffectCardType {
             EffectCardType::Desert => (100, 0, 0),
         }
     }
+
+    pub fn from_usize(u: usize) -> Self {
+        match u {
+            0 => EffectCardType::Oasis,
+            1 => EffectCardType::Desert,
+            _ => panic!("Not a valid index for EffectCardType"),
+        }
+    }
 }
 
 impl CamelMap {

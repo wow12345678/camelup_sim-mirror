@@ -17,13 +17,11 @@ use ratatui::{
     text::Line,
     widgets::{Block, Clear, Paragraph, Widget},
 };
-use simplelog::{Config, LevelFilter, WriteLogger};
-use std::fs::File;
 
 mod camelfield;
+mod gameasset;
 mod gamestate;
 mod numbersfield;
-mod gameasset;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GeneralWindow {
@@ -196,10 +194,10 @@ impl App {
             }
             // effect card hotkeys
             (KeyCode::Char('+'), _) => {
-                self.game_state.move_selected_effect(0); // Oasis
+                self.game_state.move_selected_effect(calc::EffectCardType::Oasis);
             }
             (KeyCode::Char('-'), _) => {
-                self.game_state.move_selected_effect(1); // Desert
+                self.game_state.move_selected_effect(calc::EffectCardType::Desert);
             }
             // switch between main windows
             (KeyCode::Tab, _) => {
@@ -230,10 +228,10 @@ impl App {
     fn handle_number_field_keys(&mut self, key: KeyCode) {
         match key {
             KeyCode::Char('j') | KeyCode::Down => {
-                self.game_state.move_selected_color_rel(1);
+                self.game_state.move_selected_placement_type(1);
             }
             KeyCode::Char('k') | KeyCode::Up => {
-                self.game_state.move_selected_color_rel(-1);
+                self.game_state.move_selected_placement_type(-1);
             }
             _ => {}
         }
@@ -253,7 +251,7 @@ impl App {
                             self.game_state.selected_color.into(),
                             self.game_state.selected_field,
                         );
-                        log::debug!("{:?}", &res);
+                        // log::debug!("{:?}", &res);
                         if res.is_ok() {
                             self.probabilities
                                 .start_probability_calculations(&self.game_state);
@@ -263,11 +261,11 @@ impl App {
                     }
                 }
                 SelectionType::EffectCard => {
-                    self.game_state.toggle_effect_card(
+                    let res = self.game_state.toggle_effect_card(
                         self.game_state.selected_effect,
                         self.game_state.selected_field,
                     );
-                    if self.game_state.game_period == GamePeriod::Game {
+                    if res.is_ok() && self.game_state.game_period == GamePeriod::Game {
                         self.probabilities
                             .start_probability_calculations(&self.game_state);
                     }
@@ -379,12 +377,12 @@ impl Widget for &App {
 }
 
 fn main() -> io::Result<()> {
-    WriteLogger::init(
-        LevelFilter::Debug,
-        Config::default(),
-        File::create("debug.log").unwrap(),
-    )
-    .unwrap();
+    // WriteLogger::init(
+    //     LevelFilter::Debug,
+    //     Config::default(),
+    //     File::create("debug.log").unwrap(),
+    // )
+    // .unwrap();
 
     let mut terminal = ratatui::init();
     // let init_config = vec![

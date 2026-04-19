@@ -31,7 +31,7 @@ pub struct GameState {
     pub selected_color: usize,
     pub selected_field: usize,
     pub selected_item_type: SelectionType,
-    pub selected_effect: usize,
+    pub selected_effect: EffectCardType,
     camel_round_info: [CamelState; 5],
     effect_card_info: [EffectCardState; 2],
     rolled_dice: usize,
@@ -75,7 +75,7 @@ impl Default for GameState {
             camel_round_info,
             effect_card_info,
             selected_item_type: SelectionType::Camel,
-            selected_effect: 0,
+            selected_effect: EffectCardType::Oasis,
             rolled_dice: 0,
             game_period: GamePeriod::Setup,
             round_number: 0,
@@ -356,7 +356,7 @@ impl GameState {
     pub fn move_selected_color(&mut self, new_color: usize) {
         // Clear any effect card selection first
         if self.selected_item_type == SelectionType::EffectCard {
-            self.effect_card_info[self.selected_effect].selected = false;
+            self.effect_card_info[self.selected_effect as usize].selected = false;
             self.selected_item_type = SelectionType::Camel;
         }
 
@@ -374,7 +374,7 @@ impl GameState {
         self.selected_color = new_color;
     }
 
-    pub fn move_selected_effect(&mut self, new_effect: usize) {
+    pub fn move_selected_effect(&mut self, new_effect: EffectCardType) {
         // Clear any camel selection first
         if self.selected_item_type == SelectionType::Camel {
             self.camel_round_info[self.selected_color].selected = false;
@@ -382,9 +382,9 @@ impl GameState {
         }
 
         let old_effect = self.selected_effect;
-        self.effect_card_info[old_effect].selected = false;
+        self.effect_card_info[old_effect as usize].selected = false;
 
-        self.effect_card_info[new_effect].selected = true;
+        self.effect_card_info[new_effect as usize].selected = true;
         self.selected_effect = new_effect;
     }
 
@@ -404,7 +404,7 @@ impl GameState {
             })
     }
 
-    pub fn move_selected_color_rel(&mut self, by: i32) {
+    pub fn move_selected_placement_type(&mut self, by: i32) {
         match self.selected_item_type {
             SelectionType::Camel => {
                 let old_idx = self.selected_color;
@@ -414,13 +414,13 @@ impl GameState {
                     // Wrap to Desert (bottom of effect cards)
                     self.camel_round_info[old_idx].selected = false;
                     self.selected_item_type = SelectionType::EffectCard;
-                    self.selected_effect = 1; // Desert
+                    self.selected_effect = EffectCardType::Desert;
                     self.effect_card_info[1].selected = true;
                 } else if new_idx >= 5 {
                     // Move to Oasis (top of effect cards)
                     self.camel_round_info[old_idx].selected = false;
                     self.selected_item_type = SelectionType::EffectCard;
-                    self.selected_effect = 0; // Oasis
+                    self.selected_effect = EffectCardType::Oasis;
                     self.effect_card_info[0].selected = true;
                 } else {
                     // Stay in camels
@@ -430,24 +430,25 @@ impl GameState {
                 }
             }
             SelectionType::EffectCard => {
-                let old_idx = self.selected_effect;
-                let new_idx = old_idx as i32 + by;
+                let old_effect = self.selected_effect;
+                let mut new_idx = old_effect as i32 + by;
 
                 if new_idx < 0 {
                     // Move to bottom camel
-                    self.effect_card_info[old_idx].selected = false;
+                    self.effect_card_info[old_effect as usize].selected = false;
                     self.selected_item_type = SelectionType::Camel;
-                    self.selected_color = 4; // Yellow
+                    self.selected_color = 4;
                     self.camel_round_info[4].selected = true;
                 } else if new_idx >= 2 {
                     // Wrap to top camel
-                    self.effect_card_info[old_idx].selected = false;
+                    self.effect_card_info[old_effect as usize].selected = false;
                     self.selected_item_type = SelectionType::Camel;
-                    self.selected_color = 0; // Blue
+                    self.selected_color = 0;
                     self.camel_round_info[0].selected = true;
                 } else {
-                    self.effect_card_info[old_idx].selected = false;
-                    self.selected_effect = new_idx as usize;
+                    self.effect_card_info[old_effect as usize].selected = false;
+                    new_idx = new_idx.rem_euclid(self.effect_card_info.len() as i32);
+                    self.selected_effect = EffectCardType::from_usize(new_idx as usize);
                     self.effect_card_info[new_idx as usize].selected = true;
                 }
             }
@@ -620,16 +621,25 @@ impl GameState {
         self.camel_round_info.get_mut(camel_color)
     }
 
-    pub fn toggle_effect_card(&mut self, effect_idx: usize, field: usize) {
-        let was_placed = self.effect_card_info[effect_idx].has_placement(field as u8);
-        self.effect_card_info[effect_idx].toggle_placement(field as u8);
+    pub fn toggle_effect_card(
+        &mut self,
+        effect_idx: EffectCardType,
+        field: usize,
+    ) -> Result<(), ()> {
+        if let Some(CamelFieldContent::Camels(_)) = self.fields[field].content {
+            return Err(());
+        }
 
-        let effect_type = self.effect_card_info[effect_idx].effect_type;
+        let was_placed = self.effect_card_info[effect_idx as usize].has_placement(field as u8);
+        self.effect_card_info[effect_idx as usize].toggle_placement(field as u8);
+
+        let effect_type = self.effect_card_info[effect_idx as usize].effect_type;
         if was_placed {
             self.fields[field].remove_effect(effect_type);
         } else {
             self.fields[field].add_effect(effect_type);
         }
+        Ok(())
     }
 
     pub fn effect_card_info(&mut self, idx: usize) -> Option<&mut EffectCardState> {
