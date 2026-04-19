@@ -1,11 +1,11 @@
+use crate::selection::SelectionType;
 use std::{io, sync::mpsc::Receiver, time::Duration};
 
 use self::{
     camelfield::CamelField,
-    gamestate::{
-        GamePeriod, GameState, PlaceError::InvalidColor, PlayerActionError, SelectionType,
-    },
+    gamestate::{GamePeriod, GameState},
     numbersfield::{CamelState, ProbabilitiesField},
+    playererrors::{PlaceError::InvalidColor, PlayerActionError},
 };
 use camelfield::CamelColor;
 
@@ -22,6 +22,8 @@ mod camelfield;
 mod gameasset;
 mod gamestate;
 mod numbersfield;
+mod playererrors;
+mod selection;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GeneralWindow {
@@ -161,7 +163,6 @@ impl App {
         paragraph.render(area, buf);
     }
 
-    // TODO: think about error handling
     fn handle_key_event(&mut self, key_event: KeyEvent) {
         const SELECTION_KEYBINDS: [char; 5] = ['b', 'g', 'y', 'o', 'w'];
 
@@ -194,10 +195,12 @@ impl App {
             }
             // effect card hotkeys
             (KeyCode::Char('+'), _) => {
-                self.game_state.move_selected_effect(calc::EffectCardType::Oasis);
+                self.game_state
+                    .move_selected_effect(calc::EffectCardType::Oasis);
             }
             (KeyCode::Char('-'), _) => {
-                self.game_state.move_selected_effect(calc::EffectCardType::Desert);
+                self.game_state
+                    .move_selected_effect(calc::EffectCardType::Desert);
             }
             // switch between main windows
             (KeyCode::Tab, _) => {
@@ -238,18 +241,18 @@ impl App {
     }
 
     fn handle_game_field_keys(&mut self, key: KeyCode) -> Result<(), PlayerActionError> {
-        match (key, self.game_state.selected_field) {
-            (KeyCode::Enter, _) => match self.game_state.selected_item_type {
+        match (key, self.game_state.selected.field()) {
+            (KeyCode::Enter, _) => match self.game_state.selected.item_type() {
                 SelectionType::Camel => {
                     if self.game_state.game_period == GamePeriod::Setup {
                         self.place_camel(
-                            self.game_state.selected_color,
-                            self.game_state.selected_field,
+                            self.game_state.selected.color(),
+                            self.game_state.selected.field(),
                         )
                     } else {
                         let res = self.game_state.move_camel(
-                            self.game_state.selected_color.into(),
-                            self.game_state.selected_field,
+                            self.game_state.selected.color().into(),
+                            self.game_state.selected.field(),
                         );
                         // log::debug!("{:?}", &res);
                         if res.is_ok() {
@@ -262,8 +265,8 @@ impl App {
                 }
                 SelectionType::EffectCard => {
                     let res = self.game_state.toggle_effect_card(
-                        self.game_state.selected_effect,
-                        self.game_state.selected_field,
+                        self.game_state.selected.effect(),
+                        self.game_state.selected.field(),
                     );
                     if res.is_ok() && self.game_state.game_period == GamePeriod::Game {
                         self.probabilities
@@ -385,14 +388,6 @@ fn main() -> io::Result<()> {
     // .unwrap();
 
     let mut terminal = ratatui::init();
-    // let init_config = vec![
-    //     (1, CamelColor::Blue),
-    //     (1, CamelColor::White),
-    //     (1, CamelColor::Orange),
-    //     (1, CamelColor::Green),
-    //     (1, CamelColor::Yellow),
-    // ];
-
     let mut app = App::new();
 
     let app_result = app.run(&mut terminal);

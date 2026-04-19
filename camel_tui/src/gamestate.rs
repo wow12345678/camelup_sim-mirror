@@ -1,13 +1,18 @@
+use crate::SelectionType;
 use crate::asset_vec;
 use crate::camelfield::{ARROW_LEFT, CamelFieldContent};
 use crate::gameasset::GameAssetManager;
 use crate::numbersfield::EffectCardState;
+use crate::playererrors::{
+    MoveError::{InvalidConfiguration, InvalidMove},
+    PlayerActionError,
+};
+use crate::selection::SelectionState;
 use crate::{CamelColor, CamelField, CamelState, GeneralWindow};
 use crate::{
     camelfield::{ARROW_RIGHT, CAMEL_PATTERN},
     gameasset::GameAsset,
 };
-use MoveError::{InvalidConfiguration, InvalidMove};
 
 use calc::{CamelMap, Configuration, EffectCardType};
 use ratatui::{
@@ -18,20 +23,10 @@ use ratatui::{
     widgets::{Block, Widget},
 };
 
-#[derive(Debug, Clone, Copy, PartialEq, Default)]
-pub enum SelectionType {
-    #[default]
-    Camel,
-    EffectCard,
-}
-
 #[derive(Debug)]
 pub struct GameState {
     fields: [CamelField; 16],
-    pub selected_color: usize,
-    pub selected_field: usize,
-    pub selected_item_type: SelectionType,
-    pub selected_effect: EffectCardType,
+    pub selected: SelectionState,
     camel_round_info: [CamelState; 5],
     effect_card_info: [EffectCardState; 2],
     rolled_dice: usize,
@@ -70,12 +65,9 @@ impl Default for GameState {
 
         Self {
             fields,
-            selected_color: 0,
-            selected_field: 0,
+            selected: SelectionState::default(),
             camel_round_info,
             effect_card_info,
-            selected_item_type: SelectionType::Camel,
-            selected_effect: EffectCardType::Oasis,
             rolled_dice: 0,
             game_period: GamePeriod::Setup,
             round_number: 0,
@@ -89,74 +81,6 @@ pub enum GamePeriod {
     #[default]
     Setup,
     Game,
-}
-
-#[derive(Debug)]
-pub enum MoveError {
-    InvalidMove,
-    InvalidConfiguration,
-}
-
-#[derive(Debug)]
-pub enum PlaceError {
-    InvalidIndex,
-    InvalidColor,
-}
-
-#[derive(Debug)]
-pub enum PlayerActionError {
-    MoveError(MoveError),
-    PlaceError(PlaceError),
-}
-
-impl std::fmt::Display for MoveError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            MoveError::InvalidMove => write!(f, "invalid move"),
-            MoveError::InvalidConfiguration => write!(f, "invalid configuration"),
-        }
-    }
-}
-
-impl std::fmt::Display for PlaceError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            PlaceError::InvalidIndex => write!(f, "invalid index"),
-            PlaceError::InvalidColor => write!(f, "invalid color"),
-        }
-    }
-}
-
-impl std::fmt::Display for PlayerActionError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            PlayerActionError::MoveError(e) => write!(f, "move error: {}", e),
-            PlayerActionError::PlaceError(e) => write!(f, "place error: {}", e),
-        }
-    }
-}
-
-impl std::error::Error for MoveError {}
-impl std::error::Error for PlaceError {}
-impl std::error::Error for PlayerActionError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            PlayerActionError::MoveError(e) => Some(e),
-            PlayerActionError::PlaceError(e) => Some(e),
-        }
-    }
-}
-
-impl From<MoveError> for PlayerActionError {
-    fn from(err: MoveError) -> Self {
-        PlayerActionError::MoveError(err)
-    }
-}
-
-impl From<PlaceError> for PlayerActionError {
-    fn from(err: PlaceError) -> Self {
-        PlayerActionError::PlaceError(err)
-    }
 }
 
 impl GameState {
@@ -232,8 +156,8 @@ impl GameState {
     pub fn init(config: &Vec<(u8, CamelColor)>) -> GameState {
         let mut init = GameState::default();
 
-        init.fields[init.selected_field].selected = true;
-        init.camel_round_info[init.selected_color].selected = true;
+        init.fields[init.selected.field()].selected = true;
+        init.camel_round_info[init.selected.color()].selected = true;
 
         for (i, col) in config {
             if let Some(camels) = init.fields[*i as usize].camels_mut() {
@@ -325,20 +249,20 @@ impl GameState {
     }
 
     pub fn move_selected_field_rel(&mut self, by: i32) {
-        let camel: CamelColor = self.selected_color.into();
-        let old_idx = self.selected_field;
+        let camel: CamelColor = self.selected.color().into();
+        let old_idx = self.selected.field();
         let new_selection_idx = match old_idx as i32 + by {
             _idx @ ..0 => 15,
             _idx @ 16.. => 0,
             idx => idx as usize,
         };
 
-        self.selected_field = new_selection_idx;
+        *self.selected.field_mut() = new_selection_idx;
         self.fields[old_idx].selected = false;
         self.fields[new_selection_idx].selected = true;
 
         // if current selection is effect card, camel info doesn't have to be updated
-        if self.selected_item_type == SelectionType::EffectCard {
+        if self.selected.item_type() == SelectionType::EffectCard {
             return;
         }
 
@@ -355,12 +279,12 @@ impl GameState {
 
     pub fn move_selected_color(&mut self, new_color: usize) {
         // Clear any effect card selection first
-        if self.selected_item_type == SelectionType::EffectCard {
-            self.effect_card_info[self.selected_effect as usize].selected = false;
-            self.selected_item_type = SelectionType::Camel;
+        if self.selected.item_type() == SelectionType::EffectCard {
+            self.effect_card_info[self.selected.effect() as usize].selected = false;
+            *self.selected.item_type_mut() = SelectionType::Camel;
         }
 
-        let old_color = self.selected_color;
+        let old_color = self.selected.color();
         self.camel_round_info[old_color].selected = false;
 
         for cam_info in &mut self.camel_round_info {
@@ -371,21 +295,21 @@ impl GameState {
         }
 
         self.camel_round_info[new_color].selected = true;
-        self.selected_color = new_color;
+        *self.selected.color_mut() = new_color;
     }
 
     pub fn move_selected_effect(&mut self, new_effect: EffectCardType) {
         // Clear any camel selection first
-        if self.selected_item_type == SelectionType::Camel {
-            self.camel_round_info[self.selected_color].selected = false;
-            self.selected_item_type = SelectionType::EffectCard;
+        if self.selected.item_type() == SelectionType::Camel {
+            self.camel_round_info[self.selected.color()].selected = false;
+            *self.selected.item_type_mut() = SelectionType::EffectCard;
         }
 
-        let old_effect = self.selected_effect;
+        let old_effect = self.selected.effect();
         self.effect_card_info[old_effect as usize].selected = false;
 
         self.effect_card_info[new_effect as usize].selected = true;
-        self.selected_effect = new_effect;
+        *self.selected.effect_mut() = new_effect;
     }
 
     fn find_camel(&self, camel: CamelColor) -> Option<(usize, usize)> {
@@ -405,50 +329,50 @@ impl GameState {
     }
 
     pub fn move_selected_placement_type(&mut self, by: i32) {
-        match self.selected_item_type {
+        match *self.selected.item_type_mut() {
             SelectionType::Camel => {
-                let old_idx = self.selected_color;
+                let old_idx = self.selected.color();
                 let new_idx = old_idx as i32 + by;
 
                 if new_idx < 0 {
                     // Wrap to Desert (bottom of effect cards)
                     self.camel_round_info[old_idx].selected = false;
-                    self.selected_item_type = SelectionType::EffectCard;
-                    self.selected_effect = EffectCardType::Desert;
+                    *self.selected.item_type_mut() = SelectionType::EffectCard;
+                    *self.selected.effect_mut() = EffectCardType::Desert;
                     self.effect_card_info[1].selected = true;
                 } else if new_idx >= 5 {
                     // Move to Oasis (top of effect cards)
                     self.camel_round_info[old_idx].selected = false;
-                    self.selected_item_type = SelectionType::EffectCard;
-                    self.selected_effect = EffectCardType::Oasis;
+                    *self.selected.item_type_mut() = SelectionType::EffectCard;
+                    *self.selected.effect_mut() = EffectCardType::Oasis;
                     self.effect_card_info[0].selected = true;
                 } else {
                     // Stay in camels
                     self.camel_round_info[old_idx].selected = false;
-                    self.selected_color = new_idx as usize;
+                    *self.selected.color_mut() = new_idx as usize;
                     self.camel_round_info[new_idx as usize].selected = true;
                 }
             }
             SelectionType::EffectCard => {
-                let old_effect = self.selected_effect;
+                let old_effect = self.selected.effect();
                 let mut new_idx = old_effect as i32 + by;
 
                 if new_idx < 0 {
                     // Move to bottom camel
                     self.effect_card_info[old_effect as usize].selected = false;
-                    self.selected_item_type = SelectionType::Camel;
-                    self.selected_color = 4;
+                    *self.selected.item_type_mut() = SelectionType::Camel;
+                    *self.selected.color_mut() = 4;
                     self.camel_round_info[4].selected = true;
                 } else if new_idx >= 2 {
                     // Wrap to top camel
                     self.effect_card_info[old_effect as usize].selected = false;
-                    self.selected_item_type = SelectionType::Camel;
-                    self.selected_color = 0;
+                    *self.selected.item_type_mut() = SelectionType::Camel;
+                    *self.selected.color_mut() = 0;
                     self.camel_round_info[0].selected = true;
                 } else {
                     self.effect_card_info[old_effect as usize].selected = false;
                     new_idx = new_idx.rem_euclid(self.effect_card_info.len() as i32);
-                    self.selected_effect = EffectCardType::from_usize(new_idx as usize);
+                    *self.selected.effect_mut() = EffectCardType::from_usize(new_idx as usize);
                     self.effect_card_info[new_idx as usize].selected = true;
                 }
             }
