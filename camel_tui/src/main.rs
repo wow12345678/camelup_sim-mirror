@@ -5,7 +5,7 @@ use self::{
     camelfield::CamelField,
     gamestate::{GamePeriod, GameState},
     numbersfield::{CamelState, ProbabilitiesField},
-    playererrors::{PlaceError::InvalidColor, PlayerActionError},
+    playererrors::PlayerActionError,
 };
 use camelfield::CamelColor;
 
@@ -21,6 +21,8 @@ use ratatui::{
 mod camelfield;
 mod gameasset;
 mod gamestate;
+mod logger;
+mod movehistory;
 mod numbersfield;
 mod playererrors;
 mod selection;
@@ -140,6 +142,7 @@ impl App {
             Line::from("  <q> / <Esc>  Quit application / Close help"),
             Line::from("  <Tab>        Switch between GameField and NumberField"),
             Line::from("  <b/g/y/o/w>  Select camel (Blue/Green/Yellow/Orange/White)"),
+            Line::from("  <u>          Undo the last action"),
             Line::from("  <+>          Select Oasis effect card"),
             Line::from("  <->          Select Desert effect card"),
             Line::from("  <Space>      Calculate game-win probabilities"),
@@ -193,6 +196,9 @@ impl App {
                 self.game_state
                     .move_selected_color(CamelColor::from_char_to_usize(c));
             }
+            (KeyCode::Char('u'), _) => {
+                self.game_state.undo();
+            }
             // effect card hotkeys
             (KeyCode::Char('+'), _) => {
                 self.game_state
@@ -245,22 +251,26 @@ impl App {
             (KeyCode::Enter, _) => match self.game_state.selected.item_type() {
                 SelectionType::Camel => {
                     if self.game_state.game_period == GamePeriod::Setup {
-                        self.place_camel(
-                            self.game_state.selected.color(),
-                            self.game_state.selected.field(),
-                        )
+                        self.game_state
+                            .place_camel(
+                                self.game_state.selected.color(),
+                                self.game_state.selected.field(),
+                            )
+                            .map(|new_move| {
+                                self.game_state.add_history(new_move);
+                            })
                     } else {
-                        let res = self.game_state.move_camel(
-                            self.game_state.selected.color().into(),
-                            self.game_state.selected.field(),
-                        );
-                        // log::debug!("{:?}", &res);
-                        if res.is_ok() {
-                            self.probabilities
-                                .start_probability_calculations(&self.game_state);
-                            self.game_state.add_dice_rolled();
-                        }
-                        res
+                        self.game_state
+                            .move_camel(
+                                self.game_state.selected.color().into(),
+                                self.game_state.selected.field(),
+                            )
+                            .map(|new_move| {
+                                self.game_state.add_history(new_move);
+                                self.probabilities
+                                    .start_probability_calculations(&self.game_state);
+                                self.game_state.add_dice_rolled();
+                            })
                     }
                 }
                 SelectionType::EffectCard => {
@@ -324,25 +334,6 @@ impl App {
     fn focus_window(&mut self, win: GeneralWindow) {
         self.selected_window = win;
     }
-
-    fn place_camel(
-        &mut self,
-        selected_color: usize,
-        selected_field: usize,
-    ) -> Result<(), PlayerActionError> {
-        let camel_info = self
-            .game_state
-            .camel_info(selected_color)
-            .expect("should always be some, since alle camels have info");
-        if camel_info.has_moved {
-            return Err(InvalidColor.into());
-        }
-        camel_info.has_moved = true;
-        camel_info.end_pos = selected_field as u32;
-        self.game_state.add_dice_rolled();
-        self.game_state.add_camel(selected_color, selected_field);
-        Ok(())
-    }
 }
 
 /// Create a centered rect using up certain percentage of the available rect
@@ -380,12 +371,7 @@ impl Widget for &App {
 }
 
 fn main() -> io::Result<()> {
-    // WriteLogger::init(
-    //     LevelFilter::Debug,
-    //     Config::default(),
-    //     File::create("debug.log").unwrap(),
-    // )
-    // .unwrap();
+    let _guard = logger::init();
 
     let mut terminal = ratatui::init();
     let mut app = App::new();

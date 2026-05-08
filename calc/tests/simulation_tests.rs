@@ -1,5 +1,5 @@
 #[allow(unused)]
-use calc::{simulate_round, simulate_rounds, Color, ColorState, Configuration};
+use calc::{Color, ColorState, Configuration, simulate_round, simulate_rounds};
 
 #[allow(unused)]
 fn simple_test_config() -> Configuration {

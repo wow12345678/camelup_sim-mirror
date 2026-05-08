@@ -11,4 +11,4 @@ pub use camel_map::{CamelMap, EffectCardType};
 pub use color::Color;
 pub use color_state::ColorState;
 pub use configuration::{Configuration, ConfigurationBuilder, Dice};
-pub use simulation::{simulate_round, simulate_rounds, SimulationResult};
+pub use simulation::{SimulationResult, simulate_round, simulate_rounds};

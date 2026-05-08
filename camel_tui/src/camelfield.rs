@@ -222,6 +222,18 @@ impl CamelField {
         }
     }
 
+    pub fn remove_camel(&mut self) {
+        if let Some(CamelFieldContent::Camels(camels)) = &mut self.content {
+            // this should be fine, since the removed camel should always be the last added
+            camels.pop();
+            if camels.is_empty() {
+                self.content = None;
+            }
+        } else {
+            panic!("The history should only have valid indices for camels");
+        }
+    }
+
     pub fn add_effect(&mut self, new_effect: EffectCardType) {
         match &mut self.content {
             Some(CamelFieldContent::Camels(_)) => {

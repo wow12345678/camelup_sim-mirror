@@ -1,4 +1,4 @@
-use calc::{Configuration, CamelMap, EffectCardType, Color};
+use calc::{CamelMap, Color, Configuration, EffectCardType};
 
 #[test]
 fn test_normalize_shifts_effect_cards() {
@@ -12,7 +12,7 @@ fn test_normalize_shifts_effect_cards() {
         ])
         .with_effect_cards(vec![
             (5, EffectCardType::Oasis),
-            (7, EffectCardType::Desert)
+            (7, EffectCardType::Desert),
         ])
         .build();
 

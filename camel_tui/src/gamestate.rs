@@ -2,6 +2,8 @@ use crate::SelectionType;
 use crate::asset_vec;
 use crate::camelfield::{ARROW_LEFT, CamelFieldContent};
 use crate::gameasset::GameAssetManager;
+use crate::movehistory::MoveHistory;
+use crate::movehistory::MoveKind;
 use crate::numbersfield::EffectCardState;
 use crate::playererrors::{
     MoveError::{InvalidConfiguration, InvalidMove},
@@ -33,6 +35,7 @@ pub struct GameState {
     round_number: u8,
     pub game_period: GamePeriod,
     asset_manager: GameAssetManager,
+    move_history: MoveHistory,
 }
 
 impl Default for GameState {
@@ -58,6 +61,8 @@ impl Default for GameState {
         let mut camel_round_info = CamelColor::all().map(CamelState::new);
         camel_round_info[0].selected = true;
 
+        let move_history = MoveHistory::default();
+
         let effect_card_info = [
             EffectCardState::new(EffectCardType::Oasis),
             EffectCardState::new(EffectCardType::Desert),
@@ -72,6 +77,7 @@ impl Default for GameState {
             game_period: GamePeriod::Setup,
             round_number: 0,
             asset_manager,
+            move_history,
         }
     }
 }
@@ -84,12 +90,50 @@ pub enum GamePeriod {
 }
 
 impl GameState {
+    pub fn init(config: &Vec<(u8, CamelColor)>) -> GameState {
+        let mut init = GameState::default();
+
+        init.fields[init.selected.field()].selected = true;
+        init.camel_round_info[init.selected.color()].selected = true;
+
+        for (i, col) in config {
+            if let Some(camels) = init.fields[*i as usize].camels_mut() {
+                camels.push(*col)
+            }
+            init.camel_round_info[*col as usize].start_pos = *i as u32;
+        }
+
+        init
+    }
+
     pub fn round_finished(&self) -> bool {
         self.rolled_dice == 5
     }
 
+    pub fn place_camel(
+        &mut self,
+        selected_color: usize,
+        selected_field: usize,
+    ) -> Result<MoveKind, PlayerActionError> {
+        let camel_info = self
+            .camel_info(selected_color)
+            .expect("should always be some, since alle camels have info");
+        if camel_info.has_moved {
+            return Err(InvalidMove.into());
+        }
+        camel_info.has_moved = true;
+        camel_info.end_pos = selected_field as u32;
+        self.add_dice_rolled();
+        self.add_camel(selected_color, selected_field);
+        Ok(MoveKind::PlaceCamel(selected_color.into(), selected_field))
+    }
+
     pub fn add_camel(&mut self, selected_color: usize, selected_field: usize) {
         self.fields[selected_field].add_camel(selected_color.into());
+    }
+
+    pub fn remove_camel(&mut self, field: usize) {
+        self.fields[field].remove_camel();
     }
 
     pub fn convert_game_state_configuration(game_state: &GameState) -> Configuration {
@@ -153,27 +197,103 @@ impl GameState {
         self.rolled_dice += 1;
     }
 
-    pub fn init(config: &Vec<(u8, CamelColor)>) -> GameState {
-        let mut init = GameState::default();
+    pub fn add_history(&mut self, new_move: MoveKind) {
+        self.move_history.push(new_move);
+    }
 
-        init.fields[init.selected.field()].selected = true;
-        init.camel_round_info[init.selected.color()].selected = true;
+    pub fn undo(&mut self) {
+        if let Some(res) = self.move_history.pop() {
+            tracing::info!("Undoing move: {:?}", res);
+            match res {
+                MoveKind::NewRound {
+                    old_start_pos,
+                    old_effect_placements,
+                } => {
+                    self.round_number -= 1;
+                    if self.round_number == 0 {
+                        self.game_period = GamePeriod::Setup;
+                    }
+                    self.rolled_dice = 5;
 
-        for (i, col) in config {
-            if let Some(camels) = init.fields[*i as usize].camels_mut() {
-                camels.push(*col)
+                    for (i, cam_info) in self.camel_round_info.iter_mut().enumerate() {
+                        cam_info.has_moved = true;
+                        cam_info.start_pos = old_start_pos[i];
+                    }
+
+                    for (i, placements) in old_effect_placements.iter().enumerate() {
+                        for &pos in placements {
+                            self.toggle_effect_card(EffectCardType::from_usize(i), pos as usize)
+                                .unwrap();
+                        }
+                    }
+
+                    // also immediately undo the action that caused the round to end
+                    self.undo();
+                }
+                MoveKind::PlaceEffectCard(effect_type, pos) => {
+                    self.toggle_effect_card(effect_type, pos).unwrap();
+                }
+                MoveKind::MoveCamel {
+                    camel_color,
+                    from,
+                    moved_camels_len,
+                    put_under,
+                } => {
+                    self.rolled_dice -= 1;
+                    self.camel_round_info[camel_color as usize].has_moved = false;
+
+                    let (curr_pos, _) = self.find_camel(camel_color).unwrap();
+
+                    if let Some(curr_camels) = self.fields[curr_pos].camels_mut() {
+                        let moving_camels = if put_under {
+                            let mut rest = curr_camels.split_off(moved_camels_len);
+                            std::mem::swap(curr_camels, &mut rest);
+                            rest
+                        } else {
+                            let split_idx = curr_camels.len() - moved_camels_len;
+                            curr_camels.split_off(split_idx)
+                        };
+
+                        for cam in &moving_camels {
+                            self.camel_round_info[*cam as usize].end_pos = from as u32;
+                        }
+
+                        match &mut self.fields[from].content {
+                            Some(CamelFieldContent::Camels(old_camels)) => {
+                                old_camels.extend(moving_camels);
+                            }
+                            Some(CamelFieldContent::EffectCard(_)) => {
+                                unreachable!("Cannot undo to a field with an effect card");
+                            }
+                            None => {
+                                self.fields[from].content =
+                                    Some(CamelFieldContent::Camels(moving_camels));
+                            }
+                        }
+                    }
+
+                    if let Some(curr_camels) = self.fields[curr_pos].camels()
+                        && curr_camels.is_empty()
+                    {
+                        self.fields[curr_pos].content = None;
+                    }
+                }
+                MoveKind::PlaceCamel(camel_color, pos) => {
+                    self.rolled_dice -= 1;
+                    self.camel_round_info[camel_color as usize].has_moved = false;
+                    self.camel_round_info[camel_color as usize].end_pos =
+                        self.camel_round_info[camel_color as usize].start_pos;
+                    self.remove_camel(pos);
+                }
             }
-            init.camel_round_info[*col as usize].start_pos = *i as u32;
         }
-
-        init
     }
 
     pub fn move_camel(
         &mut self,
         camel: CamelColor,
         to_field: usize,
-    ) -> Result<(), PlayerActionError> {
+    ) -> Result<MoveKind, PlayerActionError> {
         let camel_state = self.camel_round_info[camel as usize];
         if to_field >= self.fields.len() {
             return Err(InvalidMove.into());
@@ -218,8 +338,11 @@ impl GameState {
         let camel_state = &mut self.camel_round_info[camel as usize];
         camel_state.has_moved = true;
 
+        let mut moved_camels_len = 0;
+
         if let Some(old_camels) = self.fields[old_pos].camels_mut() {
             let mut moving_camels = old_camels.split_off(camel_index);
+            moved_camels_len = moving_camels.len();
 
             for cam in &moving_camels {
                 self.camel_round_info[*cam as usize].end_pos = to_field as u32;
@@ -245,7 +368,12 @@ impl GameState {
             }
         }
 
-        Ok(())
+        Ok(MoveKind::MoveCamel {
+            camel_color: camel,
+            from: old_pos,
+            moved_camels_len,
+            put_under: move_camels_under,
+        })
     }
 
     pub fn move_selected_field_rel(&mut self, by: i32) {
@@ -380,6 +508,27 @@ impl GameState {
     }
 
     pub fn new_round(&mut self) {
+        if self.rolled_dice > 0 {
+            self.game_period = GamePeriod::Game;
+        }
+
+        let old_start_pos = [
+            self.camel_round_info[0].start_pos,
+            self.camel_round_info[1].start_pos,
+            self.camel_round_info[2].start_pos,
+            self.camel_round_info[3].start_pos,
+            self.camel_round_info[4].start_pos,
+        ];
+        let old_effect_placements = [
+            self.effect_card_info[0].placements.clone(),
+            self.effect_card_info[1].placements.clone(),
+        ];
+
+        self.move_history.push(MoveKind::NewRound {
+            old_start_pos,
+            old_effect_placements,
+        });
+
         self.round_number += 1;
         for cam_info in &mut self.camel_round_info {
             cam_info.start_pos = cam_info.end_pos;
